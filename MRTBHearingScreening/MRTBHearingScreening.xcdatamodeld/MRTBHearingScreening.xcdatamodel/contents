@@ -1,4 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14C2513" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Test" representedClassName="Test" syncable="YES">
+        <attribute name="baseline_ag_start_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="baseline_creatinine" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseline_streptomycin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="history" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="history_ear" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="history_ringing" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="history_timing" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_125" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_250" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_500" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_1000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_2000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_4000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_8000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_fluid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_infection" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_normal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_perforated" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left_wax" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_ag_dose" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_ag_frequency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_ag_level" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_ag_route" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_ag_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_creatinine_level" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monthly_furosemide" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outcome_comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outcome_hearing" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outcome_plan" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outcome_recomendation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patient_age" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patient_dob" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="patient_gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patient_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_125" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_250" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_500" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_1000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_2000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_4000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_8000" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_fluid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_infection" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_normal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_perforated" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right_wax" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="test_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="test_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="test_location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="test_type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Test" positionX="-54" positionY="-9" width="128" height="825"/>
+    </elements>
 </model>

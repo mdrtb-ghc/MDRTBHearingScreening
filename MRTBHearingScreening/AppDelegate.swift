@@ -10,16 +10,51 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionControllerDelegate {
 
     var window: UIWindow?
 
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+    
+    func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        // Override point for customization just before application launch.
+        
         return true
     }
 
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        // Override point for customization after application launch.
+        
+        return true
+    }
+
+    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+        let rootController = self.window?.rootViewController
+        return rootController!
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        
+        //NSNotificationCenter.defaultCenter().postNotificationName("openURL", object: url)
+        
+        println(url)
+        
+        let rootController = self.window?.rootViewController
+        let documentInteractionController = UIDocumentInteractionController(URL: url)
+        documentInteractionController.delegate = self
+        documentInteractionController.presentPreviewAnimated(true)
+        
+        /*
+        
+        
+        rootController?.presentViewController(viewControllerToPresent: UIViewController, animated: true, completion: { () -> Void in
+            
+            
+        })
+        */
+        
+        return true
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -43,13 +78,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-
+    
     // MARK: - Core Data stack
 
+    lazy var deviceAppId: String = {
+        let uuid = UIDevice.currentDevice().identifierForVendor
+        return uuid.UUIDString
+    }()
+    
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.incapari.MRTBHearingScreening" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -60,23 +100,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
-        // Create the coordinator and store
+        // Create the coordinator
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MRTBHearingScreening.sqlite")
-        var error: NSError? = nil
-        var failureReason = "There was an error creating or loading the application's saved data."
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+        
+        // Setup main store - loca read/write store
+        let mainStoreUrl = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MRTBHearingScreening.mainstore")
+        println(mainStoreUrl)
+        var err: NSError? = nil
+        let mainStoreOptions: [NSObject : AnyObject]? = [
+            NSIgnorePersistentStoreVersioningOption: true,
+            NSMigratePersistentStoresAutomaticallyOption: true,
+            NSInferMappingModelAutomaticallyOption: true,
+            NSPersistentStoreFileProtectionKey: NSFileProtectionComplete]
+        if coordinator!.addPersistentStoreWithType(NSBinaryStoreType, configuration: nil, URL: mainStoreUrl, options: mainStoreOptions, error: &err) == nil {
             coordinator = nil
-            // Report any error we got.
-            var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
-            dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
-            // Replace this with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            println("Error setting up main store: \(err), \(err!.userInfo)")
             abort()
+        }
+        
+        // Setup imported stores - assume these are files with extension .readonlystore
+        
+        if let contents: [NSURL] = NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.applicationDocumentsDirectory, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsHiddenFiles, error: &err) as? [NSURL] {
+            
+            let filteredArray = contents.filter { $0.pathExtension == "readonlystore" }
+            for readonOnlyStoreUrl: NSURL in filteredArray {
+                println(readonOnlyStoreUrl)
+                let readOnlyOptions: [NSObject : AnyObject]? = [
+                    NSReadOnlyPersistentStoreOption: true,
+                    NSIgnorePersistentStoreVersioningOption: true,
+                    NSMigratePersistentStoresAutomaticallyOption: true,
+                    NSInferMappingModelAutomaticallyOption: true,
+                    NSPersistentStoreFileProtectionKey: NSFileProtectionComplete]
+                if coordinator!.addPersistentStoreWithType(NSBinaryStoreType, configuration: nil, URL: readonOnlyStoreUrl, options: readOnlyOptions, error: &err) == nil {
+                    println("Unresolved error \(err), \(err!.userInfo)")
+                }
+            }
         }
         
         return coordinator
