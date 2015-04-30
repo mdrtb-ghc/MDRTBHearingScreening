@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
 
 @objc(Test)
@@ -18,17 +19,58 @@ class Test: NSManagedObject {
         return NSDictionary(contentsOfURL: customPlistUrl)!
     }()
     
+    lazy var dateFormatter : NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm.ss z"
+        return formatter
+    }()
     
-    class func csvHeaderString(context: NSManagedObjectContext,seperator: String = ",") -> String {
+    
+    func getString(field: String) -> String? {
+        if let value = self.valueForKey(field) as? String {
+            return value
+        }
+        return nil
+    }
+    
+    func getDate(field: String) -> NSDate? {
+        if let value = self.valueForKey(field) as? String {
+            return dateFormatter.dateFromString(value)
+        }
+        return nil
+    }
+    
+    func isEligible() -> String {
+        if(self.patient_age?.toInt() < 18) {
+            return "No"
+        }
+        if(self.baseline_ag_dose_gt_3 == "1") {
+            return "No"
+        }
+        if(self.patient_consent == "0") {
+            return "No"
+        }
+        return "Yes"
+    }
+    
+    func hasConsent() -> String {
+        if(self.patient_consent == "1") {
+            return "Yes"
+        }
+        return "No"
+    }
+    
+    class func csvHeaders(context: NSManagedObjectContext) -> [String]? {
         if let entity = NSEntityDescription.entityForName("Test", inManagedObjectContext: context) {
             let attributes = entity.attributesByName as! [NSObject:NSAttributeDescription]
             var headers = [String]()
             for a in attributes {
                 headers.append(a.1.name)
             }
-            return seperator.join(headers)
+            let sortedHeaders = sorted(headers) {$0 < $1}
+            return sortedHeaders
         }
-        return ""
+        return nil
     }
     
     func toCSVString(seperator: String = ",") -> String {
@@ -54,9 +96,15 @@ class Test: NSManagedObject {
     }
     
     func getOption(listName:String,index:String?) -> String {
-        if index != nil {
-            if let list = customAppProperties[listName] as? NSDictionary {
-                return list[index!] as? String ?? ""
+        if index != nil && index != ""{
+            if let list = customAppProperties[listName] as? [String:String] {
+                return list[index!] ?? ""
+            } else if let list = customAppProperties[listName] as? [String] {
+                if let indexInt = index?.toInt() {
+                    if indexInt >= 0 {
+                        return list[indexInt]
+                    }
+                }
             }
         }
         return ""
@@ -73,7 +121,6 @@ class Test: NSManagedObject {
         if (date != nil) {
             // format date for display
             let formatter: NSDateFormatter = NSDateFormatter()
-            //formatter.dateFormat = "yyyy-MM-dd"
             formatter.dateStyle = .MediumStyle
             return formatter.stringFromDate(date!)
         }
@@ -83,7 +130,6 @@ class Test: NSManagedObject {
     func mediumTimeString(date: NSDate?) -> String {
         if (date != nil) {
             let formatter: NSDateFormatter = NSDateFormatter()
-            //formatter.dateFormat = "h:mm"
             formatter.timeStyle = .ShortStyle
             return formatter.stringFromDate(date!)
         }
@@ -99,17 +145,24 @@ class Test: NSManagedObject {
         return ""
     }
     
+    // System
+    @NSManaged var date_created: String?
+    @NSManaged var date_modified: String?
+    @NSManaged var device_name: String?
+    
     // Test Details
     @NSManaged var test_id: String?
-    @NSManaged var test_date: NSDate?
+    @NSManaged var test_date: String?
     @NSManaged var test_location: String?
     @NSManaged var test_type: String?
     
     // Patient Details
     @NSManaged var patient_id: String?
     @NSManaged var patient_age: String?
-    @NSManaged var patient_dob: NSDate?
+    @NSManaged var patient_dob: String?
     @NSManaged var patient_gender: String?
+    @NSManaged var patient_consent: String?
+    @NSManaged var patient_eligible: String?
     
     // History Data
     @NSManaged var history: String?
@@ -119,8 +172,12 @@ class Test: NSManagedObject {
     
     // Baseline Data
     @NSManaged var baseline_creatinine: String?
-    @NSManaged var baseline_ag_start_date: NSDate?
+    @NSManaged var baseline_ag_start_date: String?
     @NSManaged var baseline_streptomycin: String?
+    @NSManaged var baseline_capreomycin: String?
+    @NSManaged var baseline_kanamicin: String?
+    @NSManaged var baseline_amikacin: String?
+    @NSManaged var baseline_ag_dose_gt_3: String?
     
     // Monthly Data
     @NSManaged var monthly_ag_dose: String?
@@ -166,17 +223,15 @@ class Test: NSManagedObject {
     @NSManaged var outcome_plan: String?
     @NSManaged var outcome_comment: String?
 
-    class func addTest(context : NSManagedObjectContext) -> Test {
-        // TODO : - init test object
-        // generate default test id/number
-        // select default test type
-        
-        // generate unique test id
-        var nextTestId = Test.getNextUniqueTestId(context)
-        
+    class func addTest(context : NSManagedObjectContext, patientId: String) -> Test {
         let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: context) as! Test
-        test.test_id = nextTestId
-        test.test_date = NSDate()
+        let now = NSDate().descriptionWithLocale(nil)
+        test.date_created = now
+        test.date_modified = now
+        test.device_name = UIDevice.currentDevice().name
+        test.test_date = now
+        test.patient_id = patientId
+        test.test_id = Test.getNextTestId(context, patientId: patientId)
         
         var err: NSError?
         if !context.save(&err) {
@@ -197,20 +252,22 @@ class Test: NSManagedObject {
         }
     }
     
-    class func getNextUniqueTestId(context: NSManagedObjectContext) -> String {
+    class func getNextTestId(context: NSManagedObjectContext, patientId: String) -> String {
         
+        var newTestId = 0
+        let deviceName = UIDevice.currentDevice().name
         let fr = NSFetchRequest(entityName: "Test")
         let sd = NSSortDescriptor(key: "test_id", ascending: false)
+        let predicate = NSPredicate(format: "patient_id == %@",argumentArray: [patientId])
         fr.sortDescriptors = [sd]
         var err: NSError?
         if let tests = context.executeFetchRequest(fr, error: &err) as? [Test] {
             if let test = tests.first {
                 println(test.test_id)
-                let newTestId = (test.test_id?.toInt() ?? -1) + 1
-                return "\(newTestId)"
+                newTestId = (test.test_id?.componentsSeparatedByString("-").last?.toInt() ?? -1) + 1
             }
         }
-        return "\(0)"
+        return "\(patientId)-\(newTestId)"
     }
 
 }

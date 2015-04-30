@@ -65,11 +65,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         let test = fetchedResultsController.objectAtIndexPath(indexPath) as! Test
         
         let number = test.test_id ?? ""
-        let date = test.mediumDateString(test.test_date) ?? ""
-        let patient = test.patient_id ?? ""
+        let date = test.mediumDateString(test.getDate("test_date"))
         let type = test.getType()
-
-        var title = "#\(number) [\(type)] \(date), Patient #\(patient)"
+        var title = "#\(number) | \(date) | \(type)"
         cell.textLabel?.text = title
         
         return cell
@@ -115,6 +113,31 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    
+    @IBAction func touchAddNewTest(sender: UIBarButtonItem) {
+        
+        let alertController = UIAlertController(title: "Please enter the Patient MRN", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            textField.placeholder = "Enter Patient MRN..."
+            textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
+        }
+        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            println("cancel")
+        }))
+        alertController.addAction(UIAlertAction(title: "Add", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            if let textField = alertController.textFields?.first as? UITextField {
+                let context = self.fetchedResultsController.managedObjectContext
+                let test = Test.addTest(context, patientId:textField.text)
+                self.performSegueWithIdentifier("addNewSegue", sender: test)
+            }
+        }))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
     // MARK: Misc
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "showDetailSegue") {
@@ -126,13 +149,11 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             return
         }
         if (segue.identifier == "addNewSegue") {
-            
-            let context = fetchedResultsController.managedObjectContext
-            let test = Test.addTest(context)
-            
-            let toView = segue.destinationViewController as! DetailTableViewController
-            toView.test = test
-            
+            if let test = sender as? Test {
+                let toView = segue.destinationViewController as! DetailTableViewController
+                toView.test = test
+                toView.test_baseline = toView.getBaselineTest()
+            }
             return
         }
     }
@@ -154,23 +175,41 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     
     // MARK: UI Bound Functions
+    @IBAction func exportAllTests(sender: UIBarButtonItem) {
+        // Exports ALL tests, regardless of consent
+        println("exporting all tests to csv")
+        self.exportTests(sender)
+    }
+    @IBAction func exportStudyTests(sender: UIBarButtonItem) {
+        // Only exports the tests were the Patient has signed a consent form
+        println("exporting only the study tests to csv")
+        self.exportTests(sender, onlyConsent: true)
+    }
     
-    @IBAction func exportTests(sender: UIBarButtonItem) {
-        println("exporting tests to csv")
+    func exportTests(sender: UIBarButtonItem, onlyConsent: Bool = false) {
         
-        var lines = NSMutableString()
+        var csvString = NSMutableString()
         if let tests = fetchedResultsController.fetchedObjects as? [Test] {
-            // TODO - fix header, doesn't match data order
-            //lines.appendString(Test.csvHeaderString(fetchedResultsController.managedObjectContext)+"\n")
-            for t in tests {
-                lines.appendString(t.toCSVString()+"\n")
+            
+            if let headers = Test.csvHeaders(fetchedResultsController.managedObjectContext) {
+                csvString.appendString(",".join(headers)+"\n")
+                
+                for t in tests {
+                    if(!onlyConsent || (onlyConsent && t.patient_consent == "Yes")) {
+                        var values = [String]()
+                        for h in headers {
+                            values.append(t.valueForKey(h)?.description ?? "")
+                        }
+                        csvString.appendString(",".join(values)+"\n")
+                    }
+                }
             }
         }
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("out.csv")
         var err: NSError?
-        lines.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding, error: &err)
+        csvString.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding, error: &err)
         
         let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.presentViewController(activityController, animated: true, completion: nil)
@@ -182,6 +221,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    /*
     @IBAction func exportDb(sender: UIBarButtonItem) {
         println("exporting core data db")
         
@@ -198,4 +238,5 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             presentationController?.barButtonItem = sender
         }
     }
+    */
 }

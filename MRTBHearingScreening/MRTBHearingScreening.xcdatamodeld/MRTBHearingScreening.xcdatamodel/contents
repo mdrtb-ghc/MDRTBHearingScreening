@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14C2513" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Test" representedClassName="Test" syncable="YES">
-        <attribute name="baseline_ag_start_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="baseline_ag_dose_gt_3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseline_ag_start_date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseline_amikacin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseline_capreomycin" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="baseline_creatinine" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseline_kanamicin" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="baseline_streptomycin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date_created" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date_modified" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="device_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="history" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="history_ear" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="history_ringing" optional="YES" attributeType="String" syncable="YES"/>
@@ -33,7 +40,9 @@
         <attribute name="outcome_plan" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="outcome_recomendation" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patient_age" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="patient_dob" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="patient_consent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patient_dob" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patient_eligible" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patient_gender" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patient_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="right_125" optional="YES" attributeType="String" syncable="YES"/>
@@ -49,12 +58,12 @@
         <attribute name="right_notes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="right_perforated" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="right_wax" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="test_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="test_date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="test_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="test_location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="test_type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Test" positionX="-54" positionY="-9" width="128" height="825"/>
+        <element name="Test" positionX="-54" positionY="-9" width="128" height="960"/>
     </elements>
 </model>

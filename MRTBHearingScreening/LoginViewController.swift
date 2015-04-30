@@ -69,6 +69,7 @@ class LoginViewController: UIViewController {
     // MARK: - Action for checking username/password
     @IBAction func createAction(sender: AnyObject) {
     }
+    
     @IBAction func loginAction(sender: AnyObject) {
         
         if (passcode_input.text == "") {

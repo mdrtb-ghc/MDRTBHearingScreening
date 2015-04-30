@@ -1,30 +1,20 @@
 //
-//  ConductionDetailTableViewController.swift
+//  SettingsTableViewController.swift
 //  MRTBHearingScreening
 //
-//  Created by Miguel Clark on 4/3/15.
+//  Created by Miguel Clark on 4/21/15.
 //  Copyright (c) 2015 Miguel Clark. All rights reserved.
 //
 
 import UIKit
 
-class ConductionDetailTableViewController: UITableViewController, ConductionDetailTableViewCellDelegate {
-    
-    var sections = [""]
-    var rows: [[String:String?]] = [["label":"125 Hz"],
-        ["label":"250 Hz"],
-        ["label":"500 Hz"],
-        ["label":"1000 Hz"],
-        ["label":"2000 Hz"],
-        ["label":"4000 Hz"],
-        ["label":"8000 Hz"]]
+class SettingsTableViewController: UITableViewController {
 
-    func dbLevelUpdated(cell: UITableViewCell, newDbLevel: Int) {
-        if let indexPath = self.tableView.indexPathForCell(cell) {
-            println(newDbLevel)
-            rows[indexPath.row]["value"] = newDbLevel.description
-        }
-    }
+    lazy var settingsList : NSDictionary = {
+        let customPlistUrl = NSBundle.mainBundle().URLForResource("MRTBHearingScreening", withExtension: "plist")!
+        return NSDictionary(contentsOfURL: customPlistUrl)!
+        }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,47 +36,28 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        
-        return sections.count
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        
-        return rows.count
+        return settingsList.count
     }
 
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("SettingsTableViewCell", forIndexPath: indexPath) as! UITableViewCell
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("ConductionTableCell", forIndexPath: indexPath) as! ConductionDetailTableViewCell
-        
-        if indexPath.row < rows.count {
+        // Configure the cell...
+        if let setting = settingsList.allKeys[indexPath.row] as? String {
             
-            let row = rows[indexPath.row]
-            cell.Frequency.text = row["label"]! ?? "Row \(indexPath.row)"
             
-            let dbLevel = row["value"]!?.toInt() ?? UISegmentedControlNoSegment
-            let dbIndex = dbLevel/5
-            if dbIndex%2 == 0 {
-                cell.DbLevelsA.selectedSegmentIndex = dbIndex/2
-                cell.DbLevelsB.selectedSegmentIndex = UISegmentedControlNoSegment
-            } else {
-                cell.DbLevelsA.selectedSegmentIndex = UISegmentedControlNoSegment
-                cell.DbLevelsB.selectedSegmentIndex = dbIndex/2
-            }
+            cell.textLabel?.text = setting
         }
-        cell.delegate = self
         return cell
     }
     
-    
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let sectionTitle = sections[section]
-        return sectionTitle
-    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -122,14 +93,19 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
+        if let destController = segue.destinationViewController as? SettingsDetailTableViewController {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow() {
+                destController.setting = settingsList.allValues[selectedIndexPath.row]
+            }
+        }
     }
-    */
 
 }

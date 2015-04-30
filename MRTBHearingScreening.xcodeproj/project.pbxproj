@@ -56,6 +56,8 @@
 		B0575DAE1ACC4427006165F3 /* ManagedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0575DAD1ACC4427006165F3 /* ManagedSegmentedControl.swift */; };
 		B0575DB01ACDC459006165F3 /* ManagedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0575DAF1ACDC459006165F3 /* ManagedLabel.swift */; };
 		B0575DB21ACDD7AE006165F3 /* TestDetailEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0575DB11ACDD7AE006165F3 /* TestDetailEditViewController.swift */; };
+		B06DA3F31AE63E150053E8BE /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06DA3F21AE63E150053E8BE /* SettingsTableViewController.swift */; };
+		B071FAC51AE77F64007F86FE /* SettingsDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B071FAC41AE77F64007F86FE /* SettingsDetailTableViewController.swift */; };
 		B075820F1AD04E5A001972B5 /* MRTBHearingScreening.plist in Resources */ = {isa = PBXBuildFile; fileRef = B075820E1AD04E5A001972B5 /* MRTBHearingScreening.plist */; };
 		B07582131AD21994001972B5 /* FileManagerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07582121AD21994001972B5 /* FileManagerTableViewController.swift */; };
 		B09B05691AD5F89700E9D9DC /* SaveFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B05681AD5F89700E9D9DC /* SaveFileViewController.swift */; };
@@ -121,6 +123,8 @@
 		B0575DAD1ACC4427006165F3 /* ManagedSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedSegmentedControl.swift; sourceTree = "<group>"; };
 		B0575DAF1ACDC459006165F3 /* ManagedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedLabel.swift; sourceTree = "<group>"; };
 		B0575DB11ACDD7AE006165F3 /* TestDetailEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDetailEditViewController.swift; sourceTree = "<group>"; };
+		B06DA3F21AE63E150053E8BE /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		B071FAC41AE77F64007F86FE /* SettingsDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailTableViewController.swift; sourceTree = "<group>"; };
 		B075820E1AD04E5A001972B5 /* MRTBHearingScreening.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MRTBHearingScreening.plist; sourceTree = "<group>"; };
 		B07582121AD21994001972B5 /* FileManagerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerTableViewController.swift; sourceTree = "<group>"; };
 		B09B05681AD5F89700E9D9DC /* SaveFileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveFileViewController.swift; sourceTree = "<group>"; };
@@ -169,8 +173,10 @@
 				1161821E1AC804EA00091A97 /* TestsTableViewController.swift */,
 				116182201AC8056600091A97 /* DetailTableViewController.swift */,
 				B07582121AD21994001972B5 /* FileManagerTableViewController.swift */,
-				116181BB1AC7995900091A97 /* Main.storyboard */,
+				B06DA3F21AE63E150053E8BE /* SettingsTableViewController.swift */,
+				B071FAC41AE77F64007F86FE /* SettingsDetailTableViewController.swift */,
 				B09B05681AD5F89700E9D9DC /* SaveFileViewController.swift */,
+				116181BB1AC7995900091A97 /* Main.storyboard */,
 				B03C52241ACF1A0500728F14 /* Edit Views */,
 				B03C52201ACEF3C400728F14 /* TestDetailView.swift */,
 				B0575DAF1ACDC459006165F3 /* ManagedLabel.swift */,
@@ -239,12 +245,12 @@
 		B03C52241ACF1A0500728F14 /* Edit Views */ = {
 			isa = PBXGroup;
 			children = (
+				B0575DB11ACDD7AE006165F3 /* TestDetailEditViewController.swift */,
+				B03C52251ACF1C6900728F14 /* PatientDetailEditViewController.swift */,
 				B0A423B31ACFC549001899D8 /* HistoryDetailViewController.swift */,
 				B0A423B71ACFD9FA001899D8 /* MonthlyDetailViewController.swift */,
 				B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */,
 				B0A423B51ACFCA6E001899D8 /* BaselineDetailViewController.swift */,
-				B0575DB11ACDD7AE006165F3 /* TestDetailEditViewController.swift */,
-				B03C52251ACF1C6900728F14 /* PatientDetailEditViewController.swift */,
 				B0A423AF1ACF53C9001899D8 /* ConductionDetailTableViewController.swift */,
 				B0A423B11ACFA2C7001899D8 /* ConductionDetailTableViewCell.swift */,
 			);
@@ -368,12 +374,14 @@
 				B0A423B41ACFC549001899D8 /* HistoryDetailViewController.swift in Sources */,
 				116181F61AC79A7800091A97 /* AsyncButton.swift in Sources */,
 				116181F71AC79A7800091A97 /* AsyncImageView.swift in Sources */,
+				B06DA3F31AE63E150053E8BE /* SettingsTableViewController.swift in Sources */,
 				116181FF1AC79A7800091A97 /* DesignableTextView.swift in Sources */,
 				1161820F1AC79A7800091A97 /* SpringView.swift in Sources */,
 				1161820E1AC79A7800091A97 /* SpringTextView.swift in Sources */,
 				116182031AC79A7800091A97 /* KeyboardLayoutConstraint.swift in Sources */,
 				1161820A1AC79A7800091A97 /* SpringButton.swift in Sources */,
 				B0A423B81ACFD9FA001899D8 /* MonthlyDetailViewController.swift in Sources */,
+				B071FAC51AE77F64007F86FE /* SettingsDetailTableViewController.swift in Sources */,
 				116182091AC79A7800091A97 /* SpringAnimation.swift in Sources */,
 				B0A423B61ACFCA6E001899D8 /* BaselineDetailViewController.swift in Sources */,
 				116181FB1AC79A7800091A97 /* DesignableImageView.swift in Sources */,

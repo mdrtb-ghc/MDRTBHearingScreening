@@ -29,29 +29,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
 
     func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
         let rootController = self.window?.rootViewController
+        if let navController = self.window?.rootViewController as? UINavigationController {
+            println("documentInteractionControllerViewControllerForPreview")
+            // TODO: - add a button for importing file to DB
+            return navController
+        }
         return rootController!
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         
-        //NSNotificationCenter.defaultCenter().postNotificationName("openURL", object: url)
+        println("application openURL")
+        // TODO: - add dialog to confim or cancel import. Confirm will import file data into main store, then delete the imported file, cancel will just delete the imported file
         
-        println(url)
+        let alertController = UIAlertController(title: "Alert Title", message: "Alert message", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action:UIAlertAction!) -> Void in
+            println("cancel")
+            // delete imported file
+            println("deleting \(url)")
+            NSFileManager.defaultManager().removeItemAtURL(url, error: nil)
+        }))
+        alertController.addAction(UIAlertAction(title: "Import", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+            println("import")
+            // parse file into array dictionary and create Test managed object
+            let importedString = NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding, error: nil)
+            var importedArray = [String]()
+            
+            importedString?.enumerateLinesUsingBlock({ (line,a) -> Void in
+                println(line)
+                importedArray.append(line)
+            })
+            
+            
+            let keyString = importedArray.first
+            if keyString != nil {
+                if let keys = keyString?.componentsSeparatedByString(",") {
+                    println(keys)
+                    for var i = 1; i < importedArray.count; i++ {
+                        let valueString = importedArray[i]
+                        let values = valueString.componentsSeparatedByString(",")
+                        let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: self.managedObjectContext!) as! Test
+                        for var j = 0; j < keys.count; j++ {
+                            
+                            
+                            if let value = values[j] as? String {
+                                // assume String
+                                test.setValue(values[j], forKey: keys[j])
+                            }
+                            
+                            self.saveContext()
+                        }
+                    }
+                }
+            }
+            
+            // delete imported file
+            println("deleting \(url)")
+            NSFileManager.defaultManager().removeItemAtURL(url, error: nil)
+        }))
+        self.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
         
+
+        
+        
+        /*
         let rootController = self.window?.rootViewController
         let documentInteractionController = UIDocumentInteractionController(URL: url)
         documentInteractionController.delegate = self
-        documentInteractionController.presentPreviewAnimated(true)
-        
-        /*
-        
-        
-        rootController?.presentViewController(viewControllerToPresent: UIViewController, animated: true, completion: { () -> Void in
-            
-            
-        })
+        let previewResult = documentInteractionController.presentPreviewAnimated(true)
         */
-        
         return true
     }
     

@@ -12,7 +12,11 @@ import CoreData
 class PatientDetailEditViewController: UIViewController {
     
     var test: Test!
-    var test_prev: Test!
+    
+    lazy var settings : NSDictionary = {
+        let customPlistUrl = NSBundle.mainBundle().URLForResource("MRTBHearingScreening", withExtension: "plist")!
+        return NSDictionary(contentsOfURL: customPlistUrl)!
+        }()
     
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -25,14 +29,25 @@ class PatientDetailEditViewController: UIViewController {
     }
     @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet weak var genderSegment: UISegmentedControl!
-        
+    @IBOutlet weak var consentSegment: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        idTextField.text = test.patient_id
-        datePicker.setDate(test.patient_dob ?? NSDate(), animated: true)
+        idTextField.text = test.getString("patient_id")
+        datePicker.setDate(test.getDate("patient_dob") ?? NSDate(timeIntervalSince1970: 0), animated: true)
         ageTextField.text = test.patient_age
+        if let segments = settings["genders"] as? [String] {
+            genderSegment.removeAllSegments()
+            for title in segments {
+                genderSegment.insertSegmentWithTitle(title, atIndex: genderSegment.numberOfSegments, animated: true)
+            }
+        }
         genderSegment.selectedSegmentIndex = (test.patient_gender?.toInt() ?? UISegmentedControlNoSegment)
+        
+        consentSegment.selectedSegmentIndex = (test.patient_consent?.toInt() ?? UISegmentedControlNoSegment)
+        
+        
     }
     
     override func didReceiveMemoryWarning() {

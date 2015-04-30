@@ -18,17 +18,13 @@ class ConductionDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var DbLevelsB: UISegmentedControl!
     
     @IBAction func dBLevelsAValueChanged(sender: UISegmentedControl) {
-        
         DbLevelsB.selectedSegmentIndex = UISegmentedControlNoSegment
-        
         let newDbLevel: Int = sender.selectedSegmentIndex*10
         delegate.dbLevelUpdated(self, newDbLevel:newDbLevel)
     }
     @IBAction func dBLevelsBValueChanged(sender: UISegmentedControl) {
-        
         DbLevelsA.selectedSegmentIndex = UISegmentedControlNoSegment
-        
-        let newDbLevel: Int = sender.selectedSegmentIndex*10
+        let newDbLevel: Int = sender.selectedSegmentIndex*10 + 5
         delegate.dbLevelUpdated(self,newDbLevel:newDbLevel)
     }
     

@@ -2,73 +2,53 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>prefix</key>
+	<string></string>
 	<key>locations</key>
-	<dict>
-		<key>0</key>
-		<string>Addis</string>
-		<key>1</key>
-		<string>Gruranda</string>
-	</dict>
+	<array>
+		<string>St Peters, Addis Ababa</string>
+		<string>Gondar</string>
+	</array>
 	<key>types</key>
-	<dict>
-		<key>0</key>
+	<array>
 		<string>Baseline</string>
-		<key>1</key>
 		<string>Monthly</string>
-		<key>2</key>
 		<string>Symptomatic</string>
-		<key>3</key>
-		<string>Follow Up</string>
-	</dict>
+		<string>Final</string>
+	</array>
 	<key>genders</key>
-	<dict>
-		<key>0</key>
-		<string>Not Specified</string>
-		<key>1</key>
+	<array>
 		<string>Male</string>
-		<key>2</key>
 		<string>Female</string>
-	</dict>
+	</array>
 	<key>yesno</key>
-	<dict>
-		<key>0</key>
+	<array>
 		<string>No</string>
-		<key>1</key>
 		<string>Yes</string>
-	</dict>
+	</array>
 	<key>ears</key>
-	<dict>
-		<key>0</key>
+	<array>
 		<string>None</string>
-		<key>1</key>
 		<string>Left</string>
-		<key>2</key>
 		<string>Right</string>
-		<key>3</key>
 		<string>Both</string>
-	</dict>
+	</array>
 	<key>ag_types</key>
-	<dict>
-		<key>0</key>
-		<string>Type A</string>
-		<key>1</key>
-		<string>Type B</string>
-	</dict>
+	<array>
+		<string>Capreomycin</string>
+		<string>Amikacin</string>
+		<string>Kanamycin</string>
+	</array>
 	<key>ag_routes</key>
-	<dict>
-		<key>0</key>
+	<array>
 		<string>IM</string>
-		<key>1</key>
 		<string>IV</string>
-	</dict>
+	</array>
 	<key>severity</key>
-	<dict>
-		<key>0</key>
+	<array>
 		<string>None</string>
-		<key>1</key>
 		<string>Mild</string>
-		<key>2</key>
 		<string>Severe</string>
-	</dict>
+	</array>
 </dict>
 </plist>
