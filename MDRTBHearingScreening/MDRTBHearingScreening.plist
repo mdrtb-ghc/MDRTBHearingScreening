@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>prefix</key>
+	<string></string>
+	<key>locations</key>
+	<array>
+		<string>St Peters, Addis Ababa</string>
+		<string>Gondar</string>
+	</array>
+	<key>types</key>
+	<array>
+		<string>Baseline</string>
+		<string>Follow-Up</string>
+		<string>Final</string>
+	</array>
+	<key>genders</key>
+	<array>
+		<string>Male</string>
+		<string>Female</string>
+	</array>
+	<key>yesno</key>
+	<array>
+		<string>No</string>
+		<string>Yes</string>
+	</array>
+	<key>ears</key>
+	<array>
+		<string>None</string>
+		<string>Left</string>
+		<string>Right</string>
+		<string>Both</string>
+	</array>
+	<key>ag_types</key>
+	<array>
+		<string>Capreomycin</string>
+		<string>Amikacin</string>
+		<string>Kanamycin</string>
+	</array>
+	<key>severity</key>
+	<array>
+		<string>None</string>
+		<string>Mild</string>
+		<string>Severe</string>
+	</array>
+</dict>
+</plist>
