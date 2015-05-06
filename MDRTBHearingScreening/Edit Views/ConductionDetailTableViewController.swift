@@ -21,7 +21,6 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
 
     func dbLevelUpdated(cell: UITableViewCell, newDbLevel: Int) {
         if let indexPath = self.tableView.indexPathForCell(cell) {
-            println(newDbLevel)
             rows[indexPath.row]["value"] = newDbLevel.description
         }
     }
@@ -52,7 +51,7 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         
-        return sections.count
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,12 +85,14 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
     }
     
     
-    
+    /*
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         let sectionTitle = sections[section]
         return sectionTitle
     }
+    */
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

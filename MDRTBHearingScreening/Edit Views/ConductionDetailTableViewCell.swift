@@ -27,10 +27,13 @@ class ConductionDetailTableViewCell: UITableViewCell {
         let newDbLevel: Int = sender.selectedSegmentIndex*10 + 5
         delegate.dbLevelUpdated(self,newDbLevel:newDbLevel)
     }
-        
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        let fontAtrribute = [NSFontAttributeName : UIFont.systemFontOfSize(22)]
+        DbLevelsA.setTitleTextAttributes(fontAtrribute,forState: nil)
+        DbLevelsB.setTitleTextAttributes(fontAtrribute,forState: nil)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

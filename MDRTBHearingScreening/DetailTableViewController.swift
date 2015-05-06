@@ -269,8 +269,8 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
                 displayHearingLossAlerts(dbDiffs_left)
             }
             
-            outcome_hearingloss.text = test.outcome_hearingloss == "1" ? "Yes" : "No"
-            outcome_hearingloss_ag.text = test.outcome_hearingloss_ag == "1" ? "Yes" : "No"
+            outcome_hearingloss.text = test.outcome_hearingloss == "0" ? "No" : (test.outcome_hearingloss == "1" ? "Yes" : "")
+            outcome_hearingloss_ag.text = test.outcome_hearingloss_ag == "0" ? "No" : (test.outcome_hearingloss_ag == "1" ? "Yes" : "")
             
             if(test.outcome_plan == "1") {
                 outcome_plan.text = "Stop Injectables"
@@ -329,7 +329,7 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
         configureView()
     }
     
-    // MARK: - Save Contect on Close
+    // MARK: - Save Context on Close
     
     override func viewWillDisappear(animated: Bool) {
         saveTestContext()
@@ -427,6 +427,10 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
             if let toView = segue.destinationViewController as? OutcomesViewController {
                 toView.test = test
             }
+        }
+        
+        if let selectedRow = tableView.indexPathForSelectedRow() {
+            tableView.deselectRowAtIndexPath(selectedRow, animated: false)
         }
 
     }
