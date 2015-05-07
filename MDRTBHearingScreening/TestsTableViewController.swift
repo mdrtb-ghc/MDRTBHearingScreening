@@ -16,6 +16,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     var searchResults : [Test]?
     
     // MARK: UISearchDisplayDelegate
+    
     func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
         
         // create fetchrequest
@@ -27,12 +28,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
         fr.sortDescriptors = [sortDescriptor]
         
-        
-        
         var error: NSError?
         if let results = context.executeFetchRequest(fr, error: nil) as? [Test] {
             searchResults = results
-            println(searchResults?.count)
         }
         
         return true
@@ -50,8 +48,6 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         let fetchRequest = NSFetchRequest(entityName:"Test")
         let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        println("fetchedResultsController constructor")
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil);
         frc.delegate = self;
@@ -80,7 +76,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             println("Error fetching data");
         }
         
-        //tableView.rowHeight = 72
+        if let tests = fetchedResultsController.fetchedObjects {
+            title = "Hearing Tests (\(tests.count) total)"
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -136,24 +134,25 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         switch(type) {
         case .Insert :
-            println("Insert detected")
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
             break;
         case .Update :
-            println("Update detected")
             tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
             break;
         case .Delete :
-            println("Delete detected")
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
             break;
         case .Move :
-            println("Move detected")
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
             break;
         default :
             println("Change Type %@ not handled",type.rawValue)
+        }
+        
+        // update count
+        if let tests = fetchedResultsController.fetchedObjects {
+            title = "Hearing Tests (\(tests.count) total)"
         }
     }
     
@@ -225,10 +224,11 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     @IBAction func exportStudyTests(sender: UIBarButtonItem) {
         // Only exports the tests were the Patient has signed a consent form
         println("exporting only the study tests to csv")
-        self.exportTests(sender, onlyConsent: true)
+        self.exportTests(sender, studyOnly: true)
     }
     
-    func exportTests(sender: UIBarButtonItem, onlyConsent: Bool = false) {
+    func exportTests(sender: UIBarButtonItem, studyOnly: Bool = false) {
+        let start = NSDate()
         
         var csvString = NSMutableString()
         if let tests = fetchedResultsController.fetchedObjects as? [Test] {
@@ -236,8 +236,13 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             if let headers = Test.csvHeaders(fetchedResultsController.managedObjectContext) {
                 csvString.appendString(",".join(headers)+"\n")
                 
+                var count = 0
                 for t in tests {
-                    if(!onlyConsent || (onlyConsent && t.patient_consent == "Yes")) {
+                    count++
+                    if count%100 == 0 {
+                        println("\(count) exported")
+                    }
+                    if(!studyOnly || (studyOnly && t.patient_consent == "1")) {
                         var values = [String]()
                         for h in headers {
                             values.append(t.valueForKey(h)?.description ?? "")
@@ -252,6 +257,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("out.csv")
         var err: NSError?
         csvString.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding, error: &err)
+        
+        let timeInterval = -start.timeIntervalSinceNow
+        println("export completed. Time inteval :: \(timeInterval)")
         
         let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.presentViewController(activityController, animated: true, completion: nil)

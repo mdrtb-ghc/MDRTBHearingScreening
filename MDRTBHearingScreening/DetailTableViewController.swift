@@ -337,7 +337,12 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     
     func saveTestContext() {
         if(test.hasChanges) {
+            
+            let start = NSDate()
+            
             println("item changed, saving context")
+            
+            test.date_modified = NSDate().descriptionWithLocale(nil)
             
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let managedContext = appDelegate.managedObjectContext!
@@ -345,6 +350,9 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
             if(!managedContext.save(&error)) {
                 println(error)
             }
+            let timeInterval = -start.timeIntervalSinceNow
+            println("saving context took :: \(timeInterval)")
+            
         }
     }
     
@@ -428,11 +436,6 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
                 toView.test = test
             }
         }
-        
-        if let selectedRow = tableView.indexPathForSelectedRow() {
-            tableView.deselectRowAtIndexPath(selectedRow, animated: false)
-        }
-
     }
     
     @IBAction func modalSave(sender: UIStoryboardSegue) {
@@ -525,7 +528,6 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
                 test.left_4000 = controller?.rows[5]["value"]!
                 test.left_8000 = controller?.rows[6]["value"]!
             }
-
         } else if(sender.identifier == "OutcomesSave") {
             if let controller = sender.sourceViewController as? OutcomesViewController {
                 test.outcome_hearingloss = controller.outcome_hearingloss.selectedSegmentIndex.description
@@ -554,42 +556,25 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
         saveTestContext()
         configureView()
         
+        // dismiss modal
         sender.sourceViewController.dismissViewControllerAnimated(true, completion: nil)
+        
+        // deselect selected row
+        if let selectedRow = tableView.indexPathForSelectedRow() {
+            tableView.deselectRowAtIndexPath(selectedRow, animated: false)
+        }
         
     }
     
     @IBAction func modalCancel(sender: UIStoryboardSegue) {
         println("modalCancel")
+        // dismiss modal
         sender.sourceViewController.dismissViewControllerAnimated(true, completion: nil)
+
+        // deselect selected row
+        if let selectedRow = tableView.indexPathForSelectedRow() {
+            tableView.deselectRowAtIndexPath(selectedRow, animated: false)
+        }
     }
-    
-    /*
-    @IBAction func valueChanged(sender: AnyObject) {
-    if let field = sender as? ManagedTextField {
-    let key = field.key
-    var value : AnyObject?
-    
-    if let attributeDescription = test.entity.attributesByName[key] as? NSAttributeDescription {
-    switch attributeDescription.attributeType {
-    case NSAttributeType.StringAttributeType : value = field.text
-    case NSAttributeType.DoubleAttributeType : value = (field.text as NSString).doubleValue
-    case NSAttributeType.DateAttributeType : println("date")
-    default : value = field.text
-    }
-    }
-    
-    test.setValue(value, forKey: key)
-    
-    
-    } else if let field = sender as? ManagedSegmentedControl {
-    let key = field.key
-    let value = field.selectedSegmentIndex
-    
-    
-    test.setValue(value, forKey: key)
-    }
-    }
-    
-    */
     
 }

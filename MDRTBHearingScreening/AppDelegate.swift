@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
         println("application openURL")
         // TODO: - add dialog to confim or cancel import. Confirm will import file data into main store, then delete the imported file, cancel will just delete the imported file
         
-        let alertController = UIAlertController(title: "Alert Title", message: "Alert message", preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Importing file", message: "Click Import to add all the tests in the file. Click Cancel if you do not want to import tests.", preferredStyle: UIAlertControllerStyle.Alert)
         alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action:UIAlertAction!) -> Void in
             println("cancel")
             
@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
             println("deleting \(url)")
             NSFileManager.defaultManager().removeItemAtURL(url, error: nil)
         }))
+        /*
         alertController.addAction(UIAlertAction(title: "Open", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
             println("open")
             
@@ -67,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
             println("\(documentInteractionController.icons)")
             
         }))
+        */
         alertController.addAction(UIAlertAction(title: "Import", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
             println("import")
             
@@ -128,7 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1] as! NSURL
     }()
-
+    
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = NSBundle.mainBundle().URLForResource("MDRTBHearingScreening", withExtension: "momd")!

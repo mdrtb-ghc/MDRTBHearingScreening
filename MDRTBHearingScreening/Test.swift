@@ -32,7 +32,6 @@ class Test: NSManagedObject {
         var importedArray = [String]()
         
         importedString?.enumerateLinesUsingBlock({ (line,a) -> Void in
-            println(line)
             importedArray.append(line)
         })
         
@@ -40,26 +39,30 @@ class Test: NSManagedObject {
         let keyString = importedArray.first
         if keyString != nil {
             if let keys = keyString?.componentsSeparatedByString(",") {
-                println(keys)
+                let importStart = NSDate()
+                println("Started importing \(importedArray.count-1) items at \(importStart)")
                 for var i = 1; i < importedArray.count; i++ {
                     let valueString = importedArray[i]
                     let values = valueString.componentsSeparatedByString(",")
                     let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: context!) as! Test
                     for var j = 0; j < keys.count; j++ {
-                        
-                        
                         // assume all imported values are String
                         test.setValue(values[j], forKey: keys[j])
-                        
-                        // save context
-                        if let moc = context {
-                            var error: NSError? = nil
-                            if moc.hasChanges && !moc.save(&error) {
-                                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                            }
-                        }
                     }
                 }
+                let importTimeInterval = importStart.timeIntervalSinceNow
+                
+                // save context
+                println("saving context")
+                if let moc = context {
+                    var error: NSError? = nil
+                    if moc.hasChanges && !moc.save(&error) {
+                        NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    }
+                }
+                
+                println("Finished importing \(importedArray.count-1) items at \(importTimeInterval)")
+                
             }
         }
     }
@@ -74,7 +77,32 @@ class Test: NSManagedObject {
     
     func getDate(field: String) -> NSDate? {
         if let value = self.valueForKey(field) as? String {
-            return dateFormatter.dateFromString(value)
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm.ss z"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "yyyy-MM-dd HH:mm z"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "yyyy-MM-dd"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "dd/MM/yyyy"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "MM/dd/yyyy"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            return nil
         }
         return nil
     }
