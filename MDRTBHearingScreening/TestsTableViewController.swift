@@ -95,9 +95,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "TestTableCell")
         }
         
-        let object = (tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]
-        
-        if let test = object as? Test {
+        if let test = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
             let number = test.test_id ?? ""
             let date = test.mediumDateString(test.getDate("test_date"))
             let type = test.getType()
@@ -110,11 +108,23 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
-        let object = (tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]
-        
-        if let test = object as? Test {
-            performSegueWithIdentifier("showDetailSegue", sender: test)
+        if let selectedTest = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
+            
+            performSegueWithIdentifier("gotoPage1", sender: selectedTest)
+            
+            
+            /*
+            
+            // create new context for the single object selected
+            var selectedObjectContext = NSManagedObjectContext()
+            selectedObjectContext.persistentStoreCoordinator = selectedObject.managedObjectContext?.persistentStoreCoordinator
+            
+            // get test from new context
+            if let selectedTest = selectedObjectContext.existingObjectWithID(selectedObject.objectID,error:nil) as? Test {
+                performSegueWithIdentifier("gotoPage1", sender: selectedTest)
+            }
+
+            */
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -171,32 +181,12 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         alertController.addAction(UIAlertAction(title: "Add", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             if let textField = alertController.textFields?.first as? UITextField {
                 let context = self.fetchedResultsController.managedObjectContext
-                let test = Test.addTest(context, patientId:textField.text)
-                self.performSegueWithIdentifier("addNewSegue", sender: test)
+                let test = Test.newTest(context, patientId:textField.text)
+                self.performSegueWithIdentifier("gotoPage1", sender: test)
             }
         }))
         
         self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    
-    
-    // MARK: Misc
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "showDetailSegue") {
-            if let test = sender as? Test {
-                let toView = segue.destinationViewController as! DetailTableViewController
-                toView.test = test
-            }
-            return
-        }
-        if (segue.identifier == "addNewSegue") {
-            if let test = sender as? Test {
-                let toView = segue.destinationViewController as! DetailTableViewController
-                toView.test = test
-            }
-            return
-        }
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -271,22 +261,23 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
-    /*
-    @IBAction func exportDb(sender: UIBarButtonItem) {
-        println("exporting core data db")
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let urls = [appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("MDRTBHearingScreening.mainstore")]
-        
-        let activityController = UIActivityViewController(activityItems: urls, applicationActivities: nil)
-        self.presentViewController(activityController, animated: true, completion: nil)
-        
-        if activityController.respondsToSelector("popoverPresentationController") {
-            // iOS 8+ only
-            let presentationController = activityController.popoverPresentationController
-            presentationController?.barButtonItem = sender
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "gotoPage1") {
+            if let test = sender as? Test {
+                if let toView = segue.destinationViewController as? TestDetailEditViewController {
+                    toView.test = test
+                }
+            }
+        }
+        if (segue.identifier == "goToSummary") {
+            if let test = sender as? Test {
+                if let toView = segue.destinationViewController as? DetailTableViewController {
+                    toView.test = test
+                }
+            }
         }
     }
-    */
+
+
 }

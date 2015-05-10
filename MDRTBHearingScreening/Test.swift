@@ -26,6 +26,25 @@ class Test: NSManagedObject {
     }()
     
     
+    lazy var baseline_test : Test? = {
+        if(self.patient_id != nil && self.test_date != nil) {
+            println("Looking up Baseline test for patient id = \(self.patient_id!)")
+            let context = self.managedObjectContext!
+            let fetchRequest = NSFetchRequest(entityName:"Test")
+            let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
+            let predicate = NSPredicate(format: "patient_id == %@ && test_type == \"0\" && test_date < %@", argumentArray: [self.patient_id!, self.test_date!])
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            fetchRequest.predicate = predicate
+            
+            // Execute the fetch request
+            var err : NSError?
+            if let results = context.executeFetchRequest(fetchRequest, error: &err) as! [Test]? {
+                return results.first
+            }
+        }
+        return nil
+    }()
+    
     class func importFromFile(url: NSURL, context: NSManagedObjectContext?) -> Void {
         // parse file into array dictionary and create Test managed object
         let importedString = NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding, error: nil)
@@ -73,6 +92,16 @@ class Test: NSManagedObject {
             return value
         }
         return nil
+    }
+    
+    class func getStringFromDate(date:NSDate,includeTime:Bool = false) -> String {
+        let formatter = NSDateFormatter()
+        if includeTime {
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        } else {
+            formatter.dateFormat = "yyyy-MM-dd"
+        }
+        return formatter.stringFromDate(date)
     }
     
     func getDate(field: String) -> NSDate? {
@@ -289,16 +318,33 @@ class Test: NSManagedObject {
     @NSManaged var outcome_comments: String?
     
 
-    class func addTest(context : NSManagedObjectContext, patientId: String) -> Test {
+    class func newTest(context : NSManagedObjectContext, patientId: String) -> Test {
         let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: context) as! Test
-        let now = NSDate().descriptionWithLocale(nil)
-        test.date_created = now
-        test.date_modified = now
+        let now = NSDate()
         test.device_name = UIDevice.currentDevice().name
-        test.test_date = now
+        test.date_created = Test.getStringFromDate(now, includeTime: true)
+        test.date_modified = Test.getStringFromDate(now, includeTime: true)
+        test.test_date = Test.getStringFromDate(now, includeTime: true)
         test.patient_id = patientId
         test.test_id = Test.getNextTestId(context, patientId: patientId)
         
+        // get patient and baseline data from previous baseline test
+        if let baselinetest = test.baseline_test {
+            test.patient_dob = baselinetest.patient_dob
+            test.patient_age = baselinetest.patient_age
+            test.patient_gender = baselinetest.patient_gender
+            test.patient_consent = baselinetest.patient_consent
+            test.patient_eligible = baselinetest.patient_eligible
+            
+            test.baseline_creatinine = baselinetest.baseline_creatinine
+            test.baseline_ag_start_date = baselinetest.baseline_ag_start_date
+            test.baseline_streptomycin = baselinetest.baseline_streptomycin
+            test.baseline_capreomycin = baselinetest.baseline_capreomycin
+            test.baseline_kanamicin = baselinetest.baseline_kanamicin
+            test.baseline_amikacin = baselinetest.baseline_amikacin
+            test.baseline_ag_dose_gt_3 = baselinetest.baseline_ag_dose_gt_3
+        }
+    
         var err: NSError?
         if !context.save(&err) {
             println("Could not save \(err), \(err?.userInfo)")
@@ -338,5 +384,19 @@ class Test: NSManagedObject {
         
         return "\(patientId)-\(numberFormatter.stringFromNumber(newTestId)!)"
     }
+    
+    func saveTestContext() {
+        if let moc = self.managedObjectContext {
+            let start = NSDate()
+            println("saving context with \(moc.registeredObjects.count) objects")
+            var error: NSError? = nil
+            if moc.hasChanges && !moc.save(&error) {
+                NSLog("Unresolved error \(error), \(error!.userInfo)")
+            }
+            let timeInterval = -start.timeIntervalSinceNow
+            println("saving context took :: \(timeInterval)")
+        }
+    }
+
 
 }

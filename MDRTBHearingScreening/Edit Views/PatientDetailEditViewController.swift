@@ -45,9 +45,17 @@ class PatientDetailEditViewController: UIViewController {
         super.touchesBegan(touches, withEvent: event)
     }
     
+    func goNext() {
+        performSegueWithIdentifier("goNext", sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Patient History"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
+
         idTextField.text = test.getString("patient_id")
         datePicker.setDate(test.getDate("patient_dob") ?? NSDate(timeIntervalSince1970: 0), animated: true)
         ageTextField.text = test.patient_age
@@ -68,5 +76,21 @@ class PatientDetailEditViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "goNext") {
+            if let destinationController = segue.destinationViewController as? HistoryDetailViewController {
+                
+                // update test
+                test.patient_dob = Test.getStringFromDate(datePicker.date)
+                test.patient_age = ageTextField.text
+                test.patient_gender = genderSegment.selectedSegmentIndex.description
+                test.patient_consent = consentSegment.selectedSegmentIndex.description
+
+                destinationController.test = test
+            }
+        }
+    }
+
     
 }

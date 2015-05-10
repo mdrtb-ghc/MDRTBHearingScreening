@@ -1,15 +1,14 @@
 //
-//  ConductionDetailTableViewController.swift
+//  AudiometerResultsViewController.swift
 //  MDRTBHearingScreening
 //
-//  Created by Miguel Clark on 4/3/15.
+//  Created by Miguel Clark on 5/8/15.
 //  Copyright (c) 2015 Miguel Clark. All rights reserved.
 //
 
 import UIKit
 
-class ConductionDetailTableViewController: UITableViewController, ConductionDetailTableViewCellDelegate {
-    
+class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ConductionDetailTableViewCellDelegate {
     var test: Test!
     var ear: String!
     let frequencies: [String] = ["125",
@@ -19,13 +18,13 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
         "2000",
         "4000",
         "8000"]
-
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     func dbLevelUpdated(cell: UITableViewCell, newDbLevel: String) {
         if let indexPath = self.tableView.indexPathForCell(cell) {
-            println(newDbLevel)
             let frequency = frequencies[indexPath.row]
             test.setValue(newDbLevel, forKey: (ear.lowercaseString+"_"+frequency))
-            //rows[indexPath.row]["value"] = newDbLevel.description
         }
     }
     
@@ -37,44 +36,39 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
     func goNext() {
         performSegueWithIdentifier("goNext", sender: self)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: (ear == "Left") ? "Summary" : "Next", style: .Plain, target: self, action: "goNext")
         
         title = "Audiometer Results - \(ear)"
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
+    
+    // MARK: - Save Context on Close
+    override func viewWillDisappear(animated: Bool) {
+        //test.saveTestContext()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return frequencies.count
     }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ConductionTableCell", forIndexPath: indexPath) as! ConductionDetailTableViewCell
         
         if indexPath.row < frequencies.count {
@@ -101,10 +95,10 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
     }
     
     // MARK: - Navigation
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "goNext") {
-            if let destinationController = segue.destinationViewController as? ConductionDetailTableViewController {
+            if let destinationController = segue.destinationViewController as? AudiometerResultsViewController {
                 destinationController.test = test
                 destinationController.ear = "Left"
             }

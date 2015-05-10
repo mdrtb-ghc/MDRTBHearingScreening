@@ -19,12 +19,12 @@ class ConductionDetailTableViewCell: UITableViewCell {
     
     @IBAction func dBLevelsAValueChanged(sender: UISegmentedControl) {
         DbLevelsB.selectedSegmentIndex = UISegmentedControlNoSegment
-        let newDbLevel: Int = sender.selectedSegmentIndex*10
+        let newDbLevel: String = "\(sender.selectedSegmentIndex*10)"
         delegate.dbLevelUpdated(self, newDbLevel:newDbLevel)
     }
     @IBAction func dBLevelsBValueChanged(sender: UISegmentedControl) {
         DbLevelsA.selectedSegmentIndex = UISegmentedControlNoSegment
-        let newDbLevel: Int = sender.selectedSegmentIndex*10 + 5
+        let newDbLevel: String = "\(sender.selectedSegmentIndex*10 + 5)"
         delegate.dbLevelUpdated(self,newDbLevel:newDbLevel)
     }
     
@@ -43,5 +43,5 @@ class ConductionDetailTableViewCell: UITableViewCell {
     }
 }
 protocol ConductionDetailTableViewCellDelegate {
-    func dbLevelUpdated(cell: UITableViewCell, newDbLevel : Int) -> ()
+    func dbLevelUpdated(cell: UITableViewCell, newDbLevel : String) -> ()
 }

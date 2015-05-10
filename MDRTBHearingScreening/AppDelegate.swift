@@ -102,6 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        self.saveContext()
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -194,13 +195,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
 
     func saveContext () {
         if let moc = self.managedObjectContext {
+            let start = NSDate()
+            println("saving context with \(moc.registeredObjects.count) objects")
             var error: NSError? = nil
             if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
             }
+            let timeInterval = -start.timeIntervalSinceNow
+            println("saving context took :: \(timeInterval)")
         }
     }
 

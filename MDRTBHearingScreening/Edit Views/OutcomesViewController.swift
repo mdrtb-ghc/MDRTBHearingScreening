@@ -19,25 +19,8 @@ class OutcomesViewController: UIViewController {
     @IBOutlet weak var outcome_plan_3 : UISwitch!
     @IBOutlet weak var outcome_plan_4 : UISwitch!
     @IBOutlet weak var outcome_plan_5 : UISwitch!
+    @IBOutlet weak var outcome_plan_0 : UISwitch!
     @IBOutlet weak var outcome_comments : UITextView!
-    
-    @IBAction func outcome_hearingloss_changed(sender: UISegmentedControl) {
-        
-        let isTrue = sender.selectedSegmentIndex == 0
-        
-        outcome_hearingloss_ag.selectedSegmentIndex = UISegmentedControlNoSegment
-        outcome_hearingloss_ag.enabled = !isTrue
-        outcome_plan_1.on = false
-        outcome_plan_1.enabled = !isTrue
-        outcome_plan_2.on = false
-        outcome_plan_2.enabled = !isTrue
-        outcome_plan_3.on = false
-        outcome_plan_3.enabled = !isTrue
-        outcome_plan_4.on = false
-        outcome_plan_4.enabled = !isTrue
-        outcome_plan_5.on = false
-        outcome_plan_5.enabled = !isTrue
-    }
     
     @IBAction func outcome_plan_changed(sender: UISwitch) {
         if sender.on {
@@ -46,10 +29,10 @@ class OutcomesViewController: UIViewController {
             outcome_plan_3.on = false
             outcome_plan_4.on = false
             outcome_plan_5.on = false
+            outcome_plan_0.on = false
             sender.on = true
         }
     }
-    
     
     func animateViewForKeyboard(up: Bool,userInfo: [NSObject:AnyObject]?) {
         if let userInfo = userInfo {
@@ -71,6 +54,16 @@ class OutcomesViewController: UIViewController {
         self.animateViewForKeyboard(false,userInfo:notification.userInfo)
     }
     
+    func goNext() {
+        performSegueWithIdentifier("goNext", sender: self)
+    }
+    
+    func goToList() {
+        if navigationController != nil {
+            navigationController!.popToRootViewControllerAnimated(true)
+        }
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -82,6 +75,10 @@ class OutcomesViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        // update test
+        updateTest()
+        //test.saveTestContext()
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -89,11 +86,13 @@ class OutcomesViewController: UIViewController {
         super.touchesBegan(touches, withEvent: event)
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Outcomes"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Finish", style: .Plain, target: self, action: "goToList")
+        
         // Do any additional setup after loading the view.
         if test != nil {
             outcome_hearingloss.selectedSegmentIndex = test.outcome_hearingloss?.toInt() ?? UISegmentedControlNoSegment
@@ -103,24 +102,46 @@ class OutcomesViewController: UIViewController {
             outcome_plan_3.on = test.outcome_plan == "3"
             outcome_plan_4.on = test.outcome_plan == "4"
             outcome_plan_5.on = test.outcome_plan == "5"
+            outcome_plan_0.on = test.outcome_plan == "0"
             outcome_comments.text = test.outcome_comments ?? ""
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
+    func updateTest() {
+        test.date_modified = Test.getStringFromDate(NSDate(), includeTime: true)
+        
+        test.outcome_hearingloss = "\(outcome_hearingloss.selectedSegmentIndex)"
+        test.outcome_hearingloss_ag = "\(outcome_hearingloss_ag.selectedSegmentIndex)"
+        if outcome_plan_1.on {
+            test.outcome_plan = "1"
+        } else if outcome_plan_2.on {
+            test.outcome_plan = "2"
+        } else if outcome_plan_3.on {
+            test.outcome_plan = "3"
+        } else if outcome_plan_4.on {
+            test.outcome_plan = "4"
+        } else if outcome_plan_5.on {
+            test.outcome_plan = "5"
+        } else if outcome_plan_0.on {
+            test.outcome_plan = "0"
+        } else {
+            test.outcome_plan = ""
+        }
+    }
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "goNext") {
+            if let destinationController = segue.destinationViewController as? DetailTableViewController {
+                destinationController.test = test
+            }
+        }
     }
-    */
 
 }

@@ -35,25 +35,55 @@ class HistoryDetailViewController: UIViewController {
         
         
     }
-    
+        
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
     
+    func goNext() {
+        performSegueWithIdentifier("goNext", sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = "Patient History"
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
+                
         HistorySegmentedControl.selectedSegmentIndex = test.history?.toInt() ?? UISegmentedControlNoSegment
         HistoryEarSegmentedControl.selectedSegmentIndex = test.history_ear?.toInt() ?? UISegmentedControlNoSegment
         HistoryTimingTextField.text = test.history_timing
         HistoryRingingSegmentedControl.selectedSegmentIndex = test.history_ringing?.toInt() ?? UISegmentedControlNoSegment
     }
 
+    // MARK: - Save Context on Close
+    override func viewWillDisappear(animated: Bool) {
+        //update test
+        updateTest()
+        //test.saveTestContext()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func updateTest() {
+        test.date_modified = Test.getStringFromDate(NSDate(), includeTime: true)
+        
+        test.history = HistorySegmentedControl.selectedSegmentIndex.description
+        test.history_ear = HistoryEarSegmentedControl.selectedSegmentIndex.description
+        test.history_ringing = HistoryRingingSegmentedControl.selectedSegmentIndex.description
+        test.history_timing = HistoryTimingTextField.text
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "goNext") {
+            if let destinationController = segue.destinationViewController as? BaselineDetailViewController {
+                destinationController.test = test
+            }
+        }
     }
 }
