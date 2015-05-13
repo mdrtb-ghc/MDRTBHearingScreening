@@ -22,6 +22,15 @@ class OutcomesViewController: UIViewController {
     @IBOutlet weak var outcome_plan_0 : UISwitch!
     @IBOutlet weak var outcome_comments : UITextView!
     
+    @IBAction func outcome_hearingloss_changed(sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            // if NO then force outcome_hearingloss_ag to be NO also and disabled
+            outcome_hearingloss_ag.selectedSegmentIndex = 0
+            outcome_hearingloss_ag.enabled = false
+        } else {
+            outcome_hearingloss_ag.enabled = true
+        }
+    }
     @IBAction func outcome_plan_changed(sender: UISwitch) {
         if sender.on {
             outcome_plan_1.on = false
@@ -59,6 +68,7 @@ class OutcomesViewController: UIViewController {
     }
     
     func goToList() {
+        test.saveTestContext()
         if navigationController != nil {
             navigationController!.popToRootViewControllerAnimated(true)
         }
@@ -132,6 +142,7 @@ class OutcomesViewController: UIViewController {
         } else {
             test.outcome_plan = ""
         }
+        test.outcome_comments = outcome_comments.text
     }
     
     // MARK: - Navigation

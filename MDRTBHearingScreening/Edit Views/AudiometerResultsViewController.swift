@@ -103,6 +103,7 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
                 destinationController.ear = "Left"
             }
             if let destinationController = segue.destinationViewController as? DetailTableViewController {
+                test.saveTestContext()
                 destinationController.test = test
             }
         }

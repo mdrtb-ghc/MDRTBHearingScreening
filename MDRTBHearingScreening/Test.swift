@@ -156,9 +156,8 @@ class Test: NSManagedObject {
         return "No"
     }
     
-    class func csvHeaders(context: NSManagedObjectContext) -> [String]? {
-        if let entity = NSEntityDescription.entityForName("Test", inManagedObjectContext: context) {
-            let attributes = entity.attributesByName as! [NSObject:NSAttributeDescription]
+    class func csvHeaders(entity: NSEntityDescription) -> [String]? {
+        if let attributes = entity.attributesByName as? [NSObject:NSAttributeDescription] {
             var headers = [String]()
             for a in attributes {
                 headers.append(a.1.name)
@@ -387,16 +386,68 @@ class Test: NSManagedObject {
     
     func saveTestContext() {
         if let moc = self.managedObjectContext {
-            let start = NSDate()
-            println("saving context with \(moc.registeredObjects.count) objects")
-            var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-            }
-            let timeInterval = -start.timeIntervalSinceNow
-            println("saving context took :: \(timeInterval)")
+            moc.performBlock({ () -> Void in
+                let start = NSDate()
+                println("saving context with \(moc.registeredObjects.count) objects")
+                var error: NSError? = nil
+                if moc.hasChanges && !moc.save(&error) {
+                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                }
+                let timeInterval = -start.timeIntervalSinceNow
+                println("saving context took :: \(timeInterval)")
+            })
         }
     }
 
-
+    class func exportAllTests(progressView: UIProgressView) -> NSURL?{
+        return exportTests(studyOnly: false,progressView: progressView)
+    }
+    class func exportStudyTests(progressView: UIProgressView) -> NSURL? {
+        return exportTests(studyOnly: true,progressView: progressView)
+    }
+    
+    class private func exportTests(studyOnly: Bool = false,progressView: UIProgressView) -> NSURL? {
+        let start = NSDate()
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let moc = appDelegate.managedObjectContext!
+        let exportDateString = Test.getStringFromDate(start, includeTime: true)
+        let exportFileUrl = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("export-\(exportDateString).csv")
+        
+        // create fetchrequest
+        let fr = NSFetchRequest(entityName: "Test")
+        let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
+        fr.sortDescriptors = [sortDescriptor]
+        if studyOnly {
+            let predicate = NSPredicate(format: "patient_consent == \"1\"", argumentArray: nil)
+            fr.predicate = predicate
+        }
+        
+        if let tests = moc.executeFetchRequest(fr, error: nil) as? [Test] {
+            var csvString = NSMutableString()
+            
+            if let entity = NSEntityDescription.entityForName("Test", inManagedObjectContext: moc) {
+                if let headers = Test.csvHeaders(entity) {
+                    csvString.appendString(",".join(headers)+"\n")
+                    var count = 0
+                    for t in tests {
+                        count++
+                        let percentDone = (count*100)/tests.count
+                        //progressindicator.setProgress(Float(percentDone), animated: true)
+                        var values = [String]()
+                        for h in headers {
+                            values.append(t.valueForKey(h)?.description ?? "")
+                        }
+                        csvString.appendString(",".join(values)+"\n")
+                    }
+                }
+            }
+            
+            var error: NSError?
+            csvString.writeToURL(exportFileUrl, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+            let timeInterval = -start.timeIntervalSinceNow
+            println("export completed. Time inteval :: \(timeInterval)")
+            return exportFileUrl
+        }
+        return nil
+    }
 }

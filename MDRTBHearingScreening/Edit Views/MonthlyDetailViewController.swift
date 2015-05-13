@@ -13,6 +13,7 @@ class MonthlyDetailViewController: UIViewController {
 
     var test: Test!
     
+    @IBOutlet weak var months_start_treatment: UILabel!
     @IBOutlet weak var monthly_ag_type: UISegmentedControl!
     @IBOutlet weak var monthly_ag_dose: UITextField!
     @IBOutlet weak var monthly_ag_frequency: UITextField!
@@ -34,6 +35,12 @@ class MonthlyDetailViewController: UIViewController {
         title = "Current Treatment"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
+        
+        if let agstartdate = test.getDate("baseline_ag_start_date") {
+            let components = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitMonth, fromDate: agstartdate, toDate: NSDate(), options: nil)
+            let months = components.month
+            months_start_treatment.text = "\(months)"
+        }
         
         monthly_ag_type.selectedSegmentIndex = test.monthly_ag_type?.toInt() ?? UISegmentedControlNoSegment
         monthly_ag_dose.text = test.monthly_ag_dose

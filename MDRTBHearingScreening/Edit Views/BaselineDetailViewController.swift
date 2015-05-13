@@ -87,6 +87,8 @@ class BaselineDetailViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        updateTest()
+        
         if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? MonthlyDetailViewController {
                 destinationController.test = test

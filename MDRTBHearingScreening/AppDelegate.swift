@@ -73,12 +73,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
             println("import")
             
             // import file from inbox into mainstore
-            Test.importFromFile(url, context: self.managedObjectContext)
+            // Test.importFromFile(url, context: self.managedObjectContext)
             
-            // delete file from inbox
-            println("deleting \(url)")
-            NSFileManager.defaultManager().removeItemAtURL(url, error: nil)
-
+            
+            if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
+                if let controller = navController.topViewController as? ImportExportViewController {
+                    controller.currentMode = .ImportFromCSV
+                    controller.importFileURL = url
+                    self.window?.rootViewController?.presentViewController(navController, animated: true, completion: nil)
+                }
+            }
+            
         }))
         
         self.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
@@ -186,7 +191,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()

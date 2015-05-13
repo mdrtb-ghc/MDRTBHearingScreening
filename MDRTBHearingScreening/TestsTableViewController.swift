@@ -55,9 +55,6 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         return _fetchedResultsController;
     }
     
-    
-    
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -79,6 +76,13 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         if let tests = fetchedResultsController.fetchedObjects {
             title = "Hearing Tests (\(tests.count) total)"
         }
+    }
+    
+    override func viewDidLoad() {
+//        if let controller = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportViewController") as? ImportExportViewController {
+//            
+//            presentViewController(controller, animated: true, completion: nil)
+//        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -110,7 +114,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         if let selectedTest = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
             
-            performSegueWithIdentifier("gotoPage1", sender: selectedTest)
+            performSegueWithIdentifier("goToSummary", sender: selectedTest)
             
             
             /*
@@ -190,7 +194,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        return (tableView == self.tableView)
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -204,62 +208,33 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    var activityIndicatorController = UIViewController()
     
     // MARK: UI Bound Functions
     @IBAction func exportAllTests(sender: UIBarButtonItem) {
         // Exports ALL tests, regardless of consent
-        println("exporting all tests to csv")
-        self.exportTests(sender)
-    }
-    @IBAction func exportStudyTests(sender: UIBarButtonItem) {
-        // Only exports the tests were the Patient has signed a consent form
-        println("exporting only the study tests to csv")
-        self.exportTests(sender, studyOnly: true)
-    }
-    
-    func exportTests(sender: UIBarButtonItem, studyOnly: Bool = false) {
-        let start = NSDate()
+        //performSegueWithIdentifier("showImportExportModal", sender: false)
         
-        var csvString = NSMutableString()
-        if let tests = fetchedResultsController.fetchedObjects as? [Test] {
-            
-            if let headers = Test.csvHeaders(fetchedResultsController.managedObjectContext) {
-                csvString.appendString(",".join(headers)+"\n")
-                
-                var count = 0
-                for t in tests {
-                    count++
-                    if count%100 == 0 {
-                        println("\(count) exported")
-                    }
-                    if(!studyOnly || (studyOnly && t.patient_consent == "1")) {
-                        var values = [String]()
-                        for h in headers {
-                            values.append(t.valueForKey(h)?.description ?? "")
-                        }
-                        csvString.appendString(",".join(values)+"\n")
-                    }
-                }
+        if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
+            if let controller = navController.topViewController as? ImportExportViewController {
+                controller.currentMode = .ExportAllToCSV
+                presentViewController(navController, animated: true, completion: nil)
             }
         }
+    }
+    
+    @IBAction func exportStudyTests(sender: UIBarButtonItem) {
+        // Exports Study tests only, where patient_consent = 1
+        //performSegueWithIdentifier("showImportExportModal", sender: true)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("out.csv")
-        var err: NSError?
-        csvString.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding, error: &err)
-        
-        let timeInterval = -start.timeIntervalSinceNow
-        println("export completed. Time inteval :: \(timeInterval)")
-        
-        let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        self.presentViewController(activityController, animated: true, completion: nil)
-        
-        if activityController.respondsToSelector("popoverPresentationController") {
-            // iOS 8+ only
-            let presentationController = activityController.popoverPresentationController
-            presentationController?.barButtonItem = sender
+        if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
+            if let controller = navController.topViewController as? ImportExportViewController {
+                controller.currentMode = .ExportStudyOnlyToCSV
+                presentViewController(navController, animated: true, completion: nil)
+            }
         }
     }
+    
     
     // MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

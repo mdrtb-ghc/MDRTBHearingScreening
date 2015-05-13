@@ -68,6 +68,7 @@
 		B0A423B61ACFCA6E001899D8 /* BaselineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A423B51ACFCA6E001899D8 /* BaselineDetailViewController.swift */; };
 		B0A423B81ACFD9FA001899D8 /* MonthlyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A423B71ACFD9FA001899D8 /* MonthlyDetailViewController.swift */; };
 		B0A423BA1ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */; };
+		B0A90DD71AFF44EE00C5CB69 /* ImportExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */; };
 		B0B8DFF41AF8E6C50054DEBC /* OutcomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,7 @@
 		B0A423B51ACFCA6E001899D8 /* BaselineDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaselineDetailViewController.swift; path = "Edit Views/BaselineDetailViewController.swift"; sourceTree = "<group>"; };
 		B0A423B71ACFD9FA001899D8 /* MonthlyDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MonthlyDetailViewController.swift; path = "Edit Views/MonthlyDetailViewController.swift"; sourceTree = "<group>"; };
 		B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OtoscopyDetailsViewController.swift; path = "Edit Views/OtoscopyDetailsViewController.swift"; sourceTree = "<group>"; };
+		B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportViewController.swift; sourceTree = "<group>"; };
 		B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutcomesViewController.swift; path = "Edit Views/OutcomesViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,6 +178,7 @@
 				116182131AC7B73600091A97 /* LoginViewController.swift */,
 				1161821E1AC804EA00091A97 /* TestsTableViewController.swift */,
 				116182201AC8056600091A97 /* DetailTableViewController.swift */,
+				B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */,
 				116181BB1AC7995900091A97 /* Main.storyboard */,
 				B03C52241ACF1A0500728F14 /* Edit Views */,
 				B07582121AD21994001972B5 /* FileManagerTableViewController.swift */,
@@ -379,6 +382,7 @@
 				1144858E1AC85B3500846557 /* DatePickerViewController.swift in Sources */,
 				1161820C1AC79A7800091A97 /* SpringLabel.swift in Sources */,
 				B0A423B41ACFC549001899D8 /* HistoryDetailViewController.swift in Sources */,
+				B0A90DD71AFF44EE00C5CB69 /* ImportExportViewController.swift in Sources */,
 				116181F61AC79A7800091A97 /* AsyncButton.swift in Sources */,
 				116181F71AC79A7800091A97 /* AsyncImageView.swift in Sources */,
 				B06DA3F31AE63E150053E8BE /* SettingsTableViewController.swift in Sources */,
