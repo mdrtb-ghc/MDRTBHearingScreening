@@ -114,7 +114,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         if let selectedTest = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
             
-            performSegueWithIdentifier("goToSummary", sender: selectedTest)
+            performSegueWithIdentifier("gotoPage1", sender: selectedTest)
             
             
             /*
