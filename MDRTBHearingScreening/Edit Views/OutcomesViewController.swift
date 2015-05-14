@@ -148,6 +148,8 @@ class OutcomesViewController: UIViewController {
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        updateTest()
+        test.saveTestContext()
         if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? DetailTableViewController {
                 destinationController.test = test

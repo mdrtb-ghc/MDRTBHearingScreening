@@ -213,7 +213,6 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     // MARK: UI Bound Functions
     @IBAction func exportAllTests(sender: UIBarButtonItem) {
         // Exports ALL tests, regardless of consent
-        //performSegueWithIdentifier("showImportExportModal", sender: false)
         
         if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
             if let controller = navController.topViewController as? ImportExportViewController {
@@ -225,7 +224,6 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     @IBAction func exportStudyTests(sender: UIBarButtonItem) {
         // Exports Study tests only, where patient_consent = 1
-        //performSegueWithIdentifier("showImportExportModal", sender: true)
         
         if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
             if let controller = navController.topViewController as? ImportExportViewController {

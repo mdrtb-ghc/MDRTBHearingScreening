@@ -14,6 +14,7 @@ class BaselineDetailViewController: UIViewController {
     
     @IBOutlet weak var baseline_creatinine: DesignableTextField!
     @IBOutlet weak var baseline_ag_start_date: UIDatePicker!
+    @IBOutlet weak var baseline_ag_start_date_readonly: DesignableTextField!
     @IBOutlet weak var baseline_streptomycin: UISegmentedControl!
     @IBOutlet weak var baseline_capreomycin: UISegmentedControl!
     @IBOutlet weak var baseline_kanamicin: UISegmentedControl!
@@ -40,9 +41,8 @@ class BaselineDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
         baseline_creatinine.text = test.baseline_creatinine
-        baseline_ag_start_date.maximumDate = NSDate()
         baseline_ag_start_date.setDate(test.getDate("baseline_ag_start_date") ?? NSDate(), animated: true)
-        
+        baseline_ag_start_date_readonly.text = test.mediumDateString(test.getDate("baseline_ag_start_date"))
         baseline_streptomycin.selectedSegmentIndex = test.baseline_streptomycin?.toInt() ?? UISegmentedControlNoSegment
         baseline_capreomycin.selectedSegmentIndex = test.baseline_capreomycin?.toInt() ?? UISegmentedControlNoSegment
         baseline_kanamicin.selectedSegmentIndex = test.baseline_kanamicin?.toInt() ?? UISegmentedControlNoSegment
@@ -53,7 +53,8 @@ class BaselineDetailViewController: UIViewController {
             // if not baseline test disable controls so read only
             baseline_creatinine.enabled = type == "0"
             baseline_creatinine.borderWidth = type == "0" ? 1 : 0
-            baseline_ag_start_date.enabled = type == "0"
+            baseline_ag_start_date.hidden = type != "0"
+            baseline_ag_start_date_readonly.hidden = type == "0"
             baseline_streptomycin.enabled = type == "0"
             baseline_capreomycin.enabled = type == "0"
             baseline_kanamicin.enabled = type == "0"
@@ -88,8 +89,8 @@ class BaselineDetailViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         updateTest()
-        
-        if (segue.identifier == "goNext") {
+        test.saveTestContext()
+       if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? MonthlyDetailViewController {
                 destinationController.test = test
             }

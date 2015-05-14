@@ -44,49 +44,7 @@ class Test: NSManagedObject {
         }
         return nil
     }()
-    
-    class func importFromFile(url: NSURL, context: NSManagedObjectContext?) -> Void {
-        // parse file into array dictionary and create Test managed object
-        let importedString = NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding, error: nil)
-        var importedArray = [String]()
-        
-        importedString?.enumerateLinesUsingBlock({ (line,a) -> Void in
-            importedArray.append(line)
-        })
-        
-        
-        let keyString = importedArray.first
-        if keyString != nil {
-            if let keys = keyString?.componentsSeparatedByString(",") {
-                let importStart = NSDate()
-                println("Started importing \(importedArray.count-1) items at \(importStart)")
-                for var i = 1; i < importedArray.count; i++ {
-                    let valueString = importedArray[i]
-                    let values = valueString.componentsSeparatedByString(",")
-                    let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: context!) as! Test
-                    for var j = 0; j < keys.count; j++ {
-                        // assume all imported values are String
-                        test.setValue(values[j], forKey: keys[j])
-                    }
-                }
-                let importTimeInterval = importStart.timeIntervalSinceNow
-                
-                // save context
-                println("saving context")
-                if let moc = context {
-                    var error: NSError? = nil
-                    if moc.hasChanges && !moc.save(&error) {
-                        NSLog("Unresolved error \(error), \(error!.userInfo)")
-                    }
-                }
-                
-                println("Finished importing \(importedArray.count-1) items at \(importTimeInterval)")
-                
-            }
-        }
-    }
-
-    
+   
     func getString(field: String) -> String? {
         if let value = self.valueForKey(field) as? String {
             return value
@@ -343,28 +301,10 @@ class Test: NSManagedObject {
             test.baseline_amikacin = baselinetest.baseline_amikacin
             test.baseline_ag_dose_gt_3 = baselinetest.baseline_ag_dose_gt_3
         }
-    
-        var err: NSError?
-        if !context.save(&err) {
-            println("Could not save \(err), \(err?.userInfo)")
-        }
-        
         return test
      }
     
-    class func deleteTest(test: Test) {
-        if let context = test.managedObjectContext {
-            context.deleteObject(test)
-            
-            var err: NSError?
-            if !context.save(&err) {
-                println("Could not delete \(err), \(err?.userInfo)")
-            }
-        }
-    }
-    
     class func getNextTestId(context: NSManagedObjectContext, patientId: String) -> String {
-        
         var newTestId = 0
         let fr = NSFetchRequest(entityName: "Test")
         let sd = NSSortDescriptor(key: "test_id", ascending: false)
@@ -386,68 +326,26 @@ class Test: NSManagedObject {
     
     func saveTestContext() {
         if let moc = self.managedObjectContext {
-            moc.performBlock({ () -> Void in
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
                 let start = NSDate()
-                println("saving context with \(moc.registeredObjects.count) objects")
                 var error: NSError? = nil
-                if moc.hasChanges && !moc.save(&error) {
-                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                if moc.hasChanges {
+                    println("saving context with \(moc.registeredObjects.count) objects")
+                    if !moc.save(&error) {
+                        NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    }
                 }
                 let timeInterval = -start.timeIntervalSinceNow
                 println("saving context took :: \(timeInterval)")
+                return
             })
         }
     }
-
-    class func exportAllTests(progressView: UIProgressView) -> NSURL?{
-        return exportTests(studyOnly: false,progressView: progressView)
-    }
-    class func exportStudyTests(progressView: UIProgressView) -> NSURL? {
-        return exportTests(studyOnly: true,progressView: progressView)
-    }
     
-    class private func exportTests(studyOnly: Bool = false,progressView: UIProgressView) -> NSURL? {
-        let start = NSDate()
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let moc = appDelegate.managedObjectContext!
-        let exportDateString = Test.getStringFromDate(start, includeTime: true)
-        let exportFileUrl = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("export-\(exportDateString).csv")
-        
-        // create fetchrequest
-        let fr = NSFetchRequest(entityName: "Test")
-        let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
-        fr.sortDescriptors = [sortDescriptor]
-        if studyOnly {
-            let predicate = NSPredicate(format: "patient_consent == \"1\"", argumentArray: nil)
-            fr.predicate = predicate
+    class func deleteTest(test: Test) {
+        if let context = test.managedObjectContext {
+            context.deleteObject(test)
+            test.saveTestContext()
         }
-        
-        if let tests = moc.executeFetchRequest(fr, error: nil) as? [Test] {
-            var csvString = NSMutableString()
-            
-            if let entity = NSEntityDescription.entityForName("Test", inManagedObjectContext: moc) {
-                if let headers = Test.csvHeaders(entity) {
-                    csvString.appendString(",".join(headers)+"\n")
-                    var count = 0
-                    for t in tests {
-                        count++
-                        let percentDone = (count*100)/tests.count
-                        //progressindicator.setProgress(Float(percentDone), animated: true)
-                        var values = [String]()
-                        for h in headers {
-                            values.append(t.valueForKey(h)?.description ?? "")
-                        }
-                        csvString.appendString(",".join(values)+"\n")
-                    }
-                }
-            }
-            
-            var error: NSError?
-            csvString.writeToURL(exportFileUrl, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-            let timeInterval = -start.timeIntervalSinceNow
-            println("export completed. Time inteval :: \(timeInterval)")
-            return exportFileUrl
-        }
-        return nil
     }
 }

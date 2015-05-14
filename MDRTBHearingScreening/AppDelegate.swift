@@ -72,10 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
         alertController.addAction(UIAlertAction(title: "Import", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
             println("import")
             
-            // import file from inbox into mainstore
-            // Test.importFromFile(url, context: self.managedObjectContext)
-            
-            
             if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
                 if let controller = navController.topViewController as? ImportExportViewController {
                     controller.currentMode = .ImportFromCSV
@@ -201,10 +197,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
     func saveContext () {
         if let moc = self.managedObjectContext {
             let start = NSDate()
-            println("saving context with \(moc.registeredObjects.count) objects")
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
+            if moc.hasChanges {
+                println("saving context with \(moc.registeredObjects.count) objects")
+                if !moc.save(&error) {
+                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                }
             }
             let timeInterval = -start.timeIntervalSinceNow
             println("saving context took :: \(timeInterval)")

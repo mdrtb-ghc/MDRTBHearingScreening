@@ -2134,6 +2134,16 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="AG Start Date" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0oI-ie-Ltm" customClass="DesignableTextField" customModule="MDRTBHearingScreening" customModuleProvider="target">
+                                        <rect key="frame" x="450" y="196" width="300" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="sidePadding">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -2154,6 +2164,7 @@
                     <connections>
                         <outlet property="baseline_ag_dose_gt_3" destination="gr1-fy-iZq" id="McO-Ae-Y9W"/>
                         <outlet property="baseline_ag_start_date" destination="Umo-90-4jX" id="744-ON-bSC"/>
+                        <outlet property="baseline_ag_start_date_readonly" destination="0oI-ie-Ltm" id="hhD-hg-aqj"/>
                         <outlet property="baseline_amikacin" destination="Nq7-3h-nhX" id="jMo-EN-DGi"/>
                         <outlet property="baseline_capreomycin" destination="z2V-9w-dlC" id="jHi-pF-saq"/>
                         <outlet property="baseline_creatinine" destination="XiC-8a-6rU" id="UR2-iZ-J5G"/>
