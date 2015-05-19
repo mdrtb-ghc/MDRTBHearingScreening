@@ -550,29 +550,8 @@
                                             <segment title="Final"/>
                                         </segments>
                                     </segmentedControl>
-                                    <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="NoZ-vI-x7g">
-                                        <rect key="frame" x="361" y="89" width="288" height="200"/>
-                                        <date key="date" timeIntervalSinceReferenceDate="449761598.59815001">
-                                            <!--2015-04-03 13:46:38 +0000-->
-                                        </date>
-                                    </datePicker>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Birth" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zno-S7-Q8C">
-                                        <rect key="frame" x="67" y="513" width="200" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="15" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAG-nI-nW7">
-                                        <rect key="frame" x="361" y="448" width="288" height="200"/>
-                                        <date key="date" timeIntervalSinceReferenceDate="-662785199.40184999">
-                                            <!--1979-12-31 21:00:00 +0000-->
-                                        </date>
-                                        <connections>
-                                            <action selector="patient_dob_changed:" destination="rA0-r9-O18" eventType="valueChanged" id="eYK-59-dv3"/>
-                                        </connections>
-                                    </datePicker>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Age (in years)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajB-CS-NdT">
-                                        <rect key="frame" x="67" y="649" width="200" height="50"/>
+                                        <rect key="frame" x="67" y="506" width="200" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -584,7 +563,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Patient Age" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="llX-jx-Q95" customClass="DesignableTextField" customModule="MDRTBHearingScreening" customModuleProvider="target">
-                                        <rect key="frame" x="361" y="649" width="288" height="50"/>
+                                        <rect key="frame" x="361" y="506" width="288" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                         <userDefinedRuntimeAttributes>
@@ -626,12 +605,40 @@
                                         </segments>
                                     </segmentedControl>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bS-s7-jEj">
-                                        <rect key="frame" x="361" y="290" width="288" height="30"/>
+                                        <rect key="frame" x="361" y="290" width="288" height="29"/>
                                         <segments>
                                             <segment title="St Peters"/>
                                             <segment title="Gondar"/>
                                         </segments>
                                     </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVc-Sy-phh" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
+                                        <rect key="frame" x="361" y="154" width="288" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Tap to select a date...">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="test_date_button_tapped:" destination="rA0-r9-O18" eventType="touchUpInside" id="kaR-jV-pmU"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Birth" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zno-S7-Q8C">
+                                        <rect key="frame" x="67" y="578" width="200" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xui-eo-5ns" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
+                                        <rect key="frame" x="361" y="578" width="288" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Tap to select a date...">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="patient_dob_button_tapped:" destination="rA0-r9-O18" eventType="touchUpInside" id="4qp-TS-l9C"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -648,10 +655,10 @@
                     <connections>
                         <outlet property="patient_age" destination="llX-jx-Q95" id="mGr-Ks-cSc"/>
                         <outlet property="patient_consent" destination="tuO-Wp-6IE" id="OGG-YQ-uRa"/>
-                        <outlet property="patient_dob" destination="DAG-nI-nW7" id="CqX-RJ-QDj"/>
+                        <outlet property="patient_dob_button" destination="xui-eo-5ns" id="nbh-Om-90i"/>
                         <outlet property="patient_gender" destination="gKS-Dd-YEg" id="xQi-Fc-npC"/>
                         <outlet property="patient_id" destination="dQU-LV-WSo" id="s6G-9V-mow"/>
-                        <outlet property="test_date" destination="NoZ-vI-x7g" id="vgd-ld-Q5p"/>
+                        <outlet property="test_date_button" destination="mVc-Sy-phh" id="Iap-iW-vSH"/>
                         <outlet property="test_id" destination="6tw-ei-xlx" id="Q24-wM-5a2"/>
                         <outlet property="test_location" destination="2bS-s7-jEj" id="r8p-fy-7Hg"/>
                         <outlet property="test_type" destination="RFt-cH-q0H" id="Lix-Uu-Uk2"/>
@@ -2024,7 +2031,7 @@
                                 <rect key="frame" x="0.0" y="161" width="768" height="815"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of start of MDR-TB treatment including AG therapy" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xw0-ke-EIf">
-                                        <rect key="frame" x="18" y="135" width="504" height="53"/>
+                                        <rect key="frame" x="18" y="145" width="423" height="83"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -2035,15 +2042,6 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="Umo-90-4jX">
-                                        <rect key="frame" x="134" y="182" width="500" height="200"/>
-                                        <date key="date" timeIntervalSinceReferenceDate="449761598.59815001">
-                                            <!--2015-04-03 13:46:38 +0000-->
-                                        </date>
-                                        <connections>
-                                            <action selector="datePickerValueChanged:" destination="vnt-OX-mQU" eventType="valueChanged" id="eh0-GB-Cfz"/>
-                                        </connections>
-                                    </datePicker>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="# of mg/dL" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XiC-8a-6rU" customClass="DesignableTextField" customModule="MDRTBHearingScreening" customModuleProvider="target">
                                         <rect key="frame" x="450" y="40" width="300" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -2135,7 +2133,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="AG Start Date" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0oI-ie-Ltm" customClass="DesignableTextField" customModule="MDRTBHearingScreening" customModuleProvider="target">
-                                        <rect key="frame" x="450" y="196" width="300" height="50"/>
+                                        <rect key="frame" x="450" y="201" width="300" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                         <userDefinedRuntimeAttributes>
@@ -2144,6 +2142,17 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdR-Ou-Gig" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
+                                        <rect key="frame" x="493" y="162" width="257" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Tap to select date...">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="baseline_ag_date_button_tapped:" destination="vnt-OX-mQU" eventType="touchUpInside" id="tIv-RJ-AyJ"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -2162,8 +2171,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="EsS-H8-dp1"/>
                     <connections>
+                        <outlet property="baseline_ag_date_button" destination="sdR-Ou-Gig" id="whB-HP-Wg6"/>
                         <outlet property="baseline_ag_dose_gt_3" destination="gr1-fy-iZq" id="McO-Ae-Y9W"/>
-                        <outlet property="baseline_ag_start_date" destination="Umo-90-4jX" id="744-ON-bSC"/>
                         <outlet property="baseline_ag_start_date_readonly" destination="0oI-ie-Ltm" id="hhD-hg-aqj"/>
                         <outlet property="baseline_amikacin" destination="Nq7-3h-nhX" id="jMo-EN-DGi"/>
                         <outlet property="baseline_capreomycin" destination="z2V-9w-dlC" id="jHi-pF-saq"/>
@@ -3064,16 +3073,16 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VwS-Sp-fO4"/>
-        <segue reference="YCC-3V-DJa"/>
-        <segue reference="P84-QG-z4z"/>
-        <segue reference="Je1-zP-orG"/>
-        <segue reference="YYC-tN-amf"/>
         <segue reference="8ov-FS-3im"/>
+        <segue reference="YYC-tN-amf"/>
         <segue reference="V4Q-fv-GgN"/>
-        <segue reference="xWX-zR-NmV"/>
         <segue reference="UtP-Ap-Xfw"/>
         <segue reference="PDM-hL-KXG"/>
         <segue reference="nxj-QT-6Fb"/>
+        <segue reference="xWX-zR-NmV"/>
+        <segue reference="VwS-Sp-fO4"/>
+        <segue reference="P84-QG-z4z"/>
+        <segue reference="T86-vG-p0O"/>
+        <segue reference="YCC-3V-DJa"/>
     </inferredMetricsTieBreakers>
 </document>

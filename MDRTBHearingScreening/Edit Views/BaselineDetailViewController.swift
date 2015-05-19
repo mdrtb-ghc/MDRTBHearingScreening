@@ -13,16 +13,34 @@ class BaselineDetailViewController: UIViewController {
     var test: Test!
     
     @IBOutlet weak var baseline_creatinine: DesignableTextField!
-    @IBOutlet weak var baseline_ag_start_date: UIDatePicker!
+    
+    var baseline_ag_start_date = UIDatePicker()
+    @IBOutlet weak var baseline_ag_date_button: DesignableButton!
+    @IBAction func baseline_ag_date_button_tapped(sender: DesignableButton) {
+        
+        baseline_ag_start_date.addTarget(self, action: "baseline_ag_start_date_changed", forControlEvents: UIControlEvents.ValueChanged)
+        baseline_ag_start_date.datePickerMode = UIDatePickerMode.Date
+        
+        let picker_view = UIView()
+        let picker_controller = UIViewController()
+        picker_view.addSubview(baseline_ag_start_date)
+        picker_controller.view = picker_view
+        
+        let popover_controller = UIPopoverController(contentViewController: picker_controller)
+        popover_controller.setPopoverContentSize(CGSize(width: 320, height: 216), animated: true)
+        popover_controller.presentPopoverFromRect(CGRect(x: baseline_ag_date_button.frame.width/2, y: baseline_ag_date_button.frame.height, width: 0, height: 0), inView: baseline_ag_date_button, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+    }
+    func baseline_ag_start_date_changed() {
+        baseline_ag_date_button.setTitle(test.mediumDateString(baseline_ag_start_date.date), forState: UIControlState.Normal)
+    }
+    
+    
     @IBOutlet weak var baseline_ag_start_date_readonly: DesignableTextField!
     @IBOutlet weak var baseline_streptomycin: UISegmentedControl!
     @IBOutlet weak var baseline_capreomycin: UISegmentedControl!
     @IBOutlet weak var baseline_kanamicin: UISegmentedControl!
     @IBOutlet weak var baseline_amikacin: UISegmentedControl!
     @IBOutlet weak var baseline_ag_dose_gt_3: UISegmentedControl!
-    
-    @IBAction func datePickerValueChanged(sender: UIDatePicker) {
-    }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         view.endEditing(true)
@@ -42,6 +60,7 @@ class BaselineDetailViewController: UIViewController {
         
         baseline_creatinine.text = test.baseline_creatinine
         baseline_ag_start_date.setDate(test.getDate("baseline_ag_start_date") ?? NSDate(), animated: true)
+        baseline_ag_date_button.setTitle(test.mediumDateString(baseline_ag_start_date.date), forState: UIControlState.Normal)
         baseline_ag_start_date_readonly.text = test.mediumDateString(test.getDate("baseline_ag_start_date"))
         baseline_streptomycin.selectedSegmentIndex = test.baseline_streptomycin?.toInt() ?? UISegmentedControlNoSegment
         baseline_capreomycin.selectedSegmentIndex = test.baseline_capreomycin?.toInt() ?? UISegmentedControlNoSegment
@@ -53,8 +72,11 @@ class BaselineDetailViewController: UIViewController {
             // if not baseline test disable controls so read only
             baseline_creatinine.enabled = type == "0"
             baseline_creatinine.borderWidth = type == "0" ? 1 : 0
-            baseline_ag_start_date.hidden = type != "0"
-            baseline_ag_start_date_readonly.hidden = type == "0"
+            
+            baseline_ag_date_button.enabled = type == "0"
+            
+            //baseline_ag_start_date.hidden = type != "0"
+            //baseline_ag_start_date_readonly.hidden = type == "0"
             baseline_streptomycin.enabled = type == "0"
             baseline_capreomycin.enabled = type == "0"
             baseline_kanamicin.enabled = type == "0"
