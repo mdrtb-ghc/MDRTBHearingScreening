@@ -28,7 +28,7 @@ class Test: NSManagedObject {
     
     lazy var baseline_test : Test? = {
         if(self.patient_id != nil && self.test_date != nil) {
-            println("Looking up Baseline test for patient id = \(self.patient_id!)")
+            print("Looking up Baseline test for patient id = \(self.patient_id!)")
             let context = self.managedObjectContext!
             let fetchRequest = NSFetchRequest(entityName:"Test")
             let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
@@ -37,10 +37,14 @@ class Test: NSManagedObject {
             fetchRequest.predicate = predicate
             
             // Execute the fetch request
-            var err : NSError?
-            if let results = context.executeFetchRequest(fetchRequest, error: &err) as! [Test]? {
+            do {
+                let results = try context.executeFetchRequest(fetchRequest) as! [Test]
                 return results.first
+            } catch let error as NSError {
+                print("Fetch failed: \(error.localizedDescription)")
+                return nil
             }
+            
         }
         return nil
     }()
@@ -95,7 +99,7 @@ class Test: NSManagedObject {
     }
     
     func isEligible() -> String {
-        if(self.patient_age?.toInt() < 18) {
+        if(Int(self.patient_age ?? "") < 18) {
             return "No"
         }
         if(self.baseline_ag_dose_gt_3 == "1") {
@@ -115,28 +119,23 @@ class Test: NSManagedObject {
     }
     
     class func csvHeaders(entity: NSEntityDescription) -> [String]? {
-        if let attributes = entity.attributesByName as? [NSObject:NSAttributeDescription] {
-            var headers = [String]()
-            for a in attributes {
-                headers.append(a.1.name)
-            }
-            let sortedHeaders = sorted(headers) {$0 < $1}
-            return sortedHeaders
+        let attributes = entity.attributesByName
+        var headers = [String]()
+        for a in attributes {
+            headers.append(a.1.name)
         }
-        return nil
+        let sortedHeaders = headers.sort {$0 < $1}
+        return sortedHeaders
     }
     
     func toCSVString(seperator: String = ",") -> String {
-        return seperator.join(self.toStringDict().values.array)
-    }
-    
-    func toStringValueArray() -> [String] {
-        return self.toStringDict().values.array
+        let array = self.toStringDict().values
+        return array.joinWithSeparator(seperator)
     }
     
     func toStringDict() -> [String:String] {
         var dict = [String:String]()
-        let attributes = self.entity.attributesByName as! [NSObject:NSAttributeDescription]
+        let attributes = self.entity.attributesByName
         for a in attributes {
             let value = self.toStringValue(a.1)
             dict[a.1.name] = value
@@ -153,7 +152,7 @@ class Test: NSManagedObject {
             if let list = customAppProperties[listName] as? [String:String] {
                 return list[index!] ?? ""
             } else if let list = customAppProperties[listName] as? [String] {
-                if let indexInt = index?.toInt() {
+                if let indexInt = Int(index ?? "") {
                     if indexInt >= 0 {
                         return list[indexInt]
                     }
@@ -312,12 +311,22 @@ class Test: NSManagedObject {
         let predicate = NSPredicate(format: "patient_id == %@",argumentArray: [patientId])
         fr.predicate = predicate
         
-        var err: NSError?
-        if let tests = context.executeFetchRequest(fr, error: &err) as? [Test] {
-            if let test = tests.first {
-                newTestId = (test.test_id?.componentsSeparatedByString("-").last?.toInt() ?? -1) + 1
+        do {
+            if let tests = try context.executeFetchRequest(fr) as? [Test] {
+                if let test = tests.first {
+                    if let a = test.test_id?.componentsSeparatedByString("-").last {
+                        if let b = Int(a) {
+                            newTestId = b + 1
+                        }
+                    }
+                }
             }
+            
+        } catch let error as NSError {
+           print("Unresolved error \(error), \(error.userInfo)")
         }
+        
+        
         let numberFormatter = NSNumberFormatter()
         numberFormatter.minimumIntegerDigits = 2
         
@@ -330,13 +339,18 @@ class Test: NSManagedObject {
                 let start = NSDate()
                 var error: NSError? = nil
                 if moc.hasChanges {
-                    println("saving context with \(moc.registeredObjects.count) objects")
-                    if !moc.save(&error) {
-                        NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    print("saving context with \(moc.registeredObjects.count) objects")
+                    do {
+                        try moc.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                        print("Unresolved error \(error), \(error!.userInfo)")
+                    } catch {
+                        fatalError()
                     }
                 }
                 let timeInterval = -start.timeIntervalSinceNow
-                println("saving context took :: \(timeInterval)")
+                print("saving context took :: \(timeInterval)")
                 return
             })
         }

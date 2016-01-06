@@ -22,16 +22,16 @@ class PatientDetailEditViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBAction func datePickerValueChanged(sender: UIDatePicker) {
         let calendar = NSCalendar.autoupdatingCurrentCalendar()
-        let components = calendar.components(.CalendarUnitYear, fromDate: sender.date, toDate: NSDate(), options: nil)
+        let components = calendar.components(.Year, fromDate: sender.date, toDate: NSDate(), options: [])
         let years = components.year
         ageTextField.text = String(years)
     
     }
     @IBOutlet weak var ageTextField: UITextField!
     @IBAction func agTextField_Changed(sender: UITextField) {
-        if let age = sender.text.toInt() {
+        if let age = Int(sender.text ?? "") {
             let calendar = NSCalendar.autoupdatingCurrentCalendar()
-            if let dob = calendar.dateByAddingUnit(.CalendarUnitYear, value: -age, toDate: NSDate(), options: nil) {
+            if let dob = calendar.dateByAddingUnit(.Year, value: -age, toDate: NSDate(), options: []) {
                 datePicker.date = dob
             }
 
@@ -40,7 +40,7 @@ class PatientDetailEditViewController: UIViewController {
     @IBOutlet weak var genderSegment: UISegmentedControl!
     @IBOutlet weak var consentSegment: UISegmentedControl!
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -65,9 +65,9 @@ class PatientDetailEditViewController: UIViewController {
                 genderSegment.insertSegmentWithTitle(title, atIndex: genderSegment.numberOfSegments, animated: true)
             }
         }
-        genderSegment.selectedSegmentIndex = (test.patient_gender?.toInt() ?? UISegmentedControlNoSegment)
+        genderSegment.selectedSegmentIndex = (Int(test.patient_gender ?? "") ?? UISegmentedControlNoSegment)
         
-        consentSegment.selectedSegmentIndex = (test.patient_consent?.toInt() ?? UISegmentedControlNoSegment)
+        consentSegment.selectedSegmentIndex = (Int(test.patient_consent ?? "") ?? UISegmentedControlNoSegment)
         
         
     }

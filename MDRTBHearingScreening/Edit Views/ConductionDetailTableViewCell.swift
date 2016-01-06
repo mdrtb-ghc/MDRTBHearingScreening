@@ -32,8 +32,8 @@ class ConductionDetailTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         let fontAtrribute = [NSFontAttributeName : UIFont.systemFontOfSize(22)]
-        DbLevelsA.setTitleTextAttributes(fontAtrribute,forState: nil)
-        DbLevelsB.setTitleTextAttributes(fontAtrribute,forState: nil)
+        DbLevelsA.setTitleTextAttributes(fontAtrribute,forState: [])
+        DbLevelsB.setTitleTextAttributes(fontAtrribute,forState: [])
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -31,25 +31,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
     func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
         let rootController = self.window?.rootViewController
         if let navController = self.window?.rootViewController as? UINavigationController {
-            println("documentInteractionControllerViewControllerForPreview")
+            print("documentInteractionControllerViewControllerForPreview")
             // TODO: - add a button for importing file to DB
             return navController
         }
         return rootController!
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
-        println("application openURL")
+        print("application openURL")
         // TODO: - add dialog to confim or cancel import. Confirm will import file data into main store, then delete the imported file, cancel will just delete the imported file
         
         let alertController = UIAlertController(title: "Importing file", message: "Click Import to add all the tests in the file. Click Cancel if you do not want to import tests.", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action:UIAlertAction!) -> Void in
-            println("cancel")
+        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action:UIAlertAction) -> Void in
+            print("cancel")
             
             // delete file from inbox
-            println("deleting \(url)")
-            NSFileManager.defaultManager().removeItemAtURL(url, error: nil)
+            print("deleting \(url)")
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(url)
+            } catch _ {
+            }
         }))
         /*
         alertController.addAction(UIAlertAction(title: "Open", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
@@ -69,8 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
             
         }))
         */
-        alertController.addAction(UIAlertAction(title: "Import", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
-            println("import")
+        alertController.addAction(UIAlertAction(title: "Import", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction) -> Void in
+            print("import")
             
             if let navController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportNavController") as? UINavigationController {
                 if let controller = navController.topViewController as? ImportExportViewController {
@@ -88,11 +91,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
     }
     
     func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
-        println("preview closed")
+        print("preview closed")
         
         // delete file from inbox
-        println("deleting \(controller.URL)")
-        NSFileManager.defaultManager().removeItemAtURL(controller.URL, error: nil)
+        print("deleting \(controller.URL)")
+        do {
+            try NSFileManager.defaultManager().removeItemAtURL(controller.URL!)
+        } catch {
+            print("Error in documentInteractionControllerDidEndPreview")
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -122,15 +129,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
     
     // MARK: - Core Data stack
 
-    lazy var deviceAppId: String = {
+    lazy var deviceAppId: String? = {
         let uuid = UIDevice.currentDevice().identifierForVendor
-        return uuid.UUIDString
+        return uuid?.UUIDString
     }()
     
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.incapari.MDRTBHearingScreening" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] 
     }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -144,38 +151,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
         // Create the coordinator
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         
-        // Setup main store - loca read/write store
+        // Setup main store - local read/write store
         let mainStoreUrl = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MDRTBHearingScreening.mainstore")
-        println(mainStoreUrl)
+        print(mainStoreUrl)
         var err: NSError? = nil
         let mainStoreOptions: [NSObject : AnyObject]? = [
             NSIgnorePersistentStoreVersioningOption: true,
             NSMigratePersistentStoresAutomaticallyOption: true,
             NSInferMappingModelAutomaticallyOption: true,
             NSPersistentStoreFileProtectionKey: NSFileProtectionComplete]
-        if coordinator!.addPersistentStoreWithType(NSBinaryStoreType, configuration: nil, URL: mainStoreUrl, options: mainStoreOptions, error: &err) == nil {
+        do {
+            try coordinator!.addPersistentStoreWithType(NSBinaryStoreType, configuration: nil, URL: mainStoreUrl, options: mainStoreOptions)
+        } catch var error as NSError {
+            err = error
             coordinator = nil
-            println("Error setting up main store: \(err), \(err!.userInfo)")
+            print("Error setting up main store: \(err), \(err!.userInfo)")
             abort()
+        } catch {
+            fatalError()
         }
         
         // Setup imported stores - assume these are files with extension .readonlystore
         
-        if let contents: [NSURL] = NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.applicationDocumentsDirectory, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsHiddenFiles, error: &err) as? [NSURL] {
+        do {
+            let contents = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.applicationDocumentsDirectory,
+                includingPropertiesForKeys: nil,
+                options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
             
             let filteredArray = contents.filter { $0.pathExtension == "readonlystore" }
             for readonOnlyStoreUrl: NSURL in filteredArray {
-                println(readonOnlyStoreUrl)
+                print(readonOnlyStoreUrl)
                 let readOnlyOptions: [NSObject : AnyObject]? = [
                     NSReadOnlyPersistentStoreOption: true,
                     NSIgnorePersistentStoreVersioningOption: true,
                     NSMigratePersistentStoresAutomaticallyOption: true,
                     NSInferMappingModelAutomaticallyOption: true,
                     NSPersistentStoreFileProtectionKey: NSFileProtectionComplete]
-                if coordinator!.addPersistentStoreWithType(NSBinaryStoreType, configuration: nil, URL: readonOnlyStoreUrl, options: readOnlyOptions, error: &err) == nil {
-                    println("Unresolved error \(err), \(err!.userInfo)")
+                
+                do {
+                    try coordinator!.addPersistentStoreWithType(NSBinaryStoreType, configuration: nil, URL: readonOnlyStoreUrl, options: readOnlyOptions)
+                } catch var err as NSError {
+                    print("Unresolved error \(err), \(err.userInfo)")
                 }
             }
+        } catch var err as NSError {
+            print("Unresolved error \(err), \(err.userInfo)")
         }
         
         return coordinator
@@ -197,15 +217,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIDocumentInteractionCont
     func saveContext () {
         if let moc = self.managedObjectContext {
             let start = NSDate()
-            var error: NSError? = nil
             if moc.hasChanges {
-                println("saving context with \(moc.registeredObjects.count) objects")
-                if !moc.save(&error) {
-                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                print("saving context with \(moc.registeredObjects.count) objects")
+                do {
+                    try moc.save()
+                } catch let error as NSError {
+                    print("Unresolved error \(error), \(error.userInfo)")
                 }
             }
             let timeInterval = -start.timeIntervalSinceNow
-            println("saving context took :: \(timeInterval)")
+            print("saving context took :: \(timeInterval)")
         }
     }
 

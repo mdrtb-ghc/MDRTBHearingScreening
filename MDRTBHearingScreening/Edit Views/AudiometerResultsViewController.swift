@@ -28,7 +28,7 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -77,7 +77,7 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
             cell.Frequency.text = "\(frequency) Hz"
             
             if let dbLevel = test.valueForKey(ear.lowercaseString+"_"+frequency) as? String {
-                let dbIndex = (dbLevel.toInt() ?? 0)/5
+                let dbIndex = (Int(dbLevel) ?? 0)/5
                 if dbIndex%2 == 0 {
                     cell.DbLevelsA.selectedSegmentIndex = dbIndex/2
                     cell.DbLevelsB.selectedSegmentIndex = UISegmentedControlNoSegment

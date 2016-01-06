@@ -20,7 +20,7 @@ class MonthlyDetailViewController: UIViewController {
     @IBOutlet weak var monthly_creatinine_level: UITextField!
     @IBOutlet weak var monthly_furosemide: UISegmentedControl!
    
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -37,16 +37,16 @@ class MonthlyDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
         if let agstartdate = test.getDate("baseline_ag_start_date") {
-            let components = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitMonth, fromDate: agstartdate, toDate: NSDate(), options: nil)
+            let components = NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: agstartdate, toDate: NSDate(), options: [])
             let months = components.month
             months_start_treatment.text = "\(months)"
         }
         
-        monthly_ag_type.selectedSegmentIndex = test.monthly_ag_type?.toInt() ?? UISegmentedControlNoSegment
+        monthly_ag_type.selectedSegmentIndex = Int(test.monthly_ag_type ?? "") ?? UISegmentedControlNoSegment
         monthly_ag_dose.text = test.monthly_ag_dose
         monthly_ag_frequency.text = test.monthly_ag_frequency
         monthly_creatinine_level.text = test.monthly_creatinine_level
-        monthly_furosemide.selectedSegmentIndex = test.monthly_furosemide?.toInt() ?? UISegmentedControlNoSegment
+        monthly_furosemide.selectedSegmentIndex = Int(test.monthly_furosemide ?? "") ?? UISegmentedControlNoSegment
     }
     
     // MARK: - Save Context on Close

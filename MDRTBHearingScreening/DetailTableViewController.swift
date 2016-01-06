@@ -241,8 +241,8 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     }
     
     func calcDbDiff(curr:String?,baseline:String?) -> Int {
-        if let curr = curr?.toInt() {
-            if let baseline = baseline?.toInt() {
+        if let curr = Int(curr ?? "") {
+            if let baseline = Int(baseline ?? "") {
                 return curr - baseline
             }
         }
@@ -293,7 +293,7 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     
     override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
-            header.textLabel.font = UIFont.boldSystemFontOfSize(18)
+            header.textLabel!.font = UIFont.boldSystemFontOfSize(18)
         }
         
         
@@ -356,7 +356,7 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
         configureView()
 
         // deselect selected row
-        if let selectedRow = tableView.indexPathForSelectedRow() {
+        if let selectedRow = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedRow, animated: false)
         }
     }

@@ -28,11 +28,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
         fr.sortDescriptors = [sortDescriptor]
         
-        var error: NSError?
-        if let results = context.executeFetchRequest(fr, error: nil) as? [Test] {
+        if let results = (try? context.executeFetchRequest(fr)) as? [Test] {
             searchResults = results
         }
-        
         return true
     }
     
@@ -59,24 +57,31 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         super.viewWillAppear(animated)
         
         
-        NSNotificationCenter.defaultCenter().addObserverForName("openURL", object: nil, queue: nil) { (notification: NSNotification!) -> Void in
-            println(notification)
+        NSNotificationCenter.defaultCenter().addObserverForName("openURL", object: nil, queue: nil) { (notification: NSNotification) -> Void in
+            print(notification)
             
             let openPanel = UIDocumentMenuViewController(URL: notification.object as! NSURL, inMode: UIDocumentPickerMode.MoveToService)
             self.presentViewController(openPanel, animated: true, completion: { () -> Void in
-                println("doc viewer loaded")
+                print("doc viewer loaded")
             })
         }
         
-        var error: NSError?
-        if(!fetchedResultsController.performFetch(&error)) {
-            println("Error fetching data");
-        }
         
-        if let tests = fetchedResultsController.fetchedObjects {
-            title = "Hearing Tests (\(tests.count) total)"
+        
+        do {
+            try fetchedResultsController.performFetch()
+            if let tests = fetchedResultsController.fetchedObjects {
+                title = "Hearing Tests (\(tests.count) total)"
+            }
+        } catch {
+            print("Error fetching data");
         }
+
+        
+
     }
+    
+    
     
     override func viewDidLoad() {
 //        if let controller = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportViewController") as? ImportExportViewController {
@@ -86,7 +91,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var objects = (tableView == self.tableView) ? fetchedResultsController.fetchedObjects : searchResults
+        let objects = (tableView == self.tableView) ? fetchedResultsController.fetchedObjects : searchResults
         if objects != nil {
             return objects!.count
         }
@@ -94,7 +99,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("TestTableCell") as? UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("TestTableCell")
         if cell == nil {
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "TestTableCell")
         }
@@ -103,8 +108,8 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             let number = test.test_id ?? ""
             let date = test.mediumDateString(test.getDate("test_date"))
             let type = test.getType()
-            var title = "#\(number) | \(date) | \(type)"
-            cell!.textLabel?.text = title
+            let title = "#\(number) | \(date) | \(type)"
+            cell?.textLabel?.text = title
             
         }
         return cell!
@@ -137,36 +142,38 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     // MARK: NSFetchedResultsControllerDelegate
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        tableView.beginUpdates()
+        //tableView.beginUpdates()
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        tableView.endUpdates()
+        //tableView.endUpdates()
+        //tableView.reloadData()
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
-        switch(type) {
-        case .Insert :
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
-            break;
-        case .Update :
-            tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-            break;
-        case .Delete :
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-            break;
-        case .Move :
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
-            break;
-        default :
-            println("Change Type %@ not handled",type.rawValue)
-        }
+        if type.rawValue > 0 {
         
-        // update count
-        if let tests = fetchedResultsController.fetchedObjects {
-            title = "Hearing Tests (\(tests.count) total)"
+            switch(type) {
+                case .Insert :
+                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+                    break;
+                case .Update :
+                    tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+                    break;
+                case .Delete :
+                    tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+                    break;
+                case .Move :
+                    tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+                    break;
+            }
+            
+            // update count
+            if let tests = fetchedResultsController.fetchedObjects {
+                title = "Hearing Tests (\(tests.count) total)"
+            }
         }
     }
     
@@ -180,12 +187,12 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
         }
         alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            println("cancel")
+            print("cancel")
         }))
         alertController.addAction(UIAlertAction(title: "Add", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            if let textField = alertController.textFields?.first as? UITextField {
+            if let textField = alertController.textFields?.first {
                 let context = self.fetchedResultsController.managedObjectContext
-                let test = Test.newTest(context, patientId:textField.text)
+                let test = Test.newTest(context, patientId:textField.text!)
                 self.performSegueWithIdentifier("gotoPage1", sender: test)
             }
         }))
@@ -199,12 +206,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            // handle delete (by removing the data from datasource and updating the tableview)
-            
-            let context = fetchedResultsController.managedObjectContext
+            // handle delete (by removing the data from datasource and updating the tableview)            
             let test = fetchedResultsController.objectAtIndexPath(indexPath) as! Test
             Test.deleteTest(test)
-            
         }
     }
     

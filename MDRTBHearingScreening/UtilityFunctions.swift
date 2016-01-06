@@ -28,8 +28,8 @@ func JSONStringToDate(dateString: String?) -> NSDate? {
 func JSONDateSplitComponents(dateString: String?) -> [String] {
     if (dateString != nil) {
         var arr = dateString!.componentsSeparatedByString("T")
-        var splitDate = arr[0].componentsSeparatedByString("-")
-        var splitTime = arr[1].componentsSeparatedByString(":")
+        let splitDate = arr[0].componentsSeparatedByString("-")
+        let splitTime = arr[1].componentsSeparatedByString(":")
         return splitDate + splitTime
     }
     return []
@@ -40,7 +40,7 @@ func JSONDateYearOnly(dateString: String?) -> String {
 }
 func JSONDateDateOnly(dateString: String?) -> String {
     if (dateString != nil) {
-        var arr = dateString!.componentsSeparatedByString("T")
+        let arr = dateString!.componentsSeparatedByString("T")
         return arr.first ?? ""
     }
     return ""
@@ -48,7 +48,7 @@ func JSONDateDateOnly(dateString: String?) -> String {
 
 func JSONDateTimeOnly(dateString: String?) -> String {
     if (dateString != nil) {
-        var arr = dateString!.componentsSeparatedByString("T")
+        let arr = dateString!.componentsSeparatedByString("T")
         return arr.last ?? ""
     }
     return ""

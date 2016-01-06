@@ -47,7 +47,7 @@ class SettingsTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SettingsTableViewCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SettingsTableViewCell", forIndexPath: indexPath) 
         
         // Configure the cell...
         if let setting = settingsList.allKeys[indexPath.row] as? String {
@@ -102,7 +102,7 @@ class SettingsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         
         if let destController = segue.destinationViewController as? SettingsDetailTableViewController {
-            if let selectedIndexPath = tableView.indexPathForSelectedRow() {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 destController.setting = settingsList.allValues[selectedIndexPath.row]
             }
         }

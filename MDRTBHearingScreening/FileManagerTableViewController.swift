@@ -21,15 +21,18 @@ class FileManagerTableViewController: UITableViewController {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.incapari.MDRTBHearingScreening" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] 
         }()
     
     lazy var documentsList: [AnyObject]? = {
         var err: NSError?
-        return NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.applicationDocumentsDirectory,
-            includingPropertiesForKeys: self.filePropertiesToGet,
-            options: NSDirectoryEnumerationOptions.SkipsHiddenFiles,
-            error: &err)
+        do {
+            return try NSFileManager.defaultManager().contentsOfDirectoryAtURL(self.applicationDocumentsDirectory,
+                includingPropertiesForKeys: self.filePropertiesToGet,
+                options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
+        } catch _ {
+            return nil
+        }
         }()
     
     override func viewDidLoad() {
@@ -64,20 +67,19 @@ class FileManagerTableViewController: UITableViewController {
     
     func urlIsDir(url: NSURL) -> Bool {
         var value:AnyObject?
-        var error:NSError?
-        if url.getResourceValue(
-            &value,
-            forKey: NSURLIsDirectoryKey,
-            error: &error) && value != nil{
-                let number = value as! NSNumber
-                return number.boolValue
+        do {
+            try url.getResourceValue(&value, forKey: NSURLIsDirectoryKey)
+            let number = value as! NSNumber
+            return number.boolValue
+        } catch {
+            print("Something went wrong with urlIsDir!")
         }
         
         return false
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("DocumentTableViewCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("DocumentTableViewCell", forIndexPath: indexPath) 
 
         // Configure the cell...
         if let url = documentsList?[indexPath.row] as! NSURL? {
@@ -166,11 +168,10 @@ class FileManagerTableViewController: UITableViewController {
             let selectedCell = sender as! UITableViewCell
             if let selectedPath = selectedCell.detailTextLabel?.text as String? {
                 let selectedURL = NSURL(fileURLWithPath: selectedPath, isDirectory: true)
-                dest.documentsList = NSFileManager.defaultManager().contentsOfDirectoryAtURL(selectedURL!,
+                dest.documentsList = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(selectedURL,
                     includingPropertiesForKeys: self.filePropertiesToGet,
-                    options: NSDirectoryEnumerationOptions.SkipsHiddenFiles,
-                    error: nil)
-                dest.title = selectedURL?.lastPathComponent
+                    options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
+                dest.title = selectedURL.lastPathComponent
             }
         }
         

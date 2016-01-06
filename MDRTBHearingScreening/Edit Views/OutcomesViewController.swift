@@ -46,7 +46,7 @@ class OutcomesViewController: UIViewController {
     func animateViewForKeyboard(up: Bool,userInfo: [NSObject:AnyObject]?) {
         if let userInfo = userInfo {
             if let keyboardSize =  (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                var movement = (up ? -keyboardSize.height : keyboardSize.height)
+                let movement = (up ? -keyboardSize.height : keyboardSize.height)
                 UIView.animateWithDuration(0.3, animations: {
                     self.view.frame = CGRectOffset(self.view.frame, 0, movement)
                 })
@@ -91,7 +91,7 @@ class OutcomesViewController: UIViewController {
         //test.saveTestContext()
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -105,8 +105,8 @@ class OutcomesViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         if test != nil {
-            outcome_hearingloss.selectedSegmentIndex = test.outcome_hearingloss?.toInt() ?? UISegmentedControlNoSegment
-            outcome_hearingloss_ag.selectedSegmentIndex = test.outcome_hearingloss_ag?.toInt() ?? UISegmentedControlNoSegment
+            outcome_hearingloss.selectedSegmentIndex = Int(test.outcome_hearingloss ?? "") ?? UISegmentedControlNoSegment
+            outcome_hearingloss_ag.selectedSegmentIndex = Int(test.outcome_hearingloss_ag ?? "") ?? UISegmentedControlNoSegment
             outcome_plan_1.on = test.outcome_plan == "1"
             outcome_plan_2.on = test.outcome_plan == "2"
             outcome_plan_3.on = test.outcome_plan == "3"

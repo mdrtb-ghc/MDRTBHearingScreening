@@ -42,7 +42,7 @@ class BaselineDetailViewController: UIViewController {
     @IBOutlet weak var baseline_amikacin: UISegmentedControl!
     @IBOutlet weak var baseline_ag_dose_gt_3: UISegmentedControl!
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -62,11 +62,11 @@ class BaselineDetailViewController: UIViewController {
         baseline_ag_start_date.setDate(test.getDate("baseline_ag_start_date") ?? NSDate(), animated: true)
         baseline_ag_date_button.setTitle(test.mediumDateString(baseline_ag_start_date.date), forState: UIControlState.Normal)
         baseline_ag_start_date_readonly.text = test.mediumDateString(test.getDate("baseline_ag_start_date"))
-        baseline_streptomycin.selectedSegmentIndex = test.baseline_streptomycin?.toInt() ?? UISegmentedControlNoSegment
-        baseline_capreomycin.selectedSegmentIndex = test.baseline_capreomycin?.toInt() ?? UISegmentedControlNoSegment
-        baseline_kanamicin.selectedSegmentIndex = test.baseline_kanamicin?.toInt() ?? UISegmentedControlNoSegment
-        baseline_amikacin.selectedSegmentIndex = test.baseline_amikacin?.toInt() ?? UISegmentedControlNoSegment
-        baseline_ag_dose_gt_3.selectedSegmentIndex = test.baseline_ag_dose_gt_3?.toInt() ?? UISegmentedControlNoSegment
+        baseline_streptomycin.selectedSegmentIndex = Int(test.baseline_streptomycin ?? "") ?? UISegmentedControlNoSegment
+        baseline_capreomycin.selectedSegmentIndex = Int(test.baseline_capreomycin ?? "") ?? UISegmentedControlNoSegment
+        baseline_kanamicin.selectedSegmentIndex = Int(test.baseline_kanamicin ?? "") ?? UISegmentedControlNoSegment
+        baseline_amikacin.selectedSegmentIndex = Int(test.baseline_amikacin ?? "") ?? UISegmentedControlNoSegment
+        baseline_ag_dose_gt_3.selectedSegmentIndex = Int(test.baseline_ag_dose_gt_3 ?? "") ?? UISegmentedControlNoSegment
         
         if let type = test.test_type {
             // if not baseline test disable controls so read only

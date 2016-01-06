@@ -18,16 +18,16 @@ class OtoscopyDetailsViewController: UIViewController {
     @IBOutlet weak var left_infection: UISegmentedControl!
     @IBOutlet weak var left_perforated: UISegmentedControl!
     @IBOutlet weak var left_fluid: UISegmentedControl!
-    @IBOutlet weak var left_notes: UITextView!
+    @IBOutlet weak var left_notes: DesignableTextView!
     
     @IBOutlet weak var right_normal: UISegmentedControl!
     @IBOutlet weak var right_wax: UISegmentedControl!
     @IBOutlet weak var right_infection: UISegmentedControl!
     @IBOutlet weak var right_perforated: UISegmentedControl!
     @IBOutlet weak var right_fluid: UISegmentedControl!
-    @IBOutlet weak var right_notes: UITextView!
+    @IBOutlet weak var right_notes: DesignableTextView!
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -43,18 +43,18 @@ class OtoscopyDetailsViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
-        left_normal.selectedSegmentIndex = test.left_normal?.toInt() ?? -1
-        left_wax.selectedSegmentIndex = test.left_wax?.toInt() ?? -1
-        left_infection.selectedSegmentIndex = test.left_infection?.toInt() ?? -1
-        left_perforated.selectedSegmentIndex = test.left_perforated?.toInt() ?? -1
-        left_fluid.selectedSegmentIndex = test.left_fluid?.toInt() ?? -1
+        left_normal.selectedSegmentIndex = Int(test.left_normal ?? "") ?? -1
+        left_wax.selectedSegmentIndex = Int(test.left_wax ?? "") ?? -1
+        left_infection.selectedSegmentIndex = Int(test.left_infection ?? "") ?? -1
+        left_perforated.selectedSegmentIndex = Int(test.left_perforated ?? "") ?? -1
+        left_fluid.selectedSegmentIndex = Int(test.left_fluid ?? "") ?? -1
         left_notes.text = test.left_notes
 
-        right_normal.selectedSegmentIndex = test.right_normal?.toInt() ?? -1
-        right_wax.selectedSegmentIndex = test.right_wax?.toInt() ?? -1
-        right_infection.selectedSegmentIndex = test.right_infection?.toInt() ?? -1
-        right_perforated.selectedSegmentIndex = test.right_perforated?.toInt() ?? -1
-        right_fluid.selectedSegmentIndex = test.right_fluid?.toInt() ?? -1
+        right_normal.selectedSegmentIndex = Int(test.right_normal ?? "") ?? -1
+        right_wax.selectedSegmentIndex = Int(test.right_wax ?? "") ?? -1
+        right_infection.selectedSegmentIndex = Int(test.right_infection ?? "") ?? -1
+        right_perforated.selectedSegmentIndex = Int(test.right_perforated ?? "") ?? -1
+        right_fluid.selectedSegmentIndex = Int(test.right_fluid ?? "") ?? -1
         right_notes.text = test.right_notes
 
     }

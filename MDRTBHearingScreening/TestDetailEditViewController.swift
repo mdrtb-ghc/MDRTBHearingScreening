@@ -58,7 +58,7 @@ class TestDetailEditViewController: UIViewController {
         patient_dob_button.setTitle(test.mediumDateString(patient_dob.date), forState: UIControlState.Normal)
         
         let calendar = NSCalendar.autoupdatingCurrentCalendar()
-        let components = calendar.components(.CalendarUnitYear, fromDate: patient_dob.date, toDate: NSDate(), options: nil)
+        let components = calendar.components(.Year, fromDate: patient_dob.date, toDate: NSDate(), options: [])
         let years = components.year
         patient_age.text = String(years)
     }
@@ -68,16 +68,16 @@ class TestDetailEditViewController: UIViewController {
     @IBOutlet weak var patient_consent: UISegmentedControl!
     
     @IBAction func patient_age_changed(sender: UITextField) {
-        if let age = sender.text.toInt() {
+        if let age = Int(sender.text ?? "") {
             let calendar = NSCalendar.autoupdatingCurrentCalendar()
-            if let dob = calendar.dateByAddingUnit(.CalendarUnitYear, value: -age, toDate: NSDate(), options: nil) {
+            if let dob = calendar.dateByAddingUnit(.Year, value: -age, toDate: NSDate(), options: []) {
                 patient_dob.date = dob
                 patient_dob_button.setTitle(test.mediumDateString(dob), forState: UIControlState.Normal)
             }
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -98,14 +98,15 @@ class TestDetailEditViewController: UIViewController {
         
         test_date.setDate(test.getDate("test_date") ?? NSDate(), animated: true)
         test_date_button.setTitle(test.mediumDateString(test.getDate("test_date")), forState: UIControlState.Normal)
-        test_location.selectedSegmentIndex = (test.test_location?.toInt() ?? UISegmentedControlNoSegment)
-        test_type.selectedSegmentIndex = (test.test_type?.toInt() ?? UISegmentedControlNoSegment)
+        
+        test_location.selectedSegmentIndex = (Int(test.test_location ?? "") ?? UISegmentedControlNoSegment)
+        test_type.selectedSegmentIndex = (Int(test.test_type ?? "") ?? UISegmentedControlNoSegment)
         
         patient_dob.setDate(test.getDate("patient_dob") ?? NSDate(timeIntervalSince1970: 0), animated: true)
         patient_dob_button.setTitle(test.mediumDateString(test.getDate("patient_dob")), forState: UIControlState.Normal)
         patient_age.text = test.patient_age
-        patient_gender.selectedSegmentIndex = (test.patient_gender?.toInt() ?? UISegmentedControlNoSegment)
-        patient_consent.selectedSegmentIndex = (test.patient_consent?.toInt() ?? UISegmentedControlNoSegment)
+        patient_gender.selectedSegmentIndex = (Int(test.patient_gender ?? "") ?? UISegmentedControlNoSegment)
+        patient_consent.selectedSegmentIndex = (Int(test.patient_consent ?? "") ?? UISegmentedControlNoSegment)
     }
     
     // MARK: - Save Context on Close
@@ -121,6 +122,10 @@ class TestDetailEditViewController: UIViewController {
     }
     
     func updateTest() {
+        
+        test.test_id = test.test_id?.stringByReplacingOccurrencesOfString(test.patient_id ?? "", withString: patient_id.text ?? "")
+        test.patient_id = patient_id.text
+        
         test.date_modified = Test.getStringFromDate(NSDate(), includeTime: true)
         
         test.test_date = Test.getStringFromDate(test_date.date,includeTime: true)

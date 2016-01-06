@@ -36,7 +36,7 @@ class HistoryDetailViewController: UIViewController {
         
     }
         
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
@@ -52,10 +52,10 @@ class HistoryDetailViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
                 
-        HistorySegmentedControl.selectedSegmentIndex = test.history?.toInt() ?? UISegmentedControlNoSegment
-        HistoryEarSegmentedControl.selectedSegmentIndex = test.history_ear?.toInt() ?? UISegmentedControlNoSegment
+        HistorySegmentedControl.selectedSegmentIndex = Int(test.history ?? "") ?? UISegmentedControlNoSegment
+        HistoryEarSegmentedControl.selectedSegmentIndex = Int(test.history_ear ?? "") ?? UISegmentedControlNoSegment
         HistoryTimingTextField.text = test.history_timing
-        HistoryRingingSegmentedControl.selectedSegmentIndex = test.history_ringing?.toInt() ?? UISegmentedControlNoSegment
+        HistoryRingingSegmentedControl.selectedSegmentIndex = Int(test.history_ringing ?? "") ?? UISegmentedControlNoSegment
     }
 
     // MARK: - Save Context on Close
