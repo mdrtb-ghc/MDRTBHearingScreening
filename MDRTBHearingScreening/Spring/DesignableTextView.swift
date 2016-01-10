@@ -41,22 +41,16 @@ import UIKit
             layer.cornerRadius = cornerRadius
         }
     }
-    
-    @IBInspectable public var containerInset: CGFloat = 0 {
-        didSet {
-            contentInset = UIEdgeInsetsMake(-4, -4, -4, -4)
-        }
-    }
 
     @IBInspectable public var lineHeight: CGFloat = 1.5 {
         didSet {
-            var font = UIFont(name: self.font.fontName, size: self.font.pointSize)
-            var text = self.text
+            let font = UIFont(name: self.font!.fontName, size: self.font!.pointSize)
+            let text = self.text
             
-            var paragraphStyle = NSMutableParagraphStyle()
+            let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = lineHeight
             
-            var attributedString = NSMutableAttributedString(string: text!)
+            let attributedString = NSMutableAttributedString(string: text!)
             attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
             attributedString.addAttribute(NSFontAttributeName, value: font!, range: NSMakeRange(0, attributedString.length))
             
