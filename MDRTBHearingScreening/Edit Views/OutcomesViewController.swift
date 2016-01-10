@@ -68,7 +68,6 @@ class OutcomesViewController: UIViewController {
     }
     
     func goToList() {
-        test.saveTestContext()
         if navigationController != nil {
             navigationController!.popToRootViewControllerAnimated(true)
         }
@@ -83,12 +82,11 @@ class OutcomesViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
         // update test
         updateTest()
-        //test.saveTestContext()
+        test.saveTestContext()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -149,7 +147,6 @@ class OutcomesViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         updateTest()
-        test.saveTestContext()
         if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? DetailTableViewController {
                 destinationController.test = test

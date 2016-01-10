@@ -67,15 +67,7 @@ class ImportExportViewController: UIViewController, UIDocumentInteractionControl
         
         let importBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, { () -> Void in
             if let url = self.importFileURL {
-               self.importTests(url)
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.activityindicator.stopAnimating()
-                    self.progressindicator.setProgress(1.0, animated: false)
-                    self.progresslabel.text = "Import Complete"
-                    self.sharebutton.hidden = true
-                    self.cancelbutton.titleLabel?.text = "Close"
-                    return
-                })
+                self.importTests(url)
                 return
             }
         })
@@ -117,111 +109,75 @@ class ImportExportViewController: UIViewController, UIDocumentInteractionControl
         let tempContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
         tempContext.parentContext = appDelegate.managedObjectContext
         
-        // parse file into array dictionary and create Test managed object
-        let importedString = try? NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding)
-        var importedArray = [String]()
-        
         tempContext.performBlock { () -> Void in
             
-            importedString?.enumerateLinesUsingBlock({ (line,a) -> Void in
-                importedArray.append(line)
+            // update UI
+            dispatch_async(dispatch_get_main_queue(), {
+                self.progresslabel.text = "Processing import file..."
+                self.progressindicator.setProgress(0.0, animated: true)
+                return
             })
+
             
-            if let keyString = importedArray.first {
-                let keys = keyString.componentsSeparatedByString(",")
-                for var i = 1; i < importedArray.count; i++ {
-    
-                    let line = importedArray[i]
-                    var values:[String] = []
-    
-                    if line != "" {
-                        // For a line with double quotes
-                        // we use NSScanner to perform the parsing
-                        if line.rangeOfString("\"") != nil {
-                            var textToScan:String = line
-                            var value:NSString?
-                            var textScanner:NSScanner = NSScanner(string: textToScan)
-                            while textScanner.string != "" {
-                                if (textScanner.string as NSString).substringToIndex(1) == "\"" {
-                                    textScanner.scanLocation += 1
-                                    textScanner.scanUpToString("\"", intoString: &value)
-                                    textScanner.scanLocation += 1
-                                } else {
-                                    textScanner.scanUpToString(",", intoString: &value)
-                                }
-    
-                                // Store the value into the values array
-                                values.append(value as! String)
-    
-                                // Retrieve the unscanned remainder of the string
-                                if textScanner.scanLocation < textScanner.string.characters.count {
-                                    textToScan = (textScanner.string as NSString).substringFromIndex(textScanner.scanLocation + 1)
-                                } else {
-                                    textToScan = ""
-                                }
-                                textScanner = NSScanner(string: textToScan)
-                            }
-                        } else  {
-                            values = line.componentsSeparatedByString(",")
-                        }
-                    }
+            // parse file into array dictionary and create Test managed object
+            if let importedString = try? String(contentsOfURL: url, encoding: NSUTF8StringEncoding) {
+                let importedCSV = CSwiftV(String: importedString)
                 
-                    let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: tempContext) as! Test
-                    for var j = 0; j < keys.count; j++ {
-                        // assume all imported values are String
-                        test.setValue(values[j], forKey: keys[j])
-                    }
-    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.progresslabel.text = "\(i) of \(importedArray.count-1) imported"
-                        self.progressindicator.setProgress(Float(100*i/importedArray.count-1)/100, animated: true)
-                        return
-                    })
-    
-                    if self.controllerdDismissed {
-                        print("controllerdDismissed block cancelled")
-                        return
-                    }
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.progresslabel.text = "Saving context..."
-                    self.progressindicator.setProgress(0.9, animated: true)
-                    self.cancelbutton.titleLabel?.text = "Close"
-                    return
-                })
-                
-                // save temp context up to parent
-                print("saving tempContext")
-                do {
-                    try tempContext.save()
-                } catch {
-                    print("error saving context")
-                }
-                
-                // save main context to persistant store
-                if let mainContext = appDelegate.managedObjectContext {
-                    mainContext.performBlock({ () -> Void in
-                        print("saving mainContext")
-                        do {
-                            try mainContext.save()
-                        } catch {
-                            print("error saving context")
-                        }
+                if let keyedRows = importedCSV.keyedRows {
+                    for var i = 0; i < keyedRows.count; i++ {
+                        let test = NSEntityDescription .insertNewObjectForEntityForName("Test", inManagedObjectContext: tempContext) as! Test
+                        test.setValuesForKeysWithDictionary(keyedRows[i])
+                        
+                        // update UI
                         dispatch_async(dispatch_get_main_queue(), {
-                            self.progresslabel.text = "Import Complete"
-                            self.progressindicator.setProgress(1.0, animated: true)
-                            self.activityindicator.stopAnimating()
-                            self.cancelbutton.setTitle("Close", forState: UIControlState.Normal)
+                            self.progresslabel.text = "\(i+1) of \(keyedRows.count) imported"
+                            self.progressindicator.setProgress(Float(100*i/keyedRows.count)/100, animated: true)
                             return
                         })
                         
+                        if self.controllerdDismissed {
+                            print("controllerdDismissed, block cancelled")
+                            return
+                        }
+                    }
+                    
+                    // save temp context
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.progresslabel.text = "Saving context..."
+                        self.progressindicator.setProgress(0.9, animated: true)
+                        self.cancelbutton.titleLabel?.text = "Close"
+                        return
                     })
+                    
+                    // save temp context up to parent
+                    print("saving tempContext")
+                    do {
+                        try tempContext.save()
+                    } catch {
+                        print("error saving context")
+                    }
+                    
+                    // save main context to persistant store
+                    if let mainContext = appDelegate.managedObjectContext {
+                        mainContext.performBlock({ () -> Void in
+                            print("saving mainContext")
+                            do {
+                                try mainContext.save()
+                            } catch {
+                                print("error saving context")
+                            }
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.progresslabel.text = "Import Complete"
+                                self.progressindicator.setProgress(1.0, animated: true)
+                                self.activityindicator.stopAnimating()
+                                self.cancelbutton.setTitle("Close", forState: UIControlState.Normal)
+                                return
+                            })
+                        })
+                    }
                 }
             }
         }
-        
-        
         
         // delete file from inbox
         print("deleting \(url)")

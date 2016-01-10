@@ -81,7 +81,6 @@ class HistoryDetailViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         updateTest()
-        test.saveTestContext()
         if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? BaselineDetailViewController {
                 destinationController.test = test

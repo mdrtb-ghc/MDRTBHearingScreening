@@ -142,11 +142,11 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     // MARK: NSFetchedResultsControllerDelegate
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        //tableView.beginUpdates()
+        tableView.beginUpdates()
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        //tableView.endUpdates()
+        tableView.endUpdates()
         //tableView.reloadData()
     }
     

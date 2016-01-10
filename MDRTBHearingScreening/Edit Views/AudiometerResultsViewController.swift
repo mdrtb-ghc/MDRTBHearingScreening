@@ -97,14 +97,12 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        test.saveTestContext()
         if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? AudiometerResultsViewController {
                 destinationController.test = test
                 destinationController.ear = "Left"
             }
             if let destinationController = segue.destinationViewController as? DetailTableViewController {
-                test.saveTestContext()
                 destinationController.test = test
             }
         }

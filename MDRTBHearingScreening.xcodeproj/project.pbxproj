@@ -67,6 +67,7 @@
 		B0A423BA1ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */; };
 		B0A90DD71AFF44EE00C5CB69 /* ImportExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */; };
 		B0B8DFF41AF8E6C50054DEBC /* OutcomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */; };
+		EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B93211C4043520008F858 /* CSwiftV.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -134,6 +135,7 @@
 		B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OtoscopyDetailsViewController.swift; path = "Edit Views/OtoscopyDetailsViewController.swift"; sourceTree = "<group>"; };
 		B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportViewController.swift; sourceTree = "<group>"; };
 		B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutcomesViewController.swift; path = "Edit Views/OutcomesViewController.swift"; sourceTree = "<group>"; };
+		EE7B93211C4043520008F858 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSwiftV.swift; path = CSwiftV/CSwiftV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,10 +172,10 @@
 				116181B41AC7995900091A97 /* AppDelegate.swift */,
 				B0575DA91ACAF51B006165F3 /* Test.swift */,
 				1161821E1AC804EA00091A97 /* TestsTableViewController.swift */,
-				116182201AC8056600091A97 /* DetailTableViewController.swift */,
 				B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */,
 				116181BB1AC7995900091A97 /* Main.storyboard */,
 				B03C52241ACF1A0500728F14 /* Edit Views */,
+				116182201AC8056600091A97 /* DetailTableViewController.swift */,
 				B07582121AD21994001972B5 /* FileManagerTableViewController.swift */,
 				B06DA3F21AE63E150053E8BE /* SettingsTableViewController.swift */,
 				B071FAC41AE77F64007F86FE /* SettingsDetailTableViewController.swift */,
@@ -188,6 +190,7 @@
 				116181BE1AC7995900091A97 /* Images.xcassets */,
 				116181C01AC7995900091A97 /* LaunchScreen.xib */,
 				116181B61AC7995900091A97 /* MDRTBHearingScreening.xcdatamodeld */,
+				EE7B93231C4043650008F858 /* CSwiftV */,
 				B0A1A7AE1C28D91400361172 /* Spring */,
 				116181B21AC7995900091A97 /* Supporting Files */,
 				116182221AC8059F00091A97 /* UtilityFunctions.swift */,
@@ -255,6 +258,14 @@
 				B0A1A7CC1C28D91400361172 /* UnwindSegue.swift */,
 			);
 			path = Spring;
+			sourceTree = "<group>";
+		};
+		EE7B93231C4043650008F858 /* CSwiftV */ = {
+			isa = PBXGroup;
+			children = (
+				EE7B93211C4043520008F858 /* CSwiftV.swift */,
+			);
+			name = CSwiftV;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,6 +389,7 @@
 				B0A1A7D71C28D91400361172 /* DesignableView.swift in Sources */,
 				B071FAC51AE77F64007F86FE /* SettingsDetailTableViewController.swift in Sources */,
 				B0A423B61ACFCA6E001899D8 /* BaselineDetailViewController.swift in Sources */,
+				EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */,
 				B0A1A7E81C28D91400361172 /* TransitionZoom.swift in Sources */,
 				B0A1A7CD1C28D91400361172 /* AsyncButton.swift in Sources */,
 				B0A1A7CF1C28D91400361172 /* AutoTextView.swift in Sources */,

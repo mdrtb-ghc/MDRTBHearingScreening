@@ -113,7 +113,7 @@ class TestDetailEditViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         // update test
         updateTest()
-        //test.saveTestContext()
+        test.saveTestContext()
     }
     
     override func didReceiveMemoryWarning() {
@@ -125,6 +125,17 @@ class TestDetailEditViewController: UIViewController {
         
         test.test_id = test.test_id?.stringByReplacingOccurrencesOfString(test.patient_id ?? "", withString: patient_id.text ?? "")
         test.patient_id = patient_id.text
+        // update baseline data from previous baseline test, in case patient id changed
+        test._baseline_test = nil
+        if let baselinetest = test.baseline_test {
+            test.baseline_creatinine = baselinetest.baseline_creatinine
+            test.baseline_ag_start_date = baselinetest.baseline_ag_start_date
+            test.baseline_streptomycin = baselinetest.baseline_streptomycin
+            test.baseline_capreomycin = baselinetest.baseline_capreomycin
+            test.baseline_kanamicin = baselinetest.baseline_kanamicin
+            test.baseline_amikacin = baselinetest.baseline_amikacin
+            test.baseline_ag_dose_gt_3 = baselinetest.baseline_ag_dose_gt_3
+        }
         
         test.date_modified = Test.getStringFromDate(NSDate(), includeTime: true)
         
@@ -140,7 +151,6 @@ class TestDetailEditViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         updateTest()
-        test.saveTestContext()
         if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? HistoryDetailViewController {
                 destinationController.test = test

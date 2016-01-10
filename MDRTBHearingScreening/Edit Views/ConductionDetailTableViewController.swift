@@ -103,8 +103,7 @@ class ConductionDetailTableViewController: UITableViewController, ConductionDeta
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        test.saveTestContext()
-       if (segue.identifier == "goNext") {
+        if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? ConductionDetailTableViewController {
                 destinationController.test = test
                 destinationController.ear = "Left"

@@ -25,7 +25,33 @@ class Test: NSManagedObject {
         return formatter
     }()
     
+    var _baseline_test:Test?
+    var baseline_test:Test? {
+        get {
+            if(_baseline_test == nil) {
+                if(self.patient_id != nil && self.test_date != nil) {
+                    print("Looking up Baseline test for patient id = \(self.patient_id!)")
+                    let context = self.managedObjectContext!
+                    let fetchRequest = NSFetchRequest(entityName:"Test")
+                    let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
+                    let predicate = NSPredicate(format: "patient_id == %@ && test_type == \"0\" && test_date < %@", argumentArray: [self.patient_id!, self.test_date!])
+                    fetchRequest.sortDescriptors = [sortDescriptor]
+                    fetchRequest.predicate = predicate
+                    
+                    // Execute the fetch request
+                    do {
+                        let results = try context.executeFetchRequest(fetchRequest) as! [Test]
+                        _baseline_test = results.first
+                    } catch let error as NSError {
+                        print("Fetch failed: \(error.localizedDescription)")
+                    }
+                }
+            }
+            return _baseline_test
+        }
+    }
     
+    /*
     lazy var baseline_test : Test? = {
         if(self.patient_id != nil && self.test_date != nil) {
             print("Looking up Baseline test for patient id = \(self.patient_id!)")
@@ -48,6 +74,7 @@ class Test: NSManagedObject {
         }
         return nil
     }()
+    */
    
     func getString(field: String) -> String? {
         if let value = self.valueForKey(field) as? String {
@@ -285,6 +312,7 @@ class Test: NSManagedObject {
         test.test_id = Test.getNextTestId(context, patientId: patientId)
         
         // get patient and baseline data from previous baseline test
+        test._baseline_test = nil
         if let baselinetest = test.baseline_test {
             test.patient_dob = baselinetest.patient_dob
             test.patient_age = baselinetest.patient_age

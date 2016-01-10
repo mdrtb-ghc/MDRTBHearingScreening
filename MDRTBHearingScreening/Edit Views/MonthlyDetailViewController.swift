@@ -73,8 +73,7 @@ class MonthlyDetailViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         updateTest()
-        test.saveTestContext()
-       if (segue.identifier == "goNext") {
+        if (segue.identifier == "goNext") {
             if let destinationController = segue.destinationViewController as? OtoscopyDetailsViewController {
                 destinationController.test = test
             }
