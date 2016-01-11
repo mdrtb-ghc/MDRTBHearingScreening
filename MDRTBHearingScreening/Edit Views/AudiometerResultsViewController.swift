@@ -40,7 +40,7 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: (ear == "Left") ? "Summary" : "Next", style: .Plain, target: self, action: "goNext")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
         title = "Audiometer Results - \(ear)"
         
@@ -102,7 +102,7 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
                 destinationController.test = test
                 destinationController.ear = "Left"
             }
-            if let destinationController = segue.destinationViewController as? DetailTableViewController {
+            if let destinationController = segue.destinationViewController as? HearingChartsViewController {
                 destinationController.test = test
             }
         }

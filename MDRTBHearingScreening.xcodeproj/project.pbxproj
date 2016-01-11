@@ -67,8 +67,56 @@
 		B0A423BA1ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */; };
 		B0A90DD71AFF44EE00C5CB69 /* ImportExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */; };
 		B0B8DFF41AF8E6C50054DEBC /* OutcomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */; };
+		EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */; };
+		EE74C7E11C41E68C000D19DC /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE74C7DC1C41E661000D19DC /* Charts.framework */; };
+		EE74C7E21C41E68C000D19DC /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE74C7DC1C41E661000D19DC /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B93211C4043520008F858 /* CSwiftV.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EE74C7DB1C41E661000D19DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+		EE74C7DD1C41E661000D19DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A52C5C371BAC5CA400594CDD;
+			remoteInfo = "Charts-TV";
+		};
+		EE74C7DF1C41E661000D19DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
+			remoteInfo = ChartsTests;
+		};
+		EE74C7E31C41E68C000D19DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EE74C7E51C41E68C000D19DC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EE74C7E21C41E68C000D19DC /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1144858B1AC84DE900846557 /* DetailCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +183,8 @@
 		B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OtoscopyDetailsViewController.swift; path = "Edit Views/OtoscopyDetailsViewController.swift"; sourceTree = "<group>"; };
 		B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportViewController.swift; sourceTree = "<group>"; };
 		B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutcomesViewController.swift; path = "Edit Views/OutcomesViewController.swift"; sourceTree = "<group>"; };
+		EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HearingChartsViewController.swift; path = "Edit Views/HearingChartsViewController.swift"; sourceTree = "<group>"; };
+		EE74C7D51C41E661000D19DC /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "../../Xcode Projects/Charts/Charts.xcodeproj"; sourceTree = "<group>"; };
 		EE7B93211C4043520008F858 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSwiftV.swift; path = CSwiftV/CSwiftV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE74C7E11C41E68C000D19DC /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +205,7 @@
 			children = (
 				116181B11AC7995900091A97 /* MDRTBHearingScreening */,
 				116181B01AC7995900091A97 /* Products */,
+				EE74C7D51C41E661000D19DC /* Charts.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -215,6 +267,7 @@
 				B0A423B51ACFCA6E001899D8 /* BaselineDetailViewController.swift */,
 				B0A423B71ACFD9FA001899D8 /* MonthlyDetailViewController.swift */,
 				B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */,
+				EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */,
 				B09394B71AFD08DC00AE9B5C /* AudiometerResultsViewController.swift */,
 				B0A423AF1ACF53C9001899D8 /* ConductionDetailTableViewController.swift */,
 				B0A423B11ACFA2C7001899D8 /* ConductionDetailTableViewCell.swift */,
@@ -260,6 +313,16 @@
 			path = Spring;
 			sourceTree = "<group>";
 		};
+		EE74C7D61C41E661000D19DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE74C7DC1C41E661000D19DC /* Charts.framework */,
+				EE74C7DE1C41E661000D19DC /* Charts.framework */,
+				EE74C7E01C41E661000D19DC /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		EE7B93231C4043650008F858 /* CSwiftV */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,10 +341,12 @@
 				116181AB1AC7995900091A97 /* Sources */,
 				116181AC1AC7995900091A97 /* Frameworks */,
 				116181AD1AC7995900091A97 /* Resources */,
+				EE74C7E51C41E68C000D19DC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EE74C7E41C41E68C000D19DC /* PBXTargetDependency */,
 			);
 			name = MDRTBHearingScreening;
 			productName = MRTBHearingScreening;
@@ -321,12 +386,42 @@
 			mainGroup = 116181A61AC7995900091A97;
 			productRefGroup = 116181B01AC7995900091A97 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = EE74C7D61C41E661000D19DC /* Products */;
+					ProjectRef = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				116181AE1AC7995900091A97 /* MDRTBHearingScreening */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		EE74C7DC1C41E661000D19DC /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = EE74C7DB1C41E661000D19DC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EE74C7DE1C41E661000D19DC /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = EE74C7DD1C41E661000D19DC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EE74C7E01C41E661000D19DC /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = EE74C7DF1C41E661000D19DC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		116181AD1AC7995900091A97 /* Resources */ = {
@@ -375,6 +470,7 @@
 				B0A1A7DF1C28D91400361172 /* Spring.swift in Sources */,
 				B0A1A7CE1C28D91400361172 /* AsyncImageView.swift in Sources */,
 				B0A1A7E61C28D91400361172 /* SpringView.swift in Sources */,
+				EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */,
 				B09B05691AD5F89700E9D9DC /* SaveFileViewController.swift in Sources */,
 				1144858E1AC85B3500846557 /* DatePickerViewController.swift in Sources */,
 				B0A1A7D01C28D91400361172 /* BlurView.swift in Sources */,
@@ -408,6 +504,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EE74C7E41C41E68C000D19DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Charts-iOS";
+			targetProxy = EE74C7E31C41E68C000D19DC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		116181BB1AC7995900091A97 /* Main.storyboard */ = {
@@ -519,6 +623,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MDRTBHearingScreening/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -537,6 +642,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MDRTBHearingScreening/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

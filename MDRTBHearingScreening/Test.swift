@@ -390,4 +390,23 @@ class Test: NSManagedObject {
             test.saveTestContext()
         }
     }
+    
+    class func getAllTests(context: NSManagedObjectContext, patientId: String) -> [Test]? {
+        let fr = NSFetchRequest(entityName: "Test")
+        let sd = NSSortDescriptor(key: "test_id", ascending: true)
+        fr.sortDescriptors = [sd]
+        let predicate = NSPredicate(format: "patient_id == %@",argumentArray: [patientId])
+        fr.predicate = predicate
+        
+        do {
+            if let tests = try context.executeFetchRequest(fr) as? [Test] {
+                return tests
+            } else {
+                return nil
+            }
+        } catch let error as NSError {
+            print("Unresolved error \(error), \(error.userInfo)")
+            return nil
+        }
+    }
 }
