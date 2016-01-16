@@ -251,8 +251,12 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     
     func displayHearingLossAlerts(dbDiffs:[(UILabel!, Int)]) {
         for var i = 0;i < dbDiffs.count; i++ {
+            // Display alerts based on Hearing Test protocol Guidelines
+            
+            // 20dB loss at 1 frequency
             dbDiffs[i].0.hidden = !(dbDiffs[i].1 >= 20)
             
+            // 10dB loss at 2 consecutive frequencies
             if i < dbDiffs.count-1 && dbDiffs[i].1 >= 10 && dbDiffs[i+1].1 >= 10 {
                 dbDiffs[i].0.hidden = false
             }
@@ -260,6 +264,7 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
                 dbDiffs[i].0.hidden = false
             }
             
+            // any loss at 3 consecutive frequencies
             if i < dbDiffs.count-2 && dbDiffs[i].1 > 0 && dbDiffs[i+1].1 > 0  && dbDiffs[i+2].1 > 0 {
                 dbDiffs[i].0.hidden = false
             }

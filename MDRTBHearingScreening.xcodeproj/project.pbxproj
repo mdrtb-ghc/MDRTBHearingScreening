@@ -16,7 +16,6 @@
 		116181C21AC7995900091A97 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 116181C01AC7995900091A97 /* LaunchScreen.xib */; };
 		1161821F1AC804EA00091A97 /* TestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1161821E1AC804EA00091A97 /* TestsTableViewController.swift */; };
 		116182211AC8056600091A97 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182201AC8056600091A97 /* DetailTableViewController.swift */; };
-		116182231AC8059F00091A97 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182221AC8059F00091A97 /* UtilityFunctions.swift */; };
 		B03C52211ACEF3C400728F14 /* TestDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03C52201ACEF3C400728F14 /* TestDetailView.swift */; };
 		B03C52261ACF1C6900728F14 /* PatientDetailEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03C52251ACF1C6900728F14 /* PatientDetailEditViewController.swift */; };
 		B0575DAA1ACAF51B006165F3 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0575DA91ACAF51B006165F3 /* Test.swift */; };
@@ -68,36 +67,36 @@
 		B0A90DD71AFF44EE00C5CB69 /* ImportExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */; };
 		B0B8DFF41AF8E6C50054DEBC /* OutcomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */; };
 		EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */; };
-		EE74C7E11C41E68C000D19DC /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE74C7DC1C41E661000D19DC /* Charts.framework */; };
-		EE74C7E21C41E68C000D19DC /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE74C7DC1C41E661000D19DC /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B93211C4043520008F858 /* CSwiftV.swift */; };
+		EEB75EC61C4A3515007BABDF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB75EC11C4A346A007BABDF /* Charts.framework */; };
+		EEB75EC71C4A3515007BABDF /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EEB75EC11C4A346A007BABDF /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EE74C7DB1C41E661000D19DC /* PBXContainerItemProxy */ = {
+		EEB75EC01C4A346A007BABDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			containerPortal = EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
 			remoteInfo = "Charts-iOS";
 		};
-		EE74C7DD1C41E661000D19DC /* PBXContainerItemProxy */ = {
+		EEB75EC21C4A346A007BABDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			containerPortal = EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A52C5C371BAC5CA400594CDD;
 			remoteInfo = "Charts-TV";
 		};
-		EE74C7DF1C41E661000D19DC /* PBXContainerItemProxy */ = {
+		EEB75EC41C4A346A007BABDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			containerPortal = EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
 			remoteInfo = ChartsTests;
 		};
-		EE74C7E31C41E68C000D19DC /* PBXContainerItemProxy */ = {
+		EEB75EC81C4A3515007BABDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+			containerPortal = EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
 			remoteInfo = "Charts-iOS";
@@ -111,7 +110,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EE74C7E21C41E68C000D19DC /* Charts.framework in Embed Frameworks */,
+				EEB75EC71C4A3515007BABDF /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,10 +127,8 @@
 		116181BC1AC7995900091A97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		116181BE1AC7995900091A97 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		116181C11AC7995900091A97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		116182191AC7BB7000091A97 /* MDRTBHearingScreening-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MDRTBHearingScreening-Bridging-Header.h"; sourceTree = "<group>"; };
 		1161821E1AC804EA00091A97 /* TestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsTableViewController.swift; sourceTree = "<group>"; };
 		116182201AC8056600091A97 /* DetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
-		116182221AC8059F00091A97 /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
 		B03C52201ACEF3C400728F14 /* TestDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDetailView.swift; sourceTree = "<group>"; };
 		B03C52251ACF1C6900728F14 /* PatientDetailEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatientDetailEditViewController.swift; path = "Edit Views/PatientDetailEditViewController.swift"; sourceTree = "<group>"; };
 		B0575DA91ACAF51B006165F3 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
@@ -184,8 +181,8 @@
 		B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportViewController.swift; sourceTree = "<group>"; };
 		B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutcomesViewController.swift; path = "Edit Views/OutcomesViewController.swift"; sourceTree = "<group>"; };
 		EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HearingChartsViewController.swift; path = "Edit Views/HearingChartsViewController.swift"; sourceTree = "<group>"; };
-		EE74C7D51C41E661000D19DC /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "../../Xcode Projects/Charts/Charts.xcodeproj"; sourceTree = "<group>"; };
 		EE7B93211C4043520008F858 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSwiftV.swift; path = CSwiftV/CSwiftV.swift; sourceTree = "<group>"; };
+		EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +190,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE74C7E11C41E68C000D19DC /* Charts.framework in Frameworks */,
+				EEB75EC61C4A3515007BABDF /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +202,6 @@
 			children = (
 				116181B11AC7995900091A97 /* MDRTBHearingScreening */,
 				116181B01AC7995900091A97 /* Products */,
-				EE74C7D51C41E661000D19DC /* Charts.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -242,11 +238,10 @@
 				116181BE1AC7995900091A97 /* Images.xcassets */,
 				116181C01AC7995900091A97 /* LaunchScreen.xib */,
 				116181B61AC7995900091A97 /* MDRTBHearingScreening.xcdatamodeld */,
+				EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */,
 				EE7B93231C4043650008F858 /* CSwiftV */,
 				B0A1A7AE1C28D91400361172 /* Spring */,
 				116181B21AC7995900091A97 /* Supporting Files */,
-				116182221AC8059F00091A97 /* UtilityFunctions.swift */,
-				116182191AC7BB7000091A97 /* MDRTBHearingScreening-Bridging-Header.h */,
 			);
 			path = MDRTBHearingScreening;
 			sourceTree = "<group>";
@@ -267,10 +262,10 @@
 				B0A423B51ACFCA6E001899D8 /* BaselineDetailViewController.swift */,
 				B0A423B71ACFD9FA001899D8 /* MonthlyDetailViewController.swift */,
 				B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */,
-				EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */,
 				B09394B71AFD08DC00AE9B5C /* AudiometerResultsViewController.swift */,
 				B0A423AF1ACF53C9001899D8 /* ConductionDetailTableViewController.swift */,
 				B0A423B11ACFA2C7001899D8 /* ConductionDetailTableViewCell.swift */,
+				EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */,
 				B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */,
 			);
 			name = "Edit Views";
@@ -313,22 +308,22 @@
 			path = Spring;
 			sourceTree = "<group>";
 		};
-		EE74C7D61C41E661000D19DC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EE74C7DC1C41E661000D19DC /* Charts.framework */,
-				EE74C7DE1C41E661000D19DC /* Charts.framework */,
-				EE74C7E01C41E661000D19DC /* ChartsTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		EE7B93231C4043650008F858 /* CSwiftV */ = {
 			isa = PBXGroup;
 			children = (
 				EE7B93211C4043520008F858 /* CSwiftV.swift */,
 			);
 			name = CSwiftV;
+			sourceTree = "<group>";
+		};
+		EEB75EBB1C4A3469007BABDF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EEB75EC11C4A346A007BABDF /* Charts.framework */,
+				EEB75EC31C4A346A007BABDF /* Charts.framework */,
+				EEB75EC51C4A346A007BABDF /* ChartsTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,7 +341,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				EE74C7E41C41E68C000D19DC /* PBXTargetDependency */,
+				EEB75EC91C4A3515007BABDF /* PBXTargetDependency */,
 			);
 			name = MDRTBHearingScreening;
 			productName = MRTBHearingScreening;
@@ -361,12 +356,12 @@
 			attributes = {
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Miguel Clark";
 				TargetAttributes = {
 					116181AE1AC7995900091A97 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = SNG8EJWACP;
+						DevelopmentTeam = X74G3UA3JH;
 						SystemCapabilities = {
 							com.apple.DataProtection = {
 								enabled = 1;
@@ -388,8 +383,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = EE74C7D61C41E661000D19DC /* Products */;
-					ProjectRef = EE74C7D51C41E661000D19DC /* Charts.xcodeproj */;
+					ProductGroup = EEB75EBB1C4A3469007BABDF /* Products */;
+					ProjectRef = EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -400,25 +395,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EE74C7DC1C41E661000D19DC /* Charts.framework */ = {
+		EEB75EC11C4A346A007BABDF /* Charts.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Charts.framework;
-			remoteRef = EE74C7DB1C41E661000D19DC /* PBXContainerItemProxy */;
+			remoteRef = EEB75EC01C4A346A007BABDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		EE74C7DE1C41E661000D19DC /* Charts.framework */ = {
+		EEB75EC31C4A346A007BABDF /* Charts.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Charts.framework;
-			remoteRef = EE74C7DD1C41E661000D19DC /* PBXContainerItemProxy */;
+			remoteRef = EEB75EC21C4A346A007BABDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		EE74C7E01C41E661000D19DC /* ChartsTests.xctest */ = {
+		EEB75EC51C4A346A007BABDF /* ChartsTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ChartsTests.xctest;
-			remoteRef = EE74C7DF1C41E661000D19DC /* PBXContainerItemProxy */;
+			remoteRef = EEB75EC41C4A346A007BABDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -493,7 +488,6 @@
 				B0A1A7D11C28D91400361172 /* DesignableButton.swift in Sources */,
 				B0575DAA1ACAF51B006165F3 /* Test.swift in Sources */,
 				B0A1A7D31C28D91400361172 /* DesignableLabel.swift in Sources */,
-				116182231AC8059F00091A97 /* UtilityFunctions.swift in Sources */,
 				B0A1A7E11C28D91400361172 /* SpringButton.swift in Sources */,
 				B0575DAE1ACC4427006165F3 /* ManagedSegmentedControl.swift in Sources */,
 				B0A1A7DD1C28D91400361172 /* Misc.swift in Sources */,
@@ -506,10 +500,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EE74C7E41C41E68C000D19DC /* PBXTargetDependency */ = {
+		EEB75EC91C4A3515007BABDF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Charts-iOS";
-			targetProxy = EE74C7E31C41E68C000D19DC /* PBXContainerItemProxy */;
+			targetProxy = EEB75EC81C4A3515007BABDF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -620,17 +614,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MDRTBHearingScreening/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.incapari.MDRTBHearingScreening;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ghc.MDRTBHearingScreening;
 				PRODUCT_NAME = MDRTBHearingScreening;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MDRTBHearingScreening/MDRTBHearingScreening-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -639,17 +632,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MDRTBHearingScreening/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.incapari.MDRTBHearingScreening;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ghc.MDRTBHearingScreening;
 				PRODUCT_NAME = MDRTBHearingScreening;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MDRTBHearingScreening/MDRTBHearingScreening-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

@@ -222,10 +222,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="682" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5W-p0-Fd3">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5W-p0-Fd3">
                                             <rect key="frame" x="68" y="0.0" width="614" height="64"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -552,6 +552,17 @@
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="test_date_button_tapped:" destination="rA0-r9-O18" eventType="touchUpInside" id="kaR-jV-pmU"/>
                                         </connections>
@@ -569,6 +580,17 @@
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="patient_dob_button_tapped:" destination="rA0-r9-O18" eventType="touchUpInside" id="4qp-TS-l9C"/>
                                         </connections>
@@ -603,7 +625,7 @@
                 <exit id="vGY-kW-hi2" userLabel="Exit" sceneMemberID="exit"/>
                 <swipeGestureRecognizer direction="left" id="Y0s-6c-IR1"/>
             </objects>
-            <point key="canvasLocation" x="3714" y="-1932"/>
+            <point key="canvasLocation" x="3762" y="-420"/>
         </scene>
         <!--Charts-->
         <scene sceneID="xHm-Y4-bcl">
@@ -624,7 +646,7 @@
                                         <rect key="frame" x="100" y="300" width="116" height="54"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -637,7 +659,7 @@
                                         <rect key="frame" x="100" y="300" width="116" height="54"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -646,13 +668,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="dB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5T-60-Mgr">
                                 <rect key="frame" x="20" y="284" width="21" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="dB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cT5-Wm-tVl">
                                 <rect key="frame" x="20" y="739" width="21" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -667,7 +689,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9zQ-dW-a12" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10698" y="-2014"/>
+            <point key="canvasLocation" x="10946" y="-420"/>
         </scene>
         <!--Summary-->
         <scene sceneID="90w-hG-g5J">
@@ -681,7 +703,7 @@
                             <tableViewSection headerTitle="Test Details" id="vhv-y6-856">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="test_details" rowHeight="410" id="aHA-yl-It1">
-                                        <rect key="frame" x="0.0" y="50" width="768" height="410"/>
+                                        <rect key="frame" x="0.0" y="114" width="768" height="410"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aHA-yl-It1" id="MdO-PS-LmS">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="410"/>
@@ -819,7 +841,7 @@
                             <tableViewSection headerTitle="Patient History" id="otc-1K-OEB">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="214" id="1g5-YE-SBP">
-                                        <rect key="frame" x="0.0" y="503" width="768" height="214"/>
+                                        <rect key="frame" x="0.0" y="567" width="768" height="214"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1g5-YE-SBP" id="fB6-JW-8zM">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="214"/>
@@ -884,7 +906,7 @@
                             <tableViewSection headerTitle="Baseline Treatment" id="poc-xN-8GR">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="375" id="Pc7-lS-ZvK">
-                                        <rect key="frame" x="0.0" y="760" width="768" height="375"/>
+                                        <rect key="frame" x="0.0" y="824" width="768" height="375"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pc7-lS-ZvK" id="COD-74-QDT">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="375"/>
@@ -991,7 +1013,7 @@
                             <tableViewSection headerTitle="Current Treatment" id="tda-at-EHg">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="256" id="2n9-qf-1kh">
-                                        <rect key="frame" x="0.0" y="1178" width="768" height="256"/>
+                                        <rect key="frame" x="0.0" y="1242" width="768" height="256"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2n9-qf-1kh" id="7Mt-cl-1VT">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="256"/>
@@ -1068,7 +1090,7 @@
                             <tableViewSection headerTitle="Otoscopy Results" id="rgC-sx-uW3">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="169" id="rOj-46-4Ac">
-                                        <rect key="frame" x="0.0" y="1477" width="768" height="169"/>
+                                        <rect key="frame" x="0.0" y="1541" width="768" height="169"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rOj-46-4Ac" id="YjU-t6-eeG">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="169"/>
@@ -1187,7 +1209,7 @@
                             <tableViewSection headerTitle="Audiometer Results - Right" id="rbR-LW-k6e">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="183" id="MJ9-Hs-4GN">
-                                        <rect key="frame" x="0.0" y="1689" width="768" height="183"/>
+                                        <rect key="frame" x="0.0" y="1753" width="768" height="183"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MJ9-Hs-4GN" id="0aG-wq-BLp">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="183"/>
@@ -1383,7 +1405,7 @@
                             <tableViewSection headerTitle="Audiometer Results - Left" id="Uac-ay-nam">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="183" id="4Yy-zs-nOb">
-                                        <rect key="frame" x="0.0" y="1915" width="768" height="183"/>
+                                        <rect key="frame" x="0.0" y="1979" width="768" height="183"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Yy-zs-nOb" id="JD1-KO-WmQ">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="183"/>
@@ -1586,7 +1608,7 @@
                             <tableViewSection headerTitle="Outcomes" id="KnR-8i-vkf">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="200" id="TZy-CX-GaJ">
-                                        <rect key="frame" x="0.0" y="2141" width="768" height="200"/>
+                                        <rect key="frame" x="0.0" y="2205" width="768" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TZy-CX-GaJ" id="VJA-gR-xY1">
                                             <rect key="frame" x="0.0" y="0.0" width="682" height="200"/>
@@ -1732,7 +1754,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htt-Ph-YCw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11607" y="-420"/>
+            <point key="canvasLocation" x="11967" y="-420"/>
         </scene>
         <!--Patient Detais-->
         <scene sceneID="YBI-YM-77x">
@@ -2163,6 +2185,17 @@
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="baseline_ag_date_button_tapped:" destination="vnt-OX-mQU" eventType="touchUpInside" id="tIv-RJ-AyJ"/>
                                         </connections>
@@ -2805,7 +2838,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbU-Ah-XRI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DMm-xB-ERo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="12573" y="-420"/>
+            <point key="canvasLocation" x="13029" y="-420"/>
         </scene>
         <!--Audiometer Results View Controller-->
         <scene sceneID="SAN-hM-cg0">
@@ -3074,16 +3107,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VwS-Sp-fO4"/>
-        <segue reference="PDM-hL-KXG"/>
-        <segue reference="yHA-Ez-9eR"/>
-        <segue reference="Je1-zP-orG"/>
-        <segue reference="UtP-Ap-Xfw"/>
-        <segue reference="eEc-PN-FEa"/>
-        <segue reference="m3Q-Ou-bYQ"/>
-        <segue reference="nxj-QT-6Fb"/>
         <segue reference="QDJ-al-ubu"/>
-        <segue reference="44p-tx-fNP"/>
+        <segue reference="YYC-tN-amf"/>
         <segue reference="8ov-FS-3im"/>
+        <segue reference="V4Q-fv-GgN"/>
+        <segue reference="PDM-hL-KXG"/>
+        <segue reference="m3Q-Ou-bYQ"/>
+        <segue reference="UtP-Ap-Xfw"/>
+        <segue reference="tgT-Jd-MkY"/>
+        <segue reference="nxj-QT-6Fb"/>
+        <segue reference="VwS-Sp-fO4"/>
+        <segue reference="T86-vG-p0O"/>
     </inferredMetricsTieBreakers>
 </document>

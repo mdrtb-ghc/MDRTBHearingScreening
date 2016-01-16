@@ -17,7 +17,14 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     // MARK: UISearchDisplayDelegate
     
+    func searchDisplayController(controller: UISearchController, willShowSearchResultsTableView searchTableView: UITableView) {
+        searchTableView.rowHeight = self.tableView.rowHeight
+    }
+    
+    
     func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        
+        
         
         // create fetchrequest
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -88,6 +95,8 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
 //            
 //            presentViewController(controller, animated: true, completion: nil)
 //        }
+        
+        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,6 +107,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         return 0
     }
     
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("TestTableCell")
         if cell == nil {
@@ -107,10 +117,19 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         if let test = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
             let number = test.test_id ?? ""
             let date = test.mediumDateString(test.getDate("test_date"))
-            let type = test.getType()
-            let title = "#\(number) | \(date) | \(type)"
-            cell?.textLabel?.text = title
             
+            var nextVisitDate = ""
+            let components = NSDateComponents()
+            components.month = 1
+            let calendar = NSCalendar.currentCalendar()
+            if let testDate = test.getDate("test_date") {
+                nextVisitDate = test.mediumDateString(calendar.dateByAddingComponents(components, toDate: testDate, options:.MatchFirst))
+            }
+            
+            let type = test.getType()
+            let text = "#\(number) | \(date) | \(type) | Next Visit : \(nextVisitDate)"
+            cell?.textLabel?.text = text
+            cell?.textLabel?.font = UIFont.systemFontOfSize(22.0);
         }
         return cell!
     }
@@ -120,20 +139,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         if let selectedTest = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
             
             performSegueWithIdentifier("gotoPage1", sender: selectedTest)
-            
-            
-            /*
-            
-            // create new context for the single object selected
-            var selectedObjectContext = NSManagedObjectContext()
-            selectedObjectContext.persistentStoreCoordinator = selectedObject.managedObjectContext?.persistentStoreCoordinator
-            
-            // get test from new context
-            if let selectedTest = selectedObjectContext.existingObjectWithID(selectedObject.objectID,error:nil) as? Test {
-                performSegueWithIdentifier("gotoPage1", sender: selectedTest)
-            }
 
-            */
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

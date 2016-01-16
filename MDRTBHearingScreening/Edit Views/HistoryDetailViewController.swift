@@ -56,6 +56,21 @@ class HistoryDetailViewController: UIViewController {
         HistoryEarSegmentedControl.selectedSegmentIndex = Int(test.history_ear ?? "") ?? UISegmentedControlNoSegment
         HistoryTimingTextField.text = test.history_timing
         HistoryRingingSegmentedControl.selectedSegmentIndex = Int(test.history_ringing ?? "") ?? UISegmentedControlNoSegment
+        
+        if(HistorySegmentedControl.selectedSegmentIndex > 0) {
+            // if yes (> 0), then enable other controls
+            HistoryEarSegmentedControl.enabled = true
+            HistoryRingingSegmentedControl.enabled = true
+            HistoryTimingTextField.enabled = true
+        } else {
+            // else disable others and set values to nil
+            HistoryEarSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
+            HistoryEarSegmentedControl.enabled = false
+            HistoryRingingSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
+            HistoryRingingSegmentedControl.enabled = false
+            HistoryTimingTextField.text = nil
+            HistoryTimingTextField.enabled = false
+        }
     }
 
     // MARK: - Save Context on Close
