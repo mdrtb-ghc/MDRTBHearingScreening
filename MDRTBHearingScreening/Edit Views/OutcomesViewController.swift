@@ -38,10 +38,17 @@ class OutcomesViewController: UIViewController {
         popover_controller.presentPopoverFromRect(CGRect(x: test_visitnext_button.frame.width/2, y: 0, width: 0, height: 0), inView: test_visitnext_button, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
     }
     func test_visitnext_changed() {
+        // when date picker is changed, update button text and field on Test object
         let df = NSDateFormatter()
         df.dateFormat = "EEE, MMM d y"
-        test_visitnext_button.setTitle(df.stringFromDate(test_visitnext.date), forState: UIControlState.Normal)
+        test_visitnext_button.setTitle(df.stringFromDate(test_visitnext.date), forState: .Normal)
         test.test_visitnext = Test.getStringFromDate(test_visitnext.date, includeTime: false)
+    }
+    
+    @IBAction func clearDate(sender: UIButton) {
+        // clear next visit date on Test object and set button text to prompt
+        test_visitnext_button.setTitle("Tap to select date", forState: .Normal)
+        test.test_visitnext = nil
     }
     
     @IBAction func outcome_hearingloss_changed(sender: UISegmentedControl) {
@@ -92,13 +99,14 @@ class OutcomesViewController: UIViewController {
             components.weekOfYear = followUpWeeks ?? 0
             if let testdate = test.getDate("test_date") {
                 if let nextdate = calendar.dateByAddingComponents(components, toDate: testdate, options:.MatchFirst) {
+                    // update datepicker to default followup date, then update button text and Test object fields
                     test_visitnext.date = nextdate
                     test_visitnext_changed()
                 }
             }
         } else {
-            // else clear next visit date
-            test_visitnext_button.setTitle("Tap to select date", forState: UIControlState.Normal)
+            // clear next visit date on Test object and set button text to prompt
+            test_visitnext_button.setTitle("Tap to select date", forState: .Normal)
             test.test_visitnext = nil
         }
 
@@ -184,8 +192,10 @@ class OutcomesViewController: UIViewController {
             outcome_comments.text = test.outcome_comments ?? ""
             
             if let date = test.getDate("test_visitnext") {
+                let df = NSDateFormatter()
+                df.dateFormat = "EEE, MMM d y"
                 test_visitnext.date = date
-                test_visitnext_changed()
+                test_visitnext_button.setTitle(df.stringFromDate(date), forState: .Normal)
             }
             
         }
@@ -217,7 +227,6 @@ class OutcomesViewController: UIViewController {
             test.outcome_plan = ""
         }
         test.outcome_comments = outcome_comments.text
-        test.test_visitnext = Test.getStringFromDate(test_visitnext.date, includeTime: false)
     }
     
     // MARK: - Navigation
