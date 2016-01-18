@@ -48,7 +48,7 @@ class HistoryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Patient History"
+        title = "\(test.test_id ?? "") - Patient History"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
                 

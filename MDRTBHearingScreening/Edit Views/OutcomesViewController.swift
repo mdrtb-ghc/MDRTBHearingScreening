@@ -167,7 +167,7 @@ class OutcomesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Outcomes"
+        title = "\(test.test_id ?? "") - Outcomes"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Finish", style: .Plain, target: self, action: "goToList")
         

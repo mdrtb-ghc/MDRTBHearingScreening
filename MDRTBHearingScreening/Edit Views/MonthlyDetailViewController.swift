@@ -32,8 +32,8 @@ class MonthlyDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Current Treatment"
-        
+        title = "\(test.test_id ?? "") - Current"
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
         if let agstartdate = test.getDate("baseline_ag_start_date") {

@@ -42,8 +42,8 @@ class AudiometerResultsViewController: UIViewController, UITableViewDelegate, UI
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
-        title = "Audiometer Results - \(ear)"
-        
+        title = "\(test.test_id ?? "") - Audiometer - \(ear)"
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         

@@ -89,7 +89,7 @@ class TestDetailEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Test Details"
+        title = "\(test.test_id ?? "") - Details"
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         

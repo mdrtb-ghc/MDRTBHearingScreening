@@ -54,8 +54,8 @@ class BaselineDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Baseline Treatment"
-        
+        title = "\(test.test_id ?? "") - Baseline"
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
         baseline_creatinine.text = test.baseline_creatinine

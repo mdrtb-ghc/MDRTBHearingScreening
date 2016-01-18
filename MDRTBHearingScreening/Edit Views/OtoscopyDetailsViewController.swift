@@ -39,7 +39,7 @@ class OtoscopyDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Otoscopy Results"
+        title = "\(test.test_id ?? "") - Otoscopy"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         

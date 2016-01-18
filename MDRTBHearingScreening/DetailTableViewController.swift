@@ -285,7 +285,8 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Results Summary"
+        title = "\(test.test_id ?? "") - Summary"
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Outcomes", style: .Plain, target: self, action: "goNext")
         
         configureView()
