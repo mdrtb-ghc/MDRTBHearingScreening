@@ -74,6 +74,7 @@ class BaselineDetailViewController: UIViewController {
             baseline_creatinine.borderWidth = type == "0" ? 1 : 0
             
             baseline_ag_date_button.enabled = type == "0"
+            baseline_ag_date_button.borderWidth = (type == "0") ? 1 : 0
             
             //baseline_ag_start_date.hidden = type != "0"
             //baseline_ag_start_date_readonly.hidden = type == "0"

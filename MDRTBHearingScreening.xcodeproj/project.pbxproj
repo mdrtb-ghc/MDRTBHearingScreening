@@ -66,6 +66,8 @@
 		B0A423BA1ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */; };
 		B0A90DD71AFF44EE00C5CB69 /* ImportExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */; };
 		B0B8DFF41AF8E6C50054DEBC /* OutcomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */; };
+		EE4F9D021C4A78A3003506E1 /* FollowUpsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F9D001C4A78A3003506E1 /* FollowUpsTableViewController.swift */; };
+		EE4F9D071C4BE87D003506E1 /* TestsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F9D061C4BE87D003506E1 /* TestsTableViewCell.swift */; };
 		EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */; };
 		EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B93211C4043520008F858 /* CSwiftV.swift */; };
 		EEB75EC61C4A3515007BABDF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB75EC11C4A346A007BABDF /* Charts.framework */; };
@@ -180,6 +182,8 @@
 		B0A423B91ACFDA0B001899D8 /* OtoscopyDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OtoscopyDetailsViewController.swift; path = "Edit Views/OtoscopyDetailsViewController.swift"; sourceTree = "<group>"; };
 		B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportViewController.swift; sourceTree = "<group>"; };
 		B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutcomesViewController.swift; path = "Edit Views/OutcomesViewController.swift"; sourceTree = "<group>"; };
+		EE4F9D001C4A78A3003506E1 /* FollowUpsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowUpsTableViewController.swift; sourceTree = "<group>"; };
+		EE4F9D061C4BE87D003506E1 /* TestsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsTableViewCell.swift; sourceTree = "<group>"; };
 		EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HearingChartsViewController.swift; path = "Edit Views/HearingChartsViewController.swift"; sourceTree = "<group>"; };
 		EE7B93211C4043520008F858 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSwiftV.swift; path = CSwiftV/CSwiftV.swift; sourceTree = "<group>"; };
 		EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
@@ -220,6 +224,8 @@
 				116181B41AC7995900091A97 /* AppDelegate.swift */,
 				B0575DA91ACAF51B006165F3 /* Test.swift */,
 				1161821E1AC804EA00091A97 /* TestsTableViewController.swift */,
+				EE4F9D061C4BE87D003506E1 /* TestsTableViewCell.swift */,
+				EE4F9D001C4A78A3003506E1 /* FollowUpsTableViewController.swift */,
 				B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */,
 				116181BB1AC7995900091A97 /* Main.storyboard */,
 				B03C52241ACF1A0500728F14 /* Edit Views */,
@@ -466,6 +472,7 @@
 				B0A1A7CE1C28D91400361172 /* AsyncImageView.swift in Sources */,
 				B0A1A7E61C28D91400361172 /* SpringView.swift in Sources */,
 				EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */,
+				EE4F9D021C4A78A3003506E1 /* FollowUpsTableViewController.swift in Sources */,
 				B09B05691AD5F89700E9D9DC /* SaveFileViewController.swift in Sources */,
 				1144858E1AC85B3500846557 /* DatePickerViewController.swift in Sources */,
 				B0A1A7D01C28D91400361172 /* BlurView.swift in Sources */,
@@ -481,6 +488,7 @@
 				B071FAC51AE77F64007F86FE /* SettingsDetailTableViewController.swift in Sources */,
 				B0A423B61ACFCA6E001899D8 /* BaselineDetailViewController.swift in Sources */,
 				EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */,
+				EE4F9D071C4BE87D003506E1 /* TestsTableViewCell.swift in Sources */,
 				B0A1A7E81C28D91400361172 /* TransitionZoom.swift in Sources */,
 				B0A1A7CD1C28D91400361172 /* AsyncButton.swift in Sources */,
 				B0A1A7CF1C28D91400361172 /* AutoTextView.swift in Sources */,

@@ -37,9 +37,13 @@ class MonthlyDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .Plain, target: self, action: "goNext")
         
         if let agstartdate = test.getDate("baseline_ag_start_date") {
-            let components = NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: agstartdate, toDate: NSDate(), options: [])
-            let months = components.month
-            months_start_treatment.text = "\(months)"
+            if let testdate = test.getDate("test_date") {
+                let components = NSCalendar.currentCalendar().components([.Month, .WeekOfYear], fromDate: agstartdate, toDate: testdate, options: [.MatchNextTimePreservingSmallerUnits])
+                
+                let months = Float(components.month) + Float(components.weekOfYear)/4
+                
+                months_start_treatment.text = "\(months)"
+            }
         }
         
         monthly_ag_type.selectedSegmentIndex = Int(test.monthly_ag_type ?? "") ?? UISegmentedControlNoSegment

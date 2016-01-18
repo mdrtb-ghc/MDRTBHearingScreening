@@ -9,60 +9,36 @@
 import UIKit
 import CoreData
 
-class TestsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate {
+class TestsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate {
     
     // Search by MRN implementation
+    var searchController: UISearchController!
     
-    var searchResults : [Test]?
-    
-    // MARK: UISearchDisplayDelegate
-    
-    func searchDisplayController(controller: UISearchController, willShowSearchResultsTableView searchTableView: UITableView) {
-        searchTableView.rowHeight = self.tableView.rowHeight
-    }
-    
-    
-    func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        
-        
-        
-        // create fetchrequest
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let context = appDelegate.managedObjectContext!
-        let fr = NSFetchRequest(entityName: "Test")
-        let predicate = NSPredicate(format: "patient_id contains %@", argumentArray: [searchString])
-        fr.predicate = predicate
-        let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
-        fr.sortDescriptors = [sortDescriptor]
-        
-        if let results = (try? context.executeFetchRequest(fr)) as? [Test] {
-            searchResults = results
-        }
-        return true
-    }
-    
-    
-    var _fetchedResultsController: NSFetchedResultsController? = nil
-    var fetchedResultsController: NSFetchedResultsController! {
-        if(_fetchedResultsController != nil) {
-            return _fetchedResultsController;
-        }
-        
+    var fetchedResultsController: NSFetchedResultsController!
+    func initializeFetchedResultsController(searchString: String? = nil) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest(entityName:"Test")
         let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil);
-        frc.delegate = self;
-        _fetchedResultsController = frc;
-        return _fetchedResultsController;
+        if searchString != nil && searchString != "" {
+            let predicate = NSPredicate(format: "patient_id contains %@", argumentArray: [searchString!])
+            fetchRequest.predicate = predicate
+        }
+        
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        self.fetchedResultsController.delegate = self
+        
+        do {
+            try self.fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         
         NSNotificationCenter.defaultCenter().addObserverForName("openURL", object: nil, queue: nil) { (notification: NSNotification) -> Void in
             print(notification)
@@ -73,75 +49,87 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             })
         }
         
-        
-        
-        do {
-            try fetchedResultsController.performFetch()
-            if let tests = fetchedResultsController.fetchedObjects {
-                title = "Hearing Tests (\(tests.count) total)"
-            }
-        } catch {
-            print("Error fetching data");
-        }
-
-        
-
     }
     
     
     
     override func viewDidLoad() {
-//        if let controller = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("ImportExportViewController") as? ImportExportViewController {
-//            
-//            presentViewController(controller, animated: true, completion: nil)
-//        }
+        initializeFetchedResultsController()
         
+        // update count
+        if let tests = fetchedResultsController.fetchedObjects {
+            title = "Hearing Tests (\(tests.count) total)"
+        }
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.searchBar.showsScopeBar = false
+        searchController.searchBar.placeholder = "Search by MRN..."
+        searchController.searchBar.keyboardType = .NumbersAndPunctuation
+        searchController.searchBar.sizeToFit()
+        
+        
+        tableView.tableHeaderView = searchController.searchBar
+        
+        definesPresentationContext = true
         
     }
     
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if let sections = self.fetchedResultsController.sections {
+            return sections.count
+        }
+        return 1
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let objects = (tableView == self.tableView) ? fetchedResultsController.fetchedObjects : searchResults
-        if objects != nil {
-            return objects!.count
+        if let sections = self.fetchedResultsController.sections {
+            let sectionInfo = sections[section]
+            return sectionInfo.numberOfObjects
         }
         return 0
     }
     
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        initializeFetchedResultsController(searchController.searchBar.text)
+        tableView.reloadData()
+    }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("TestTableCell")
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "TestTableCell")
+        let cell = tableView.dequeueReusableCellWithIdentifier("TestTableCell", forIndexPath: indexPath) as! TestsTableViewCell
+        
+        let test = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Test
+        let number = test.test_id ?? ""
+        let date = test.mediumDateString(test.getDate("test_date"))
+        let type = test.getType()
+        
+        var nextVisitDate = "Unscheduled"
+        if(test.outcome_plan == "5") {
+            nextVisitDate = "Deceased"
+        } else if(test.test_visitnext != nil) {
+            if let date = test.getDate("test_visitnext") {
+                let df = NSDateFormatter()
+                df.dateFormat = "EEE, MMM d y"
+                nextVisitDate = df.stringFromDate(date)
+            }
         }
         
-        if let test = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
-            let number = test.test_id ?? ""
-            let date = test.mediumDateString(test.getDate("test_date"))
-            
-            var nextVisitDate = ""
-            let components = NSDateComponents()
-            components.month = 1
-            let calendar = NSCalendar.currentCalendar()
-            if let testDate = test.getDate("test_date") {
-                nextVisitDate = test.mediumDateString(calendar.dateByAddingComponents(components, toDate: testDate, options:.MatchFirst))
-            }
-            
-            let type = test.getType()
-            let text = "#\(number) | \(date) | \(type) | Next Visit : \(nextVisitDate)"
-            cell?.textLabel?.text = text
-            cell?.textLabel?.font = UIFont.systemFontOfSize(22.0);
-        }
-        return cell!
+        cell.flag.hidden = test.outcome_hearingloss != "1"
+        cell.flag.text = (test.outcome_hearingloss_ag == "1") ? "AG" : ""
+        cell.test_id.text = "#\(number)"
+        cell.detail.text = "\(date) | \(type) | Next Visit : \(nextVisitDate)"
+        
+        return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        if let selectedTest = ((tableView == self.tableView) ? fetchedResultsController.objectAtIndexPath(indexPath) : searchResults![indexPath.row]) as? Test {
-            
+        if let selectedTest = fetchedResultsController.objectAtIndexPath(indexPath) as? Test {
             performSegueWithIdentifier("gotoPage1", sender: selectedTest)
-
         }
-        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
@@ -151,29 +139,24 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         tableView.beginUpdates()
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        tableView.endUpdates()
-        //tableView.reloadData()
-    }
-    
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
         if type.rawValue > 0 {
-        
+            
             switch(type) {
-                case .Insert :
-                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
-                    break;
-                case .Update :
-                    tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-                    break;
-                case .Delete :
-                    tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-                    break;
-                case .Move :
-                    tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
-                    break;
+            case .Insert :
+                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+                break;
+            case .Update :
+                tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+                break;
+            case .Delete :
+                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+                break;
+            case .Move :
+                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+                break;
             }
             
             // update count
@@ -183,6 +166,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.endUpdates()
+    }
     
     @IBAction func touchAddNewTest(sender: UIBarButtonItem) {
         
@@ -243,6 +229,13 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    @IBAction func followUps(sender: UIBarButtonItem) {
+        let followUpsController = FollowUpsTableViewController(style: .Grouped)
+        let navController = UINavigationController(rootViewController: followUpsController)
+        navController.modalPresentationStyle = .PageSheet
+        navController.modalTransitionStyle = .CoverVertical
+        presentViewController(navController, animated: true, completion: nil)        
+    }
     
     // MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

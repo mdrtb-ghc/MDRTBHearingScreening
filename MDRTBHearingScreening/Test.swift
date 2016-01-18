@@ -12,7 +12,7 @@ import CoreData
 
 @objc(Test)
 class Test: NSManagedObject {
-
+    
     // get string equivalents from propeties file
     lazy var customAppProperties : NSDictionary = {
         let customPlistUrl = NSBundle.mainBundle().URLForResource("MDRTBHearingScreening", withExtension: "plist")!
@@ -234,6 +234,7 @@ class Test: NSManagedObject {
     @NSManaged var test_date: String?
     @NSManaged var test_location: String?
     @NSManaged var test_type: String?
+    @NSManaged var test_visitnext: String?
     
     // Patient Details
     @NSManaged var patient_id: String?
@@ -300,6 +301,23 @@ class Test: NSManagedObject {
     @NSManaged var outcome_plan: String?
     @NSManaged var outcome_comments: String?
     
+    enum OutcomeHearingLoss {
+        case No
+        case Yes
+    }
+    enum OutcomeHearingLossAG {
+        case No
+        case Yes
+    }
+    enum OutcomePlan {
+        case Other
+        case StopDose
+        case ChangeDose
+        case FollowUp2Weeks
+        case FollowUp4Weeks
+        case Deceased
+    }
+
 
     class func newTest(context : NSManagedObjectContext, patientId: String) -> Test {
         let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: context) as! Test

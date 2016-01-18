@@ -22,6 +22,28 @@ class OutcomesViewController: UIViewController {
     @IBOutlet weak var outcome_plan_0 : UISwitch!
     @IBOutlet weak var outcome_comments : UITextView!
     
+    var test_visitnext = UIDatePicker()
+    @IBOutlet weak var test_visitnext_button: DesignableButton!
+    @IBAction func test_visitnext_button_tapped(sender: DesignableButton) {
+        test_visitnext.datePickerMode = UIDatePickerMode.Date
+        test_visitnext.addTarget(self, action: "test_visitnext_changed", forControlEvents: UIControlEvents.ValueChanged)
+        
+        let picker_view = UIView()
+        let picker_controller = UIViewController()
+        picker_view.addSubview(test_visitnext)
+        picker_controller.view = picker_view
+        
+        let popover_controller = UIPopoverController(contentViewController: picker_controller)
+        popover_controller.setPopoverContentSize(CGSize(width: 320, height: 216), animated: true)
+        popover_controller.presentPopoverFromRect(CGRect(x: test_visitnext_button.frame.width/2, y: 0, width: 0, height: 0), inView: test_visitnext_button, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
+    }
+    func test_visitnext_changed() {
+        let df = NSDateFormatter()
+        df.dateFormat = "EEE, MMM d y"
+        test_visitnext_button.setTitle(df.stringFromDate(test_visitnext.date), forState: UIControlState.Normal)
+        test.test_visitnext = Test.getStringFromDate(test_visitnext.date, includeTime: false)
+    }
+    
     @IBAction func outcome_hearingloss_changed(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             // if NO then force outcome_hearingloss_ag to be NO also and disabled
@@ -41,6 +63,46 @@ class OutcomesViewController: UIViewController {
             outcome_plan_0.on = false
             sender.on = true
         }
+        
+        var followUpWeeks: Int?
+        if outcome_plan_1.on {
+            test.outcome_plan = "1"
+            followUpWeeks = 2
+        } else if outcome_plan_2.on {
+            test.outcome_plan = "2"
+            followUpWeeks = 2
+        } else if outcome_plan_3.on {
+            test.outcome_plan = "3"
+            followUpWeeks = 2
+        } else if outcome_plan_4.on {
+            test.outcome_plan = "4"
+            followUpWeeks = 4
+        } else if outcome_plan_5.on {
+            test.outcome_plan = "5"
+        } else if outcome_plan_0.on {
+            test.outcome_plan = "0"
+            followUpWeeks = 4
+        } else {
+            test.outcome_plan = ""
+        }
+        
+        if followUpWeeks != nil {
+            let calendar = NSCalendar.currentCalendar()
+            let components = NSDateComponents()
+            components.weekOfYear = followUpWeeks ?? 0
+            if let testdate = test.getDate("test_date") {
+                if let nextdate = calendar.dateByAddingComponents(components, toDate: testdate, options:.MatchFirst) {
+                    test_visitnext.date = nextdate
+                    test_visitnext_changed()
+                }
+            }
+        } else {
+            // else clear next visit date
+            test_visitnext_button.setTitle("Tap to select date", forState: UIControlState.Normal)
+            test.test_visitnext = nil
+        }
+
+    
     }
     
     func animateViewForKeyboard(up: Bool,userInfo: [NSObject:AnyObject]?) {
@@ -104,7 +166,15 @@ class OutcomesViewController: UIViewController {
         // Do any additional setup after loading the view.
         if test != nil {
             outcome_hearingloss.selectedSegmentIndex = Int(test.outcome_hearingloss ?? "") ?? UISegmentedControlNoSegment
-            outcome_hearingloss_ag.selectedSegmentIndex = Int(test.outcome_hearingloss_ag ?? "") ?? UISegmentedControlNoSegment
+            
+            if outcome_hearingloss.selectedSegmentIndex == 0 {
+                // if NO then force outcome_hearingloss_ag to be NO also and disabled
+                outcome_hearingloss_ag.selectedSegmentIndex = 0
+                outcome_hearingloss_ag.enabled = false
+            } else {
+                outcome_hearingloss_ag.selectedSegmentIndex = Int(test.outcome_hearingloss_ag ?? "") ?? UISegmentedControlNoSegment
+            }
+            
             outcome_plan_1.on = test.outcome_plan == "1"
             outcome_plan_2.on = test.outcome_plan == "2"
             outcome_plan_3.on = test.outcome_plan == "3"
@@ -112,6 +182,12 @@ class OutcomesViewController: UIViewController {
             outcome_plan_5.on = test.outcome_plan == "5"
             outcome_plan_0.on = test.outcome_plan == "0"
             outcome_comments.text = test.outcome_comments ?? ""
+            
+            if let date = test.getDate("test_visitnext") {
+                test_visitnext.date = date
+                test_visitnext_changed()
+            }
+            
         }
     }
     
@@ -141,6 +217,7 @@ class OutcomesViewController: UIViewController {
             test.outcome_plan = ""
         }
         test.outcome_comments = outcome_comments.text
+        test.test_visitnext = Test.getStringFromDate(test_visitnext.date, includeTime: false)
     }
     
     // MARK: - Navigation
