@@ -66,7 +66,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         searchController.searchBar.delegate = self
         
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.showsScopeBar = false
         searchController.searchBar.placeholder = "Search by MRN..."
         searchController.searchBar.keyboardType = .NumbersAndPunctuation
@@ -97,6 +97,10 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         initializeFetchedResultsController(searchController.searchBar.text)
         tableView.reloadData()
+        // update count
+        if let tests = fetchedResultsController.fetchedObjects {
+            title = "Hearing Tests (\(tests.count) total)"
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
