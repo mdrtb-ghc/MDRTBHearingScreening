@@ -226,7 +226,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Jan 17, 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30r-zF-aR8" customClass="DesignableLabel" customModule="MDRTBHearingScreening" customModuleProvider="target">
-                                            <rect key="frame" x="204" y="18" width="454" height="27"/>
+                                            <rect key="frame" x="204" y="18" width="478" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1756,7 +1756,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htt-Ph-YCw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11967" y="-420"/>
+            <point key="canvasLocation" x="11999" y="-410"/>
         </scene>
         <!--Patient Detais-->
         <scene sceneID="YBI-YM-77x">
@@ -3146,16 +3146,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VwS-Sp-fO4"/>
-        <segue reference="m3Q-Ou-bYQ"/>
         <segue reference="YYC-tN-amf"/>
         <segue reference="8ov-FS-3im"/>
         <segue reference="V4Q-fv-GgN"/>
         <segue reference="PDM-hL-KXG"/>
-        <segue reference="nxj-QT-6Fb"/>
-        <segue reference="UtP-Ap-Xfw"/>
+        <segue reference="QDJ-al-ubu"/>
+        <segue reference="m3Q-Ou-bYQ"/>
         <segue reference="tgT-Jd-MkY"/>
-        <segue reference="T86-vG-p0O"/>
-        <segue reference="P84-QG-z4z"/>
+        <segue reference="nxj-QT-6Fb"/>
+        <segue reference="Je1-zP-orG"/>
+        <segue reference="UtP-Ap-Xfw"/>
+        <segue reference="VwS-Sp-fO4"/>
     </inferredMetricsTieBreakers>
 </document>

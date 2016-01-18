@@ -12,12 +12,9 @@ import CoreData
 class FollowUpsTableViewController: UITableViewController {
     
     var fetchedResultsController: NSFetchedResultsController! = nil
-    var groupedData: Dictionary<NSDate,[String]>? = [
-        NSDate(timeIntervalSinceNow:-2*60*60*24):["1","2","3","4","5"],
-        NSDate(timeIntervalSinceNow:-1*60*60*24):["1","2","3","4","5"],
-        NSDate(timeIntervalSinceNow:0*60*60*24):["1","2","3","4","5"],
-        NSDate(timeIntervalSinceNow:1*60*60*24):["1","2","3","4","5"],
-        NSDate(timeIntervalSinceNow:2*60*60*24):["1","2","3","4","5"]]
+    // table datasource, grouped by date
+    var groupedTests = [String:[Test]]()
+    var sections = [String]()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,34 +26,45 @@ class FollowUpsTableViewController: UITableViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    // table datasource, grouped by date
-    var groupedTests : [String:[Test]?]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("closeModal"))
         
-        self.title = "Follow Ups"
+        self.title = "Follow Up Calendar"
+        
+        tableView.allowsSelection = false
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context = appDelegate.managedObjectContext!
         let fr = NSFetchRequest(entityName: "Test")
-        
-        var dateString = "2016-01-01"
-        if let date = NSCalendar.currentCalendar().dateByAddingUnit(.Month, value: -1, toDate: NSDate(), options: []) {
-            dateString = Test.getStringFromDate(date, includeTime: false)
-        }
-        let predicate = NSPredicate(format: "test_visitnext >= %@", argumentArray: [dateString])
+        let predicate = NSPredicate(format: "test_visitnext != nil && test_visitnext != \"\"")
         fr.predicate = predicate
-        let sortDescriptor1 = NSSortDescriptor(key: "test_visitnext", ascending: true)
-        let sortDescriptor2 = NSSortDescriptor(key: "patient_id", ascending: true)
+        let sortDescriptor1 = NSSortDescriptor(key: "patient_id", ascending: true)
+        let sortDescriptor2 = NSSortDescriptor(key: "test_visitnext", ascending: true)
         fr.sortDescriptors = [sortDescriptor1,sortDescriptor2]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: context, sectionNameKeyPath: "test_visitnext", cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: context, sectionNameKeyPath: "patient_id", cacheName: nil)
         
         do {
             try fetchedResultsController.performFetch()
+            
+            if let patients = fetchedResultsController.sections {
+                for patient in patients {
+                    if let lastTest = patient.objects?.last as? Test {
+                        if let nextTestDate = lastTest.test_visitnext {
+                            if var tests = groupedTests[nextTestDate] {
+                                tests.append(lastTest)
+                                groupedTests[nextTestDate] = tests
+                            } else {
+                                groupedTests[nextTestDate] = [lastTest]
+                            }
+                        }
+                    }
+                }
+                self.sections = groupedTests.keys.sort()
+            }
         } catch {
             print("Error fetching data");
         }
@@ -76,67 +84,76 @@ class FollowUpsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if let sections = fetchedResultsController.sections {
-            return sections.count
-        }
-        return 1
+        return self.sections.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections {
-            //let i = sections.startIndex.advancedBy(section)
-            let section = sections[section]
-            return section.numberOfObjects
+        let date = self.sections[section]
+        if let tests = groupedTests[date] {
+            return tests.count
         }
         return 0
     }
 
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if let sections = fetchedResultsController.sections {
-            let section = sections[section]
-            
-            let df = NSDateFormatter()
-            df.dateFormat = "yyyy-MM-dd"
-            if let date = df.dateFromString(section.name) {
-                df.dateFormat = "EEEE, MMM d y"
-                return df.stringFromDate(date)
-            }
-            
-            return section.name
-        }
-        /*
-        if let sections = groupedData {
-            let i = sections.startIndex.advancedBy(section)
-            let section = sections[i]
-            let date = section.0
-            let df = NSDateFormatter()
+        let dateString = self.sections[section]
+        
+        let df = NSDateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        if let date = df.dateFromString(dateString) {
             df.dateFormat = "EEEE, MMM d y"
             return df.stringFromDate(date)
         }
-        */
-        return ""
+        
+        return dateString
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-
+        
         var text = ""
         
-        if let test = fetchedResultsController.objectAtIndexPath(indexPath) as? Test {
-            text = test.patient_id ?? ""
-        }
-        
         /*
-        if let sections = groupedData {
-            let i = sections.startIndex.advancedBy(indexPath.section)
-            let section = sections[i]
-            let row = section.1[indexPath.row]
-            text = row
+        if let test = fetchedResultsController.objectAtIndexPath(indexPath) as? Test {
+            text = test.test_visitnext ?? ""
         }
         */
         
+        let date = self.sections[indexPath.section]
+        if let tests = groupedTests[date] {
+            if let test = tests[indexPath.row] as? Test {
+                
+                let id = test.patient_id ?? ""
+                var lastdate = ""
+                let df = NSDateFormatter()
+                if let date = test.getDate("test_date"){
+                    df.dateFormat = "EEEE, MMM d y"
+                    lastdate = df.stringFromDate(date)
+                }
+                text = "\(id) | Last visit : \(lastdate)"
+                
+                
+                let flag = UILabel(frame: CGRect(x: 5, y: 5, width: 35, height: 35))
+                flag.backgroundColor = .redColor()
+                flag.textColor = .whiteColor()
+                flag.textAlignment = .Center
+                
+                if(test.outcome_hearingloss_ag == "1") {
+                    flag.text = "AG"
+                }
+                
+                if (test.outcome_hearingloss == "1") {
+                   cell.addSubview(flag)
+                }
+            }
+        }
+        
         // Configure the cell...
-        cell.textLabel?.text = text
+        
+        let textLabel = UILabel(frame: CGRect(x: 50, y: 5, width: 500, height: 35))
+        textLabel.text = text
+        cell.addSubview(textLabel)
+        
         return cell
     }
     
