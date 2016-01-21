@@ -15,6 +15,20 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     var searchController: UISearchController!
     
     var fetchedResultsController: NSFetchedResultsController!
+    func getPatients() -> [String] {
+        var _patients = [String]()
+        for obj in self.fetchedResultsController.fetchedObjects ?? [] {
+            if let test = obj as? Test {
+                if let patientId = test.patient_id {
+                    if !_patients.contains(patientId) {
+                        _patients.append(patientId)
+                    }
+                }
+            }
+        }
+        return _patients
+    }
+    
     func initializeFetchedResultsController(searchString: String? = nil) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context = appDelegate.managedObjectContext!
@@ -58,7 +72,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         // update count
         if let tests = fetchedResultsController.fetchedObjects {
-            title = "Hearing Tests (\(tests.count) total)"
+            title = "Hearing Tests (\(getPatients().count) patients, \(tests.count) tests)"
         }
         
         searchController = UISearchController(searchResultsController: nil)
@@ -68,6 +82,9 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.showsScopeBar = false
+        //searchController.searchBar.barTintColor = UIColor.whiteColor()
+        //searchController.searchBar.scopeButtonTitles = ["All","Hearing Loss","AG Hearing Loss","Study"]
+        
         searchController.searchBar.placeholder = "Search by MRN..."
         searchController.searchBar.keyboardType = .NumbersAndPunctuation
         searchController.searchBar.sizeToFit()
@@ -99,7 +116,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         tableView.reloadData()
         // update count
         if let tests = fetchedResultsController.fetchedObjects {
-            title = "Hearing Tests (\(tests.count) total)"
+            title = "Hearing Tests (\(getPatients().count) patients, \(tests.count) tests)"
         }
     }
     
@@ -165,7 +182,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             
             // update count
             if let tests = fetchedResultsController.fetchedObjects {
-                title = "Hearing Tests (\(tests.count) total)"
+                title = "Hearing Tests (\(getPatients().count) patients, \(tests.count) tests)"
             }
         }
     }
