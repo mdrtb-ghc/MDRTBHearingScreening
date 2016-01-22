@@ -11,10 +11,10 @@ import CoreData
 
 class TestsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate {
     
-    // Search by MRN implementation
     var searchController: UISearchController!
     
     var fetchedResultsController: NSFetchedResultsController!
+    
     func getPatients() -> [String] {
         var _patients = [String]()
         for obj in self.fetchedResultsController.fetchedObjects ?? [] {
@@ -28,7 +28,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
         return _patients
     }
-    
+        
     func initializeFetchedResultsController(searchString: String? = nil) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context = appDelegate.managedObjectContext!
@@ -139,8 +139,16 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             }
         }
         
-        cell.flag.hidden = test.outcome_hearingloss != "1"
+        // Flags for Hearing Loss and Risk for Lost Followup
+        if (test.outcome_hearingloss == "1") {
+            cell.flag.backgroundColor = UIColor.redColor()
+        } else if(Test.risk_lost_followup(test.patient_id)) {
+            cell.flag.backgroundColor = UIColor.yellowColor()
+        } else {
+            cell.flag.backgroundColor = nil
+        }
         cell.flag.text = (test.outcome_hearingloss_ag == "1") ? "AG" : ""
+        
         cell.test_id.text = "#\(number)"
         cell.detail.text = "\(date) | \(type) | Next Visit : \(nextVisitDate)"
         

@@ -13,216 +13,7 @@ import CoreData
 @objc(Test)
 class Test: NSManagedObject {
     
-    // get string equivalents from propeties file
-    lazy var customAppProperties : NSDictionary = {
-        let customPlistUrl = NSBundle.mainBundle().URLForResource("MDRTBHearingScreening", withExtension: "plist")!
-        return NSDictionary(contentsOfURL: customPlistUrl)!
-    }()
-    
-    lazy var dateFormatter : NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm.ss z"
-        return formatter
-    }()
-    
-    var _baseline_test:Test?
-    var baseline_test:Test? {
-        get {
-            if(_baseline_test == nil) {
-                if(self.patient_id != nil && self.test_date != nil) {
-                    print("Looking up Baseline test for patient id = \(self.patient_id!)")
-                    let context = self.managedObjectContext!
-                    let fetchRequest = NSFetchRequest(entityName:"Test")
-                    let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
-                    let predicate = NSPredicate(format: "patient_id == %@ && test_type == \"0\" && test_date < %@", argumentArray: [self.patient_id!, self.test_date!])
-                    fetchRequest.sortDescriptors = [sortDescriptor]
-                    fetchRequest.predicate = predicate
-                    
-                    // Execute the fetch request
-                    do {
-                        let results = try context.executeFetchRequest(fetchRequest) as! [Test]
-                        _baseline_test = results.first
-                    } catch let error as NSError {
-                        print("Fetch failed: \(error.localizedDescription)")
-                    }
-                }
-            }
-            return _baseline_test
-        }
-    }
-    
-    /*
-    lazy var baseline_test : Test? = {
-        if(self.patient_id != nil && self.test_date != nil) {
-            print("Looking up Baseline test for patient id = \(self.patient_id!)")
-            let context = self.managedObjectContext!
-            let fetchRequest = NSFetchRequest(entityName:"Test")
-            let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
-            let predicate = NSPredicate(format: "patient_id == %@ && test_type == \"0\" && test_date < %@", argumentArray: [self.patient_id!, self.test_date!])
-            fetchRequest.sortDescriptors = [sortDescriptor]
-            fetchRequest.predicate = predicate
-            
-            // Execute the fetch request
-            do {
-                let results = try context.executeFetchRequest(fetchRequest) as! [Test]
-                return results.first
-            } catch let error as NSError {
-                print("Fetch failed: \(error.localizedDescription)")
-                return nil
-            }
-            
-        }
-        return nil
-    }()
-    */
-   
-    func getString(field: String) -> String? {
-        if let value = self.valueForKey(field) as? String {
-            return value
-        }
-        return nil
-    }
-    
-    class func getStringFromDate(date:NSDate,includeTime:Bool = false) -> String {
-        let formatter = NSDateFormatter()
-        if includeTime {
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        } else {
-            formatter.dateFormat = "yyyy-MM-dd"
-        }
-        return formatter.stringFromDate(date)
-    }
-    
-    func getDate(field: String) -> NSDate? {
-        if let value = self.valueForKey(field) as? String {
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm.ss z"
-            if let date = formatter.dateFromString(value) {
-                return date
-            }
-            formatter.dateFormat = "yyyy-MM-dd HH:mm z"
-            if let date = formatter.dateFromString(value) {
-                return date
-            }
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            if let date = formatter.dateFromString(value) {
-                return date
-            }
-            formatter.dateFormat = "yyyy-MM-dd"
-            if let date = formatter.dateFromString(value) {
-                return date
-            }
-            formatter.dateFormat = "dd/MM/yyyy"
-            if let date = formatter.dateFromString(value) {
-                return date
-            }
-            formatter.dateFormat = "MM/dd/yyyy"
-            if let date = formatter.dateFromString(value) {
-                return date
-            }
-            return nil
-        }
-        return nil
-    }
-    
-    func isEligible() -> String {
-        if(Int(self.patient_age ?? "") < 18) {
-            return "No"
-        }
-        if(self.baseline_ag_dose_gt_3 == "1") {
-            return "No"
-        }
-        if(self.patient_consent == "0") {
-            return "No"
-        }
-        return "Yes"
-    }
-    
-    func hasConsent() -> String {
-        if(self.patient_consent == "1") {
-            return "Yes"
-        }
-        return "No"
-    }
-    
-    class func csvHeaders(entity: NSEntityDescription) -> [String]? {
-        let attributes = entity.attributesByName
-        var headers = [String]()
-        for a in attributes {
-            headers.append(a.1.name)
-        }
-        let sortedHeaders = headers.sort {$0 < $1}
-        return sortedHeaders
-    }
-    
-    func toCSVString(seperator: String = ",") -> String {
-        let array = self.toStringDict().values
-        return array.joinWithSeparator(seperator)
-    }
-    
-    func toStringDict() -> [String:String] {
-        var dict = [String:String]()
-        let attributes = self.entity.attributesByName
-        for a in attributes {
-            let value = self.toStringValue(a.1)
-            dict[a.1.name] = value
-        }
-        return dict
-    }
-    
-    func toStringValue(attribute: NSAttributeDescription) -> String {
-        return self.valueForKey(attribute.name)?.description ?? ""
-    }
-    
-    func getOption(listName:String,index:String?) -> String {
-        if index != nil && index != ""{
-            if let list = customAppProperties[listName] as? [String:String] {
-                return list[index!] ?? ""
-            } else if let list = customAppProperties[listName] as? [String] {
-                if let indexInt = Int(index ?? "") {
-                    if indexInt >= 0 {
-                        return list[indexInt]
-                    }
-                }
-            }
-        }
-        return ""
-    }
-    
-    func getLocation() -> String {
-        return self.getOption("locations",index:self.test_location)
-    }
-    func getType() -> String {
-        return self.getOption("types",index:self.test_type)
-    }
-    
-    func mediumDateString(date: NSDate?) -> String {
-        if (date != nil) {
-            // format date for display
-            let formatter: NSDateFormatter = NSDateFormatter()
-            formatter.dateStyle = .MediumStyle
-            return formatter.stringFromDate(date!)
-        }
-        return ""
-    }
-    
-    func mediumTimeString(date: NSDate?) -> String {
-        if (date != nil) {
-            let formatter: NSDateFormatter = NSDateFormatter()
-            formatter.timeStyle = .ShortStyle
-            return formatter.stringFromDate(date!)
-        }
-        return ""
-    }
-    
-    func stringFromIndex(index: NSNumber?,strings: [String]) -> String {
-        if let index = index as? Int {
-            if (index >= 0 && index < strings.count) {
-                return strings[index]
-            }
-        }
-        return ""
-    }
+    // MARK: - Variables
     
     // System
     @NSManaged var date_created: String?
@@ -301,6 +92,36 @@ class Test: NSManagedObject {
     @NSManaged var outcome_plan: String?
     @NSManaged var outcome_comments: String?
     
+    
+    var _baseline_test:Test?
+    var baseline_test:Test? {
+        get {
+            if(_baseline_test == nil) {
+                if(self.patient_id != nil && self.test_date != nil) {
+                    print("Looking up Baseline test for patient id = \(self.patient_id!)")
+                    let context = self.managedObjectContext!
+                    let fetchRequest = NSFetchRequest(entityName:"Test")
+                    let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
+                    let predicate = NSPredicate(format: "patient_id == %@ && test_type == \"0\" && test_date < %@", argumentArray: [self.patient_id!, self.test_date!])
+                    fetchRequest.sortDescriptors = [sortDescriptor]
+                    fetchRequest.predicate = predicate
+                    
+                    // Execute the fetch request
+                    do {
+                        let results = try context.executeFetchRequest(fetchRequest) as! [Test]
+                        _baseline_test = results.first
+                    } catch let error as NSError {
+                        print("Fetch failed: \(error.localizedDescription)")
+                    }
+                }
+            }
+            return _baseline_test
+        }
+    }
+    
+    
+    // MARK: - Enums
+    
     enum OutcomeHearingLoss {
         case No
         case Yes
@@ -317,8 +138,179 @@ class Test: NSManagedObject {
         case FollowUp4Weeks
         case Deceased
     }
+    
+    // MARK: - Lazy Variables
+    
+    // get string equivalents from propeties file
+    lazy var customAppProperties : NSDictionary = {
+        let customPlistUrl = NSBundle.mainBundle().URLForResource("MDRTBHearingScreening", withExtension: "plist")!
+        return NSDictionary(contentsOfURL: customPlistUrl)!
+    }()
+    
+    lazy var dateFormatter : NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm.ss z"
+        return formatter
+    }()
+    
+    
+    
+    // MARK: - Functions
+    
+    func getString(field: String) -> String? {
+        if let value = self.valueForKey(field) as? String {
+            return value
+        }
+        return nil
+    }
+    
+    func getDate(field: String) -> NSDate? {
+        if let value = self.valueForKey(field) as? String {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm.ss z"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "yyyy-MM-dd HH:mm z"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "yyyy-MM-dd"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "dd/MM/yyyy"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            formatter.dateFormat = "MM/dd/yyyy"
+            if let date = formatter.dateFromString(value) {
+                return date
+            }
+            return nil
+        }
+        return nil
+    }
+    
+    func isEligible() -> String {
+        if(Int(self.patient_age ?? "") < 18) {
+            return "No"
+        }
+        if(self.baseline_ag_dose_gt_3 == "1") {
+            return "No"
+        }
+        if(self.patient_consent == "0") {
+            return "No"
+        }
+        return "Yes"
+    }
+    
+    func hasConsent() -> String {
+        if(self.patient_consent == "1") {
+            return "Yes"
+        }
+        return "No"
+    }
+    
+    func getLocation() -> String {
+        return self.getOption("locations",index:self.test_location)
+    }
+    
+    func getType() -> String {
+        return self.getOption("types",index:self.test_type)
+    }
 
-
+    func toCSVString(seperator: String = ",") -> String {
+        let array = self.toStringDict().values
+        return array.joinWithSeparator(seperator)
+    }
+    
+    func toStringDict() -> [String:String] {
+        var dict = [String:String]()
+        let attributes = self.entity.attributesByName
+        for a in attributes {
+            let value = self.toStringValue(a.1)
+            dict[a.1.name] = value
+        }
+        return dict
+    }
+    
+    func toStringValue(attribute: NSAttributeDescription) -> String {
+        return self.valueForKey(attribute.name)?.description ?? ""
+    }
+    
+    func getOption(listName:String,index:String?) -> String {
+        if index != nil && index != ""{
+            if let list = customAppProperties[listName] as? [String:String] {
+                return list[index!] ?? ""
+            } else if let list = customAppProperties[listName] as? [String] {
+                if let indexInt = Int(index ?? "") {
+                    if indexInt >= 0 {
+                        return list[indexInt]
+                    }
+                }
+            }
+        }
+        return ""
+    }
+    
+    func mediumDateString(date: NSDate?) -> String {
+        if (date != nil) {
+            // format date for display
+            let formatter: NSDateFormatter = NSDateFormatter()
+            formatter.dateStyle = .MediumStyle
+            return formatter.stringFromDate(date!)
+        }
+        return ""
+    }
+    
+    func mediumTimeString(date: NSDate?) -> String {
+        if (date != nil) {
+            let formatter: NSDateFormatter = NSDateFormatter()
+            formatter.timeStyle = .ShortStyle
+            return formatter.stringFromDate(date!)
+        }
+        return ""
+    }
+    
+    func stringFromIndex(index: NSNumber?,strings: [String]) -> String {
+        if let index = index as? Int {
+            if (index >= 0 && index < strings.count) {
+                return strings[index]
+            }
+        }
+        return ""
+    }
+    
+    func saveTestContext() {
+        if let moc = self.managedObjectContext {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
+                let start = NSDate()
+                var error: NSError? = nil
+                if moc.hasChanges {
+                    print("saving context with \(moc.registeredObjects.count) objects")
+                    do {
+                        try moc.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                        print("Unresolved error \(error), \(error!.userInfo)")
+                    } catch {
+                        fatalError()
+                    }
+                }
+                let timeInterval = -start.timeIntervalSinceNow
+                print("saving context took :: \(timeInterval)")
+                return
+            })
+        }
+    }
+    
+    // MARK: - Class Functions
+    
     class func newTest(context : NSManagedObjectContext, patientId: String) -> Test {
         let test = NSEntityDescription.insertNewObjectForEntityForName("Test", inManagedObjectContext: context) as! Test
         let now = NSDate()
@@ -353,7 +345,7 @@ class Test: NSManagedObject {
             test.baseline_ag_dose_gt_3 = baselinetest.baseline_ag_dose_gt_3
         }
         return test
-     }
+    }
     
     class func getNextTestId(context: NSManagedObjectContext, patientId: String) -> String {
         var newTestId = 0
@@ -375,7 +367,7 @@ class Test: NSManagedObject {
             }
             
         } catch let error as NSError {
-           print("Unresolved error \(error), \(error.userInfo)")
+            print("Unresolved error \(error), \(error.userInfo)")
         }
         
         
@@ -385,27 +377,24 @@ class Test: NSManagedObject {
         return "\(patientId)-\(numberFormatter.stringFromNumber(newTestId)!)"
     }
     
-    func saveTestContext() {
-        if let moc = self.managedObjectContext {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-                let start = NSDate()
-                var error: NSError? = nil
-                if moc.hasChanges {
-                    print("saving context with \(moc.registeredObjects.count) objects")
-                    do {
-                        try moc.save()
-                    } catch let error1 as NSError {
-                        error = error1
-                        print("Unresolved error \(error), \(error!.userInfo)")
-                    } catch {
-                        fatalError()
-                    }
-                }
-                let timeInterval = -start.timeIntervalSinceNow
-                print("saving context took :: \(timeInterval)")
-                return
-            })
+    class func getStringFromDate(date:NSDate,includeTime:Bool = false) -> String {
+        let formatter = NSDateFormatter()
+        if includeTime {
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        } else {
+            formatter.dateFormat = "yyyy-MM-dd"
         }
+        return formatter.stringFromDate(date)
+    }
+    
+    class func csvHeaders(entity: NSEntityDescription) -> [String]? {
+        let attributes = entity.attributesByName
+        var headers = [String]()
+        for a in attributes {
+            headers.append(a.1.name)
+        }
+        let sortedHeaders = headers.sort {$0 < $1}
+        return sortedHeaders
     }
     
     class func deleteTest(test: Test) {
@@ -432,5 +421,45 @@ class Test: NSManagedObject {
             print("Unresolved error \(error), \(error.userInfo)")
             return nil
         }
+    }
+    
+    class func risk_lost_followup(patientid: String?) -> Bool {
+        if let _patientid = patientid {
+            
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let context = appDelegate.managedObjectContext!
+            
+            let fetchRequest = NSFetchRequest(entityName:"Test")
+            let predicate = NSPredicate(format: "patient_id == %@", argumentArray: [_patientid])
+            fetchRequest.predicate = predicate
+            let sortDescriptor = NSSortDescriptor(key: "test_date", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            fetchRequest.fetchLimit = 1
+            
+            do {
+                let data = try context.executeFetchRequest(fetchRequest)
+                if let test = data.first as? Test {
+                    if let lasttestdate = test.getDate("test_date") {
+                        // compare testdate to current date
+                        
+                        let calendar = NSCalendar.currentCalendar()
+                        let components = calendar.components([.Month], fromDate: lasttestdate, toDate: NSDate(), options: [])
+                        
+                        let months = components.month
+
+                        if months > 2 {
+                            //print("#\(_patientid) at risk, last visit \(lasttestdate)")
+                            return true
+                        }
+                        return false
+                    }
+                }
+            } catch {
+                print("error fetching grouped data")
+            }
+            
+        }
+        
+        return false
     }
 }

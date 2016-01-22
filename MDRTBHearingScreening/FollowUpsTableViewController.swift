@@ -134,17 +134,20 @@ class FollowUpsTableViewController: UITableViewController {
                 
                 
                 let flag = UILabel(frame: CGRect(x: 5, y: 5, width: 35, height: 35))
-                flag.backgroundColor = .redColor()
+                
+                
+                // Flags for Hearing Loss and Risk for Lost Followup
                 flag.textColor = .whiteColor()
                 flag.textAlignment = .Center
-                
-                if(test.outcome_hearingloss_ag == "1") {
-                    flag.text = "AG"
-                }
-                
                 if (test.outcome_hearingloss == "1") {
-                   cell.addSubview(flag)
+                    flag.backgroundColor = UIColor.redColor()
+                } else if(Test.risk_lost_followup(test.patient_id)) {
+                    flag.backgroundColor = UIColor.yellowColor()
+                } else {
+                    flag.backgroundColor = UIColor.whiteColor()
                 }
+                flag.text = (test.outcome_hearingloss_ag == "1") ? "AG" : ""
+                cell.addSubview(flag)
             }
         }
         
