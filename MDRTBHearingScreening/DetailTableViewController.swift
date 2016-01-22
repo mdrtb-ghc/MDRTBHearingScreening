@@ -24,7 +24,9 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     @IBOutlet weak var patientAge: UILabel!
     @IBOutlet weak var patientGender: UILabel!
     @IBOutlet weak var patient_eligible: UILabel!
+    @IBOutlet weak var patient_eligible_label: UILabel!
     @IBOutlet weak var patient_consent: UILabel!
+    @IBOutlet weak var patient_consent_label: UILabel!
     
     @IBOutlet weak var history: UILabel!
     @IBOutlet weak var history_ear: UILabel!
@@ -125,8 +127,22 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
             patientDOB.text = test.mediumDateString(test.getDate("patient_dob"))
             patientAge.text = test.patient_age
             patientGender.text = test.getOption("genders",index: test.patient_gender)
-            patient_consent.text = test.hasConsent()
-            patient_eligible.text = test.isEligible()
+            
+            let settings = NSUserDefaults()
+            if let studySetting = settings.stringForKey("is_study") {
+                print("studySetting = \(studySetting)")
+                
+                patient_consent.text = test.hasConsent()
+                patient_consent_label.hidden = studySetting != "1"
+                patient_consent.hidden = studySetting != "1"
+                
+                patient_eligible.text = test.isEligible()
+                patient_eligible_label.hidden = studySetting != "1"
+                patient_eligible.hidden = studySetting != "1"
+
+            }
+            
+
             
             history.text = test.getOption("yesno", index: test.history)
             history_ear.text = test.getOption("ears", index: test.history_ear)

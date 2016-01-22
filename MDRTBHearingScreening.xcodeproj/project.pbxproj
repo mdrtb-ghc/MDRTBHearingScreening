@@ -68,6 +68,7 @@
 		B0B8DFF41AF8E6C50054DEBC /* OutcomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */; };
 		EE4F9D021C4A78A3003506E1 /* FollowUpsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F9D001C4A78A3003506E1 /* FollowUpsTableViewController.swift */; };
 		EE4F9D071C4BE87D003506E1 /* TestsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F9D061C4BE87D003506E1 /* TestsTableViewCell.swift */; };
+		EE5D44221C5209AE00583085 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE5D44211C5209AE00583085 /* Settings.bundle */; };
 		EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */; };
 		EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B93211C4043520008F858 /* CSwiftV.swift */; };
 		EEB75EC61C4A3515007BABDF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB75EC11C4A346A007BABDF /* Charts.framework */; };
@@ -184,6 +185,7 @@
 		B0B8DFF31AF8E6C50054DEBC /* OutcomesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutcomesViewController.swift; path = "Edit Views/OutcomesViewController.swift"; sourceTree = "<group>"; };
 		EE4F9D001C4A78A3003506E1 /* FollowUpsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowUpsTableViewController.swift; sourceTree = "<group>"; };
 		EE4F9D061C4BE87D003506E1 /* TestsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsTableViewCell.swift; sourceTree = "<group>"; };
+		EE5D44211C5209AE00583085 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HearingChartsViewController.swift; path = "Edit Views/HearingChartsViewController.swift"; sourceTree = "<group>"; };
 		EE7B93211C4043520008F858 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSwiftV.swift; path = CSwiftV/CSwiftV.swift; sourceTree = "<group>"; };
 		EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				EE7B93231C4043650008F858 /* CSwiftV */,
 				B0A1A7AE1C28D91400361172 /* Spring */,
 				116181B21AC7995900091A97 /* Supporting Files */,
+				EE5D44211C5209AE00583085 /* Settings.bundle */,
 			);
 			path = MDRTBHearingScreening;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				B0A1A7DC1C28D91400361172 /* LoadingView.xib in Resources */,
 				B0A1A7D91C28D91400361172 /* Info.plist in Resources */,
 				116181BF1AC7995900091A97 /* Images.xcassets in Resources */,
+				EE5D44221C5209AE00583085 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +560,7 @@
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

@@ -251,13 +251,15 @@
                                 <action selector="followUps:" destination="0Qi-iz-j9q" id="aei-Ir-MLv"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem width="30" style="plain" systemItem="fixedSpace" id="XNF-Uy-UeN"/>
+                        <barButtonItem title="Analysis" id="uEY-b1-IEG"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SlH-V2-Ejg"/>
                         <barButtonItem title="Export Study Tests" id="rvu-cS-Wd0">
                             <connections>
                                 <action selector="exportStudyTests:" destination="0Qi-iz-j9q" id="gk6-zF-zHf"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="74" style="plain" systemItem="fixedSpace" id="zqg-k1-Kmg"/>
+                        <barButtonItem width="30" style="plain" systemItem="fixedSpace" id="17m-ul-Qv7"/>
                         <barButtonItem title="Export All Tests" style="plain" id="j8n-WV-kcc">
                             <connections>
                                 <action selector="exportAllTests:" destination="0Qi-iz-j9q" id="YSy-R3-J7F"/>
@@ -613,6 +615,7 @@
                     <connections>
                         <outlet property="patient_age" destination="llX-jx-Q95" id="mGr-Ks-cSc"/>
                         <outlet property="patient_consent" destination="tuO-Wp-6IE" id="OGG-YQ-uRa"/>
+                        <outlet property="patient_consent_label" destination="pRR-oG-oaH" id="1XU-dG-xVM"/>
                         <outlet property="patient_dob_button" destination="xui-eo-5ns" id="nbh-Om-90i"/>
                         <outlet property="patient_gender" destination="gKS-Dd-YEg" id="xQi-Fc-npC"/>
                         <outlet property="patient_id" destination="dQU-LV-WSo" id="s6G-9V-mow"/>
@@ -1719,7 +1722,9 @@
                         <outlet property="patientGender" destination="nkC-0V-BM2" id="pCR-Fr-oij"/>
                         <outlet property="patientId" destination="Ihy-jZ-HQG" id="m8n-Sp-3z5"/>
                         <outlet property="patient_consent" destination="kqx-qY-Snl" id="lln-wg-xW3"/>
+                        <outlet property="patient_consent_label" destination="b8u-xi-DFd" id="0hT-qI-9RQ"/>
                         <outlet property="patient_eligible" destination="Dqd-6f-cDN" id="ek7-WZ-qSI"/>
+                        <outlet property="patient_eligible_label" destination="oX0-37-GOP" id="cVB-7U-VRb"/>
                         <outlet property="right_1000" destination="aDx-0s-Epw" id="eHn-dm-0Pp"/>
                         <outlet property="right_1000_baseline" destination="jIU-s4-uCl" id="KCx-bQ-xch"/>
                         <outlet property="right_1000_bg" destination="3cF-We-HrD" id="OVM-ZD-nfS"/>
@@ -3146,15 +3151,15 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Je1-zP-orG"/>
         <segue reference="YYC-tN-amf"/>
         <segue reference="8ov-FS-3im"/>
-        <segue reference="V4Q-fv-GgN"/>
-        <segue reference="PDM-hL-KXG"/>
-        <segue reference="QDJ-al-ubu"/>
         <segue reference="m3Q-Ou-bYQ"/>
-        <segue reference="tgT-Jd-MkY"/>
         <segue reference="nxj-QT-6Fb"/>
-        <segue reference="Je1-zP-orG"/>
+        <segue reference="PDM-hL-KXG"/>
+        <segue reference="tgT-Jd-MkY"/>
+        <segue reference="eEc-PN-FEa"/>
+        <segue reference="QDJ-al-ubu"/>
         <segue reference="UtP-Ap-Xfw"/>
         <segue reference="VwS-Sp-fO4"/>
     </inferredMetricsTieBreakers>

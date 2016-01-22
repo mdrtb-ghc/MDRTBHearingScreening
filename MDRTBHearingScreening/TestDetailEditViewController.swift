@@ -66,6 +66,7 @@ class TestDetailEditViewController: UIViewController {
     @IBOutlet weak var patient_age: UITextField!
     @IBOutlet weak var patient_gender: UISegmentedControl!
     @IBOutlet weak var patient_consent: UISegmentedControl!
+    @IBOutlet weak var patient_consent_label: UILabel!
     
     @IBAction func patient_age_changed(sender: UITextField) {
         if let age = Int(sender.text ?? "") {
@@ -106,7 +107,19 @@ class TestDetailEditViewController: UIViewController {
         patient_dob_button.setTitle(test.mediumDateString(test.getDate("patient_dob")), forState: UIControlState.Normal)
         patient_age.text = test.patient_age
         patient_gender.selectedSegmentIndex = (Int(test.patient_gender ?? "") ?? UISegmentedControlNoSegment)
-        patient_consent.selectedSegmentIndex = (Int(test.patient_consent ?? "") ?? UISegmentedControlNoSegment)
+        
+        
+        let settings = NSUserDefaults()
+        if let studySetting = settings.stringForKey("is_study") {
+            print("studySetting = \(studySetting)")
+            
+            patient_consent.selectedSegmentIndex = (Int(test.patient_consent ?? "") ?? UISegmentedControlNoSegment)
+            patient_consent_label.hidden = studySetting != "1"
+            patient_consent.hidden = studySetting != "1"
+        }
+        
+        
+        
     }
     
     // MARK: - Save Context on Close
