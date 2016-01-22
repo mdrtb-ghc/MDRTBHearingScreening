@@ -136,7 +136,7 @@ class Test: NSManagedObject {
         case ChangeDose
         case FollowUp2Weeks
         case FollowUp4Weeks
-        case Deceased
+        case Expired
     }
     
     // MARK: - Lazy Variables

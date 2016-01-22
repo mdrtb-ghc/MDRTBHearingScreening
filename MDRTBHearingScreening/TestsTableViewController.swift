@@ -130,7 +130,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         var nextVisitDate = "Unscheduled"
         if(test.outcome_plan == "5") {
-            nextVisitDate = "Deceased"
+            nextVisitDate = "Patient Expired"
         } else if(test.test_visitnext != nil) {
             if let date = test.getDate("test_visitnext") {
                 let df = NSDateFormatter()
