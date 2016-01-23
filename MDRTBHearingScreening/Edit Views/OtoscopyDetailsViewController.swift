@@ -14,6 +14,23 @@ class OtoscopyDetailsViewController: UIViewController {
     var test: Test!
     
     @IBOutlet weak var left_normal: UISegmentedControl!
+    @IBAction func left_normal_valuechanged(sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 1 {
+            left_wax.selectedSegmentIndex = 0
+            left_wax.enabled = false
+            left_infection.selectedSegmentIndex = 0
+            left_infection.enabled = false
+            left_perforated.selectedSegmentIndex = 0
+            left_perforated.enabled = false
+            left_fluid.selectedSegmentIndex = 0
+            left_fluid.enabled = false
+        } else {
+            left_wax.enabled = true
+            left_infection.enabled = true
+            left_perforated.enabled = true
+            left_fluid.enabled = true
+        }
+    }
     @IBOutlet weak var left_wax: UISegmentedControl!
     @IBOutlet weak var left_infection: UISegmentedControl!
     @IBOutlet weak var left_perforated: UISegmentedControl!
@@ -21,6 +38,23 @@ class OtoscopyDetailsViewController: UIViewController {
     @IBOutlet weak var left_notes: DesignableTextView!
     
     @IBOutlet weak var right_normal: UISegmentedControl!
+    @IBAction func right_normal_valuechanged(sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 1 {
+            right_wax.selectedSegmentIndex = 0
+            right_wax.enabled = false
+            right_infection.selectedSegmentIndex = 0
+            right_infection.enabled = false
+            right_perforated.selectedSegmentIndex = 0
+            right_perforated.enabled = false
+            right_fluid.selectedSegmentIndex = 0
+            right_fluid.enabled = false
+        } else {
+            right_wax.enabled = true
+            right_infection.enabled = true
+            right_perforated.enabled = true
+            right_fluid.enabled = true
+        }
+    }
     @IBOutlet weak var right_wax: UISegmentedControl!
     @IBOutlet weak var right_infection: UISegmentedControl!
     @IBOutlet weak var right_perforated: UISegmentedControl!
@@ -49,13 +83,27 @@ class OtoscopyDetailsViewController: UIViewController {
         left_perforated.selectedSegmentIndex = Int(test.left_perforated ?? "") ?? -1
         left_fluid.selectedSegmentIndex = Int(test.left_fluid ?? "") ?? -1
         left_notes.text = test.left_notes
-
+        
+        if left_normal.selectedSegmentIndex == 1 {
+            left_wax.enabled = false
+            left_infection.enabled = false
+            left_perforated.enabled = false
+            left_fluid.enabled = false
+        }
+        
         right_normal.selectedSegmentIndex = Int(test.right_normal ?? "") ?? -1
         right_wax.selectedSegmentIndex = Int(test.right_wax ?? "") ?? -1
         right_infection.selectedSegmentIndex = Int(test.right_infection ?? "") ?? -1
         right_perforated.selectedSegmentIndex = Int(test.right_perforated ?? "") ?? -1
         right_fluid.selectedSegmentIndex = Int(test.right_fluid ?? "") ?? -1
         right_notes.text = test.right_notes
+        
+        if right_normal.selectedSegmentIndex == 1 {
+            right_wax.enabled = false
+            right_infection.enabled = false
+            right_perforated.enabled = false
+            right_fluid.enabled = false
+        }
 
     }
     

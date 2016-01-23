@@ -2461,6 +2461,9 @@
                                             <segment title="No"/>
                                             <segment title="Yes"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="left_normal_valuechanged:" destination="nf1-wG-UzI" eventType="valueChanged" id="PJb-X0-peS"/>
+                                        </connections>
                                     </segmentedControl>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BW3-R7-ZE0">
                                         <rect key="frame" x="484" y="230" width="266" height="29"/>
@@ -2500,6 +2503,9 @@
                                             <segment title="No"/>
                                             <segment title="Yes"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="right_normal_valuechanged:" destination="nf1-wG-UzI" eventType="valueChanged" id="7zQ-xk-uMt"/>
+                                        </connections>
                                     </segmentedControl>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eKm-Om-02f">
                                         <rect key="frame" x="184" y="179" width="266" height="29"/>
@@ -3151,16 +3157,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Je1-zP-orG"/>
-        <segue reference="YYC-tN-amf"/>
         <segue reference="8ov-FS-3im"/>
-        <segue reference="m3Q-Ou-bYQ"/>
-        <segue reference="nxj-QT-6Fb"/>
-        <segue reference="PDM-hL-KXG"/>
+        <segue reference="YYC-tN-amf"/>
         <segue reference="tgT-Jd-MkY"/>
+        <segue reference="Je1-zP-orG"/>
+        <segue reference="nxj-QT-6Fb"/>
         <segue reference="eEc-PN-FEa"/>
+        <segue reference="m3Q-Ou-bYQ"/>
         <segue reference="QDJ-al-ubu"/>
-        <segue reference="UtP-Ap-Xfw"/>
+        <segue reference="PDM-hL-KXG"/>
         <segue reference="VwS-Sp-fO4"/>
+        <segue reference="shP-8g-Ori"/>
     </inferredMetricsTieBreakers>
 </document>
