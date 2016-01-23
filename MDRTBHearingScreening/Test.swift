@@ -320,6 +320,7 @@ class Test: NSManagedObject {
         test.test_date = Test.getStringFromDate(now, includeTime: true)
         test.patient_id = patientId
         test.test_id = Test.getNextTestId(context, patientId: patientId)
+        test.test_type = "0"
         
         let settings = NSUserDefaults()
         if let defaultLocationSetting = settings.stringForKey("default_location") {
@@ -330,6 +331,7 @@ class Test: NSManagedObject {
         // get patient and baseline data from previous baseline test
         test._baseline_test = nil
         if let baselinetest = test.baseline_test {
+            test.test_type = "1"
             test.patient_dob = baselinetest.patient_dob
             test.patient_age = baselinetest.patient_age
             test.patient_gender = baselinetest.patient_gender

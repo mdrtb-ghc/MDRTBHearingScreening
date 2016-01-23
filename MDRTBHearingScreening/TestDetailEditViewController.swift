@@ -38,6 +38,7 @@ class TestDetailEditViewController: UIViewController {
     @IBOutlet weak var test_location: UISegmentedControl!
     @IBOutlet weak var test_type: UISegmentedControl!
     
+    @IBOutlet weak var patient_age: DesignableTextField!
     var patient_dob = UIDatePicker()
     @IBOutlet weak var patient_dob_button: DesignableButton!
     @IBAction func patient_dob_button_tapped(sender: DesignableButton) {
@@ -63,7 +64,6 @@ class TestDetailEditViewController: UIViewController {
         patient_age.text = String(years)
     }
     
-    @IBOutlet weak var patient_age: UITextField!
     @IBOutlet weak var patient_gender: UISegmentedControl!
     @IBOutlet weak var patient_consent: UISegmentedControl!
     @IBOutlet weak var patient_consent_label: UILabel!
@@ -103,19 +103,40 @@ class TestDetailEditViewController: UIViewController {
         test_location.selectedSegmentIndex = (Int(test.test_location ?? "") ?? UISegmentedControlNoSegment)
         test_type.selectedSegmentIndex = (Int(test.test_type ?? "") ?? UISegmentedControlNoSegment)
         
-        patient_dob.setDate(test.getDate("patient_dob") ?? NSDate(timeIntervalSince1970: 0), animated: true)
-        patient_dob_button.setTitle(test.mediumDateString(test.getDate("patient_dob")), forState: UIControlState.Normal)
+        patient_dob.date = NSDate(timeIntervalSince1970: 0)
+        if let dob = test.getDate("patient_dob") {
+            patient_dob.date = dob
+            patient_dob_button.setTitle(test.mediumDateString(dob), forState: UIControlState.Normal)
+        }
         patient_age.text = test.patient_age
         patient_gender.selectedSegmentIndex = (Int(test.patient_gender ?? "") ?? UISegmentedControlNoSegment)
-        
+        patient_consent.selectedSegmentIndex = (Int(test.patient_consent ?? "") ?? UISegmentedControlNoSegment)
+        patient_consent.hidden = true
+        patient_consent_label.hidden = true
         
         let settings = NSUserDefaults()
         if let studySetting = settings.stringForKey("is_study") {
             print("studySetting = \(studySetting)")
-            
-            patient_consent.selectedSegmentIndex = (Int(test.patient_consent ?? "") ?? UISegmentedControlNoSegment)
             patient_consent_label.hidden = studySetting != "1"
             patient_consent.hidden = studySetting != "1"
+        }
+        
+        if test.test_type == "1" {
+            if let baselinetest = test.baseline_test {
+                patient_age.text = baselinetest.patient_age
+                if let baselinedob = baselinetest.getDate("patient_dob") {
+                    patient_dob.date = baselinedob
+                    patient_dob_button.setTitle(test.mediumDateString(baselinedob), forState: UIControlState.Normal)
+                }
+                patient_gender.selectedSegmentIndex = (Int(baselinetest.patient_gender ?? "") ?? UISegmentedControlNoSegment)
+                patient_consent.selectedSegmentIndex = (Int(baselinetest.patient_consent ?? "") ?? UISegmentedControlNoSegment)
+            }
+            patient_age.enabled = false
+            patient_age.borderWidth = 0.0
+            patient_dob_button.enabled = false
+            patient_dob_button.borderWidth = 0.0
+            patient_gender.enabled = false
+            patient_consent.enabled = false
         }
         
         

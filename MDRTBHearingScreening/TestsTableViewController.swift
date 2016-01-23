@@ -214,6 +214,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             if let textField = alertController.textFields?.first {
                 let context = self.fetchedResultsController.managedObjectContext
                 let test = Test.newTest(context, patientId:textField.text!)
+                test.saveTestContext()
                 self.performSegueWithIdentifier("gotoPage1", sender: test)
             }
         }))

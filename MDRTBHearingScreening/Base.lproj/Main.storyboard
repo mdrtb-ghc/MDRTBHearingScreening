@@ -489,19 +489,19 @@
                                         </segments>
                                     </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Age (in years)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajB-CS-NdT">
-                                        <rect key="frame" x="67" y="506" width="200" height="50"/>
+                                        <rect key="frame" x="67" y="471" width="200" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gender" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y1s-Hx-IBR">
-                                        <rect key="frame" x="67" y="723" width="200" height="50"/>
+                                        <rect key="frame" x="67" y="615" width="200" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Patient Age" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="llX-jx-Q95" customClass="DesignableTextField" customModule="MDRTBHearingScreening" customModuleProvider="target">
-                                        <rect key="frame" x="361" y="506" width="288" height="50"/>
+                                        <rect key="frame" x="361" y="471" width="288" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                         <userDefinedRuntimeAttributes>
@@ -523,20 +523,20 @@
                                         </connections>
                                     </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gKS-Dd-YEg">
-                                        <rect key="frame" x="361" y="733" width="288" height="29"/>
+                                        <rect key="frame" x="361" y="625" width="288" height="29"/>
                                         <segments>
                                             <segment title="Male"/>
                                             <segment title="Female"/>
                                         </segments>
                                     </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Informed Consent signed?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRR-oG-oaH">
-                                        <rect key="frame" x="67" y="777" width="229" height="92"/>
+                                        <rect key="frame" x="67" y="732" width="229" height="92"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tuO-Wp-6IE">
-                                        <rect key="frame" x="361" y="809" width="288" height="29"/>
+                                        <rect key="frame" x="361" y="764" width="288" height="29"/>
                                         <segments>
                                             <segment title="No"/>
                                             <segment title="Yes"/>
@@ -549,10 +549,11 @@
                                             <segment title="Gondar"/>
                                         </segments>
                                     </segmentedControl>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVc-Sy-phh" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVc-Sy-phh" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
                                         <rect key="frame" x="361" y="154" width="288" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Tap to select a date...">
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                        <state key="normal" title="Tap to select date">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -572,15 +573,16 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Birth" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zno-S7-Q8C">
-                                        <rect key="frame" x="67" y="578" width="200" height="50"/>
+                                        <rect key="frame" x="67" y="543" width="200" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xui-eo-5ns" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
-                                        <rect key="frame" x="361" y="578" width="288" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xui-eo-5ns" customClass="DesignableButton" customModule="MDRTBHearingScreening" customModuleProvider="target">
+                                        <rect key="frame" x="361" y="543" width="288" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Tap to select a date...">
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                        <state key="normal" title="Tap to select date">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -613,7 +615,7 @@
                     <navigationItem key="navigationItem" id="c4H-EN-hU4"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="patient_age" destination="llX-jx-Q95" id="mGr-Ks-cSc"/>
+                        <outlet property="patient_age" destination="llX-jx-Q95" id="oXj-QD-hYF"/>
                         <outlet property="patient_consent" destination="tuO-Wp-6IE" id="OGG-YQ-uRa"/>
                         <outlet property="patient_consent_label" destination="pRR-oG-oaH" id="1XU-dG-xVM"/>
                         <outlet property="patient_dob_button" destination="xui-eo-5ns" id="nbh-Om-90i"/>
@@ -3157,15 +3159,15 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8ov-FS-3im"/>
-        <segue reference="YYC-tN-amf"/>
-        <segue reference="tgT-Jd-MkY"/>
-        <segue reference="Je1-zP-orG"/>
-        <segue reference="nxj-QT-6Fb"/>
-        <segue reference="eEc-PN-FEa"/>
         <segue reference="m3Q-Ou-bYQ"/>
+        <segue reference="YYC-tN-amf"/>
+        <segue reference="8ov-FS-3im"/>
+        <segue reference="eEc-PN-FEa"/>
         <segue reference="QDJ-al-ubu"/>
+        <segue reference="nxj-QT-6Fb"/>
+        <segue reference="Je1-zP-orG"/>
         <segue reference="PDM-hL-KXG"/>
+        <segue reference="44p-tx-fNP"/>
         <segue reference="VwS-Sp-fO4"/>
         <segue reference="shP-8g-Ori"/>
     </inferredMetricsTieBreakers>
