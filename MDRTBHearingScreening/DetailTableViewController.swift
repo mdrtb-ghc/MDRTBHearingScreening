@@ -23,8 +23,7 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
     @IBOutlet weak var patientDOB: UILabel!
     @IBOutlet weak var patientAge: UILabel!
     @IBOutlet weak var patientGender: UILabel!
-    @IBOutlet weak var patient_eligible: UILabel!
-    @IBOutlet weak var patient_eligible_label: UILabel!
+
     @IBOutlet weak var patient_consent: UILabel!
     @IBOutlet weak var patient_consent_label: UILabel!
     
@@ -135,11 +134,6 @@ class DetailTableViewController: UITableViewController, UITextFieldDelegate, UIV
                 patient_consent.text = test.hasConsent()
                 patient_consent_label.hidden = studySetting != "1"
                 patient_consent.hidden = studySetting != "1"
-                
-                patient_eligible.text = test.isEligible()
-                patient_eligible_label.hidden = studySetting != "1"
-                patient_eligible.hidden = studySetting != "1"
-
             }
             
 

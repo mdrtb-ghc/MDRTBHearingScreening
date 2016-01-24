@@ -336,7 +336,6 @@ class Test: NSManagedObject {
             test.patient_age = baselinetest.patient_age
             test.patient_gender = baselinetest.patient_gender
             test.patient_consent = baselinetest.patient_consent
-            test.patient_eligible = baselinetest.patient_eligible
             
             test.baseline_creatinine = baselinetest.baseline_creatinine
             test.baseline_ag_start_date = baselinetest.baseline_ag_start_date

@@ -813,26 +813,14 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Signed Consent" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8u-xi-DFd">
-                                                    <rect key="frame" x="46" y="317" width="123" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Signed Study Consent" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8u-xi-DFd">
+                                                    <rect key="frame" x="46" y="317" width="171" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kqx-qY-Snl">
                                                     <rect key="frame" x="46" y="336" width="129" height="44"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Eligible for Study" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oX0-37-GOP">
-                                                    <rect key="frame" x="428" y="317" width="130" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dqd-6f-cDN">
-                                                    <rect key="frame" x="428" y="336" width="129" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1725,8 +1713,6 @@
                         <outlet property="patientId" destination="Ihy-jZ-HQG" id="m8n-Sp-3z5"/>
                         <outlet property="patient_consent" destination="kqx-qY-Snl" id="lln-wg-xW3"/>
                         <outlet property="patient_consent_label" destination="b8u-xi-DFd" id="0hT-qI-9RQ"/>
-                        <outlet property="patient_eligible" destination="Dqd-6f-cDN" id="ek7-WZ-qSI"/>
-                        <outlet property="patient_eligible_label" destination="oX0-37-GOP" id="cVB-7U-VRb"/>
                         <outlet property="right_1000" destination="aDx-0s-Epw" id="eHn-dm-0Pp"/>
                         <outlet property="right_1000_baseline" destination="jIU-s4-uCl" id="KCx-bQ-xch"/>
                         <outlet property="right_1000_bg" destination="3cF-We-HrD" id="OVM-ZD-nfS"/>
@@ -3159,16 +3145,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="m3Q-Ou-bYQ"/>
-        <segue reference="YYC-tN-amf"/>
         <segue reference="8ov-FS-3im"/>
+        <segue reference="YYC-tN-amf"/>
         <segue reference="eEc-PN-FEa"/>
-        <segue reference="QDJ-al-ubu"/>
-        <segue reference="nxj-QT-6Fb"/>
+        <segue reference="m3Q-Ou-bYQ"/>
         <segue reference="Je1-zP-orG"/>
+        <segue reference="QDJ-al-ubu"/>
+        <segue reference="tgT-Jd-MkY"/>
+        <segue reference="UtP-Ap-Xfw"/>
+        <segue reference="nxj-QT-6Fb"/>
         <segue reference="PDM-hL-KXG"/>
-        <segue reference="44p-tx-fNP"/>
         <segue reference="VwS-Sp-fO4"/>
-        <segue reference="shP-8g-Ori"/>
     </inferredMetricsTieBreakers>
 </document>
