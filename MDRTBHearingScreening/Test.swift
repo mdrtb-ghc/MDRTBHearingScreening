@@ -405,7 +405,7 @@ class Test: NSManagedObject {
         }
     }
     
-    class func getAllTests(context: NSManagedObjectContext, patientId: String) -> [Test]? {
+    class func getChartTestsForPatient(context: NSManagedObjectContext, patientId: String, limit: Int) -> [Test]? {
         let fr = NSFetchRequest(entityName: "Test")
         let sd = NSSortDescriptor(key: "test_id", ascending: true)
         fr.sortDescriptors = [sd]
@@ -413,8 +413,14 @@ class Test: NSManagedObject {
         fr.predicate = predicate
         
         do {
-            if let tests = try context.executeFetchRequest(fr) as? [Test] {
-                return tests
+            if var alltests = try context.executeFetchRequest(fr) as? [Test] {
+                if alltests.count > limit {
+                    let i = alltests.count - limit + 1
+                    let rangeToRemove = (1..<i)
+                    alltests.removeRange(rangeToRemove)
+                }
+                return alltests
+                
             } else {
                 return nil
             }

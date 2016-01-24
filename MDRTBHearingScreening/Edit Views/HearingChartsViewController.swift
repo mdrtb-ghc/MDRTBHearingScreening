@@ -50,10 +50,10 @@ class HearingChartsViewController: UIViewController, ChartViewDelegate {
         leftEarChartView.rightAxis.customAxisMax = 100
         
         if let patientId = self.test.patient_id {
-            if let tests = Test.getAllTests(self.test.managedObjectContext!, patientId: patientId) {
-                let colors = [UIColor.blackColor(),
-                    UIColor.greenColor(),UIColor.yellowColor(),UIColor.redColor(),UIColor.blueColor(),
-                     UIColor.greenColor(),UIColor.yellowColor(),UIColor.redColor(),UIColor.blueColor()]
+            let colors = [UIColor.blackColor(),UIColor.brownColor(),UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.greenColor(),UIColor.blueColor(),UIColor.purpleColor()]
+            
+            if let tests = Test.getChartTestsForPatient(self.test.managedObjectContext!, patientId: patientId, limit: colors.count) {
+                
                 let xLabels = ["125Hz","250Hz","500Hz","1000Hz","2000Hz","4000Hz","8000Hz"]
                 
                 var leftDataSets = [LineChartDataSet]()
@@ -64,7 +64,7 @@ class HearingChartsViewController: UIViewController, ChartViewDelegate {
                     
                     var label = "Test \(i)"
                     if let testId = t.test_id?.componentsSeparatedByString("-").last {
-                        label = "Test \(testId)"
+                        label = (t.test_type == "0") ? "Baseline" : "Test \(testId)"
                     }
                     if let rightData = testData["right"] {
                         let d = LineChartDataSet(yVals: rightData, label: label)
