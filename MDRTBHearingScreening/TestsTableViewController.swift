@@ -68,6 +68,15 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     
     override func viewDidLoad() {
+        // disable analysis button if Study setting = off
+        let settings = NSUserDefaults()
+        if let studySetting = settings.stringForKey("is_study") {
+            if studySetting != "1" {
+                analysisButton.enabled = false
+                analysisButton.title = ""
+            }
+        }
+        
         initializeFetchedResultsController()
         
         // update count
@@ -264,7 +273,16 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         let navController = UINavigationController(rootViewController: followUpsController)
         navController.modalPresentationStyle = .PageSheet
         navController.modalTransitionStyle = .CoverVertical
-        presentViewController(navController, animated: true, completion: nil)        
+        presentViewController(navController, animated: true, completion: nil)
+    }
+    
+    @IBOutlet weak var analysisButton: UIBarButtonItem!
+    @IBAction func analysis(sender: UIBarButtonItem) {
+        let analysisController = AnalysisTableViewController(style: .Grouped)
+        let navController = UINavigationController(rootViewController: analysisController)
+        navController.modalPresentationStyle = .PageSheet
+        navController.modalTransitionStyle = .CoverVertical
+        presentViewController(navController, animated: true, completion: nil)
     }
     
     // MARK: Navigation

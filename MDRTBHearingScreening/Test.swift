@@ -448,14 +448,12 @@ class Test: NSManagedObject {
                 if let test = data.first as? Test {
                     if let lasttestdate = test.getDate("test_date") {
                         // compare testdate to current date
-                        
                         let calendar = NSCalendar.currentCalendar()
                         let components = calendar.components([.Month], fromDate: lasttestdate, toDate: NSDate(), options: [])
-                        
                         let months = components.month
-
-                        if months > 2 {
-                            //print("#\(_patientid) at risk, last visit \(lasttestdate)")
+                        
+                        if test.test_type != "2" && months > 2 {
+                            // return true, only if the latest test is not Final and if months > 2
                             return true
                         }
                         return false

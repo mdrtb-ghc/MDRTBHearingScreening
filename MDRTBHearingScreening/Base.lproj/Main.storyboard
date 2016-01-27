@@ -252,7 +252,11 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem width="30" style="plain" systemItem="fixedSpace" id="XNF-Uy-UeN"/>
-                        <barButtonItem title="Analysis" id="uEY-b1-IEG"/>
+                        <barButtonItem title="Study Analysis" id="uEY-b1-IEG">
+                            <connections>
+                                <action selector="analysis:" destination="0Qi-iz-j9q" id="BQQ-hd-a1t"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SlH-V2-Ejg"/>
                         <barButtonItem title="Export Study Tests" id="rvu-cS-Wd0">
                             <connections>
@@ -274,6 +278,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="analysisButton" destination="uEY-b1-IEG" id="pYs-dl-IoX"/>
                         <segue destination="rA0-r9-O18" kind="push" identifier="gotoPage1" id="V4Q-fv-GgN"/>
                         <segue destination="XnA-pW-sFa" kind="push" identifier="goToSummary" id="YYC-tN-amf"/>
                         <segue destination="YhO-1G-cBv" kind="modal" identifier="showImportExportModal" modalPresentationStyle="formSheet" id="qLy-lA-p2p"/>
@@ -3145,16 +3150,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="V4Q-fv-GgN"/>
         <segue reference="8ov-FS-3im"/>
         <segue reference="YYC-tN-amf"/>
-        <segue reference="eEc-PN-FEa"/>
-        <segue reference="m3Q-Ou-bYQ"/>
-        <segue reference="Je1-zP-orG"/>
         <segue reference="QDJ-al-ubu"/>
+        <segue reference="m3Q-Ou-bYQ"/>
         <segue reference="tgT-Jd-MkY"/>
+        <segue reference="Je1-zP-orG"/>
+        <segue reference="PDM-hL-KXG"/>
         <segue reference="UtP-Ap-Xfw"/>
         <segue reference="nxj-QT-6Fb"/>
-        <segue reference="PDM-hL-KXG"/>
         <segue reference="VwS-Sp-fO4"/>
     </inferredMetricsTieBreakers>
 </document>
