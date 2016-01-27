@@ -74,6 +74,8 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
             if studySetting != "1" {
                 analysisButton.enabled = false
                 analysisButton.title = ""
+                exportStudyButton.enabled = false
+                exportStudyButton.title = ""
             }
         }
         
@@ -257,6 +259,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    @IBOutlet weak var exportStudyButton: UIBarButtonItem!
     @IBAction func exportStudyTests(sender: UIBarButtonItem) {
         // Exports Study tests only, where patient_consent = 1
         

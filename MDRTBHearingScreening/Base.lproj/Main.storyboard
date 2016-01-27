@@ -279,6 +279,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="analysisButton" destination="uEY-b1-IEG" id="pYs-dl-IoX"/>
+                        <outlet property="exportStudyButton" destination="rvu-cS-Wd0" id="9vy-fb-7WJ"/>
                         <segue destination="rA0-r9-O18" kind="push" identifier="gotoPage1" id="V4Q-fv-GgN"/>
                         <segue destination="XnA-pW-sFa" kind="push" identifier="goToSummary" id="YYC-tN-amf"/>
                         <segue destination="YhO-1G-cBv" kind="modal" identifier="showImportExportModal" modalPresentationStyle="formSheet" id="qLy-lA-p2p"/>
