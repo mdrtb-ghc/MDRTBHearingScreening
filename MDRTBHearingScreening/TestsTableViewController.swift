@@ -37,7 +37,7 @@ class TestsTableViewController: UITableViewController, NSFetchedResultsControlle
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         if searchString != nil && searchString != "" {
-            let predicate = NSPredicate(format: "patient_id contains %@", argumentArray: [searchString!])
+            let predicate = NSPredicate(format: "test_id contains %@", argumentArray: [searchString!])
             fetchRequest.predicate = predicate
         }
         

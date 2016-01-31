@@ -157,8 +157,15 @@ class TestDetailEditViewController: UIViewController {
     
     func updateTest() {
         
-        test.test_id = test.test_id?.stringByReplacingOccurrencesOfString(test.patient_id ?? "", withString: patient_id.text ?? "")
         test.patient_id = patient_id.text
+        if let patientId = test.patient_id {
+            if let testidsplit = test.test_id?.componentsSeparatedByString("-") {
+                if testidsplit.count == 2 {
+                    test.test_id = "\(patientId)-\(testidsplit[1])"
+                }
+            }
+        }
+        
         // update baseline data from previous baseline test, in case patient id changed
         test._baseline_test = nil
         if let baselinetest = test.baseline_test {
