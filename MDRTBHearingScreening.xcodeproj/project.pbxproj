@@ -72,6 +72,7 @@
 		EE74C7D41C41E267000D19DC /* HearingChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */; };
 		EE7B93221C4043520008F858 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B93211C4043520008F858 /* CSwiftV.swift */; };
 		EE7F64C31C5522B700FDCDA8 /* AnalysisTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F64C21C5522B700FDCDA8 /* AnalysisTableViewController.swift */; };
+		EE8691141C5E108100F2E4AC /* AnalysisDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8691131C5E108100F2E4AC /* AnalysisDetailTableViewController.swift */; };
 		EEB75EC61C4A3515007BABDF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB75EC11C4A346A007BABDF /* Charts.framework */; };
 		EEB75EC71C4A3515007BABDF /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EEB75EC11C4A346A007BABDF /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -190,6 +191,7 @@
 		EE74C7D31C41E267000D19DC /* HearingChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HearingChartsViewController.swift; path = "Edit Views/HearingChartsViewController.swift"; sourceTree = "<group>"; };
 		EE7B93211C4043520008F858 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSwiftV.swift; path = CSwiftV/CSwiftV.swift; sourceTree = "<group>"; };
 		EE7F64C21C5522B700FDCDA8 /* AnalysisTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisTableViewController.swift; sourceTree = "<group>"; };
+		EE8691131C5E108100F2E4AC /* AnalysisDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisDetailTableViewController.swift; sourceTree = "<group>"; };
 		EEB75EBA1C4A3469007BABDF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -231,6 +233,7 @@
 				EE4F9D061C4BE87D003506E1 /* TestsTableViewCell.swift */,
 				EE4F9D001C4A78A3003506E1 /* FollowUpsTableViewController.swift */,
 				EE7F64C21C5522B700FDCDA8 /* AnalysisTableViewController.swift */,
+				EE8691131C5E108100F2E4AC /* AnalysisDetailTableViewController.swift */,
 				B0A90DD61AFF44EE00C5CB69 /* ImportExportViewController.swift */,
 				116181BB1AC7995900091A97 /* Main.storyboard */,
 				B03C52241ACF1A0500728F14 /* Edit Views */,
@@ -469,6 +472,7 @@
 				1161821F1AC804EA00091A97 /* TestsTableViewController.swift in Sources */,
 				B0A423B01ACF53C9001899D8 /* ConductionDetailTableViewController.swift in Sources */,
 				B0A1A7D61C28D91400361172 /* DesignableTextView.swift in Sources */,
+				EE8691141C5E108100F2E4AC /* AnalysisDetailTableViewController.swift in Sources */,
 				B0A1A7E71C28D91400361172 /* TransitionManager.swift in Sources */,
 				B0A1A7E31C28D91400361172 /* SpringLabel.swift in Sources */,
 				EE7F64C31C5522B700FDCDA8 /* AnalysisTableViewController.swift in Sources */,
